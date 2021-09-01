@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "antd": "^3.19.5",
+    "bootstrap": "^5.1.0",
     "fabric": "^4.6.0",
     "formik": "^2.2.9",
     "react": "^16.8.6",
