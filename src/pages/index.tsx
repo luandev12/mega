@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 
 import Canvas from '@/canvas/Canvas';
 
-export default function() {
+import withRedux from '@/libraries/withRedux';
+
+function Index() {
   const [canvas, setCanvas]: any = useState();
 
   return (
@@ -11,3 +13,5 @@ export default function() {
     </div>
   );
 }
+
+export default withRedux(Index);
