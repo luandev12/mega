@@ -11,6 +11,7 @@
     "antd": "^3.19.5",
     "bootstrap": "^5.1.0",
     "fabric": "^4.6.0",
+    "firebase": "^9.0.1",
     "formik": "^2.2.9",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
