@@ -1,22 +1,39 @@
 .normal {
-    font-family: Georgia, sans-serif;
-    margin-top: 4em;
-    text-align: center;
+  font-family: Georgia, sans-serif;
+  margin-top: 4em;
+  text-align: center;
 }
 
 .welcome {
-    height: 512px;
-    background: url(../assets/yay.jpg) no-repeat center 0;
-    background-size: 512px 512px;
+  height: 512px;
+  background: url(../assets/yay.jpg) no-repeat center 0;
+  background-size: 512px 512px;
 }
 
 .list {
-    font-size: 1.2em;
-    margin: 1.8em 0 0;
-    list-style: none;
-    line-height: 1.5em;
+  font-size: 1.2em;
+  margin: 1.8em 0 0;
+  list-style: none;
+  line-height: 1.5em;
 }
 
 .list code {
-    background: #f7f7f7;
+  background: #f7f7f7;
+}
+
+.page__container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.items__container {
+  width: 450px;
+  height: 100vh;
+}
+
+.canvas__container {
+  width: calc(100% - 300px);
+  height: 100vh;
+  position: relative;
 }

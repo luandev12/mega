@@ -5,32 +5,45 @@ import Style from './Style';
 
 interface Props {
   children?: any;
-  setCanvas: any;
+  setCanvas?: any;
 }
 
 export default function Canvas({ setCanvas, children }: Props) {
-  const canvasRef = useRef(null);
+  const canvasRef: any = useRef(null);
 
   useEffect(() => {
-    const canvas = new fabric.Canvas(canvasRef.current, {
+
+    const canvas = new fabric.Canvas("canvas-editor", {
       renderOnAddRemove: true,
       allowTouchScrolling: true,
       preserveObjectStacking: true,
     });
+    
+    const resize = () => {
+      canvas.setHeight(canvasRef.current.clientHeight);
+      canvas.setWidth((canvasRef.current.clientWidth));
+      canvas.renderAll();
+      
+    }
 
+    canvas.setWidth(canvasRef.current.clientWidth);
+    canvas.setHeight(canvasRef.current.clientHeight);
+    
+    
+    
     setCanvas(canvas);
 
-    canvas.setWidth(window.innerWidth - 240 * 2);
-    canvas.setHeight(window.innerHeight);
+    window.addEventListener('resize', resize);
 
     return () => {
       canvas.dispose();
+      window.removeEventListener('resize', resize)
     };
   }, [setCanvas]);
 
   return (
-    <Style>
-      <canvas id="canvas-editor" ref={canvasRef}></canvas>
+    <Style ref={canvasRef}>
+      <canvas id="canvas-editor"></canvas>
       {children}
     </Style>
   );

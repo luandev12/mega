@@ -9,6 +9,17 @@
     "sourceMap": true,
     "baseUrl": ".",
     "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitThis": false,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true,
     "paths": {
       "@/*": ["src/*"],
       "@tmp/*": ["src/pages/.umi/*"]
