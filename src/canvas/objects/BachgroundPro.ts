@@ -82,7 +82,7 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
             myImg.applyFilters();
             this.canvas.setBackgroundImage(myImg, this.canvas.renderAll.bind(this.canvas));
 
-            if (myImg.width < myImg.height) {
+            if (myImg.width > myImg.height) {
               this.canvas.setViewportTransform([
                 this.canvas.width / myImg.width - 0.1,
                 0,

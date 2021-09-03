@@ -30,10 +30,18 @@
 .items__container {
   width: 450px;
   height: 100vh;
+  position: relative;
 }
 
 .canvas__container {
   width: calc(100% - 300px);
   height: 100vh;
   position: relative;
+}
+
+.canvas__fill {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  cursor: pointer;
 }

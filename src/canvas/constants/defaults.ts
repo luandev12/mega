@@ -139,7 +139,7 @@ export const backgroundPro = {
   skewY: 0,
   rx: 0,
   ry: 0,
-  src: "https://cdn.husble.com/husblizer/template/1.jpg-1623114468873.jpg"
+  src: "",
 }
 
 export const lockObject = {
