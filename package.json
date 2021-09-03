@@ -3,9 +3,7 @@
   "scripts": {
     "start": "umi dev",
     "build": "umi build",
-    "test": "umi test",
-    "lint": "eslint {src,mock,tests}/**/*.{ts,tsx} --fix",
-    "precommit": "lint-staged"
+    "test": "umi test"
   },
   "dependencies": {
     "antd": "^3.19.5",
