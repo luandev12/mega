@@ -8,6 +8,10 @@ import { ChromePicker } from 'react-color'
 
 import withRedux from '@/libraries/withRedux';
 import BackgroundPro from '@/canvas/objects/BachgroundPro'
+import ToolBar from '@/components/Toolbar'
+
+
+import Models from './models'
 
 import styles from './index.css'
 
@@ -107,7 +111,9 @@ function Index() {
     <div
       className={styles.page__container}
     >
-      <div className={styles.items__container}></div>
+      <div className={styles.items__container}>
+        <Models canvas={canvas} />
+      </div>
       <div
         className={styles.canvas__container}
       >
@@ -128,10 +134,10 @@ function Index() {
               <ChromePicker
                 color={color}
                 onChange={handleColor}
-                
               />
             )}
           </div>
+          <ToolBar />
       </div>
     </div>
   );

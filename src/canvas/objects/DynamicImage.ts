@@ -122,24 +122,20 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
     this.canvas.renderAll();
   },
   fixImage: function () {
-    let scale
     if (this.width >= this.height) {
-      this.item(0).scaleToHeight(this.canvas?.getZoom() ? this.height * this.canvas?.getZoom() : this.height);
-      scale = this.height * this.canvas?.getZoom() / this.item(0).height
+      this.item(0).scaleToHeight(this.height);
     } else {
-      this.item(0).scaleToWidth(this.canvas?.getZoom() ? this.width * this.canvas?.getZoom() : this.width);
-      scale = this.width * this.canvas?.getZoom() / this.item(0).width
+      this.item(0).scaleToWidth(this.width);
     }
+    this.canvas.renderAll();
 
-    this.canvas?.renderAll();
-    var width = this.item(0).width * scale
-    var height = this.item(0).height * scale
-    if (width > this.width * this.canvas?.getZoom()) {
-      this.item(0).scaleToWidth(this.width * this.canvas?.getZoom());
-    } else if (height > this.height * this.canvas?.getZoom()) {
-      this.item(0).scaleToHeight(this.height * this.canvas?.getZoom());
+    var width = this.item(0).width * this.item(0).scaleX;
+    var height = this.item(0).height * this.item(0).scaleY;
+    if (width > this.width) {
+      this.item(0).scaleToWidth(this.width);
+    } else if (height > this.height) {
+      this.item(0).scaleToHeight(this.height);
     }
-    this.canvas?.renderAll();
   },
   dynamicImage: function (src: string) {
     this.set('src', src);
