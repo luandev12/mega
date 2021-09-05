@@ -19,11 +19,49 @@ function Index() {
   const [canvas, setCanvas]: any = useState();
   const [pickerVisiable, setVisible] = useState(false)
   const [color, setColor] = useState('#fff')
+  const [top, setTop] = useState(0)
+  const [left, setLeft] = useState(0)
+  const [display, setDisplay] = useState('none')
   const colorRef = useRef(null)
 
   useEffect(() => {
 
     if (!canvas) return
+
+    const eventMoving = () => {
+
+     setDisplay('none')
+    }
+
+    const eventMoved = (evt: any) => {
+      const { target } = evt
+      const { width, height } = target
+      const { aCoords } = target
+      const { tr } = aCoords
+
+      setLeft(window.innerWidth / 2 + tr.x * canvas.getZoom() + width)
+      setTop(window.innerHeight / 2 + tr.y * canvas.getZoom() - height / 4)
+      setDisplay('block')
+    }
+
+    const evetnSelection = (evt: any) => {
+      const { target } = evt
+      const { width, height } = target
+      const { aCoords } = target
+      const { tr } = aCoords
+
+      setLeft(window.innerWidth / 2 + tr.x * canvas.getZoom() + width)
+      setTop(window.innerHeight / 2 + tr.y * canvas.getZoom() - height / 4)
+      setDisplay('block')
+    }
+
+    canvas.on('object:moving', eventMoving)
+
+    canvas.on('object:moved', eventMoved)
+
+    canvas.on('selection:created', evetnSelection)
+
+    canvas.on('selection:updated', evetnSelection)
 
     const objs = []
     objs.unshift(backgroundPro)
@@ -53,8 +91,7 @@ function Index() {
     }
 
     window.addEventListener('resize', resize)
-
-
+    
     return window.removeEventListener('resize', resize)
   }, [])
 
@@ -79,7 +116,7 @@ function Index() {
         myImg.applyFilters();
         canvas.setBackgroundImage(myImg, canvas.renderAll.bind(canvas));
 
-        if (myImg.width < myImg.height) {
+        if (canvas.width <= canvas.height) {
           canvas.setViewportTransform([
             canvas.width / myImg.width - 0.1,
             0,
@@ -137,7 +174,7 @@ function Index() {
               />
             )}
           </div>
-          <ToolBar />
+          <ToolBar top={top} left={left} display={display} />
       </div>
     </div>
   );

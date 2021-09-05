@@ -17,6 +17,9 @@ export default function Canvas({ setCanvas, children }: Props) {
       renderOnAddRemove: true,
       allowTouchScrolling: true,
       preserveObjectStacking: true,
+      uniScaleKey: null,
+      centeredKey: 'shiftKey',
+      altActionKey: null
     });
     
     const resize = () => {

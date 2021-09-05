@@ -2,10 +2,20 @@ import React, {} from 'react'
 
 import Style from './Style'
 
-const Index = () => {
+interface Props {
+  top: number;
+  left: number;
+  display: string;
+}
+
+const Index = ({ top, left, display }: Props) => {
 
   return (
-    <Style>
+    <Style theme={{
+      top,
+      left,
+      display
+    }}>
       
     </Style>
   );

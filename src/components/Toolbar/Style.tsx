@@ -6,8 +6,9 @@ const Style = styled.div`
   height: 330px;
   position: fixed;
   z-index: 9999;
-  left: 0;
-  top: 0;
+  left: ${props => `${props.theme.left}px`};
+  top: ${props => `${props.theme.top}px`};
+  display: ${props => props.theme.display}
 `;
 
 export default Style;
