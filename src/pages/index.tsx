@@ -20,12 +20,28 @@ function Index() {
   const [pickerVisiable, setVisible] = useState(false)
   const [color, setColor] = useState('#fff')
   const [top, setTop] = useState(0)
-  const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
   const [display, setDisplay] = useState('none')
   const colorRef = useRef(null)
 
-  useEffect(() => {
+  const handlePosMax = (aCoords) => {
+    const { tr, tl, br, bl } = aCoords
+    let yMax = tr.y
+    let xMax = tr.x
 
+    if (-yMax < -tl.y) yMax = tl.y
+    if (-yMax < -bl.y) yMax = bl.y
+    if (-yMax < -br.y) yMax = br.y
+
+    if (xMax < tl.x) xMax = tl.x
+    if (xMax < bl.x) xMax = bl.x
+    if (xMax < br.x) xMax = br.x
+
+    return { x: xMax, y: yMax }
+  }
+
+  useEffect(() => {
+    const heightToolBar = 330
     if (!canvas) return
 
     const eventMoving = () => {
@@ -35,23 +51,60 @@ function Index() {
 
     const eventMoved = (evt: any) => {
       const { target } = evt
-      const { width, height } = target
+      const { height } = target
       const { aCoords } = target
-      const { tr } = aCoords
+      // const { tr, tl, br, bl } = aCoords
+      const tr = handlePosMax(aCoords)
 
-      setLeft(window.innerWidth / 2 + tr.x * canvas.getZoom() + width)
-      setTop(window.innerHeight / 2 + tr.y * canvas.getZoom() - height / 4)
+      console.log(aCoords, 'aCoords')
+
+      setRight(canvas.width / 2 - tr.x * canvas.getZoom() - 80)
+      setTop(canvas.height / 2 + tr.y * canvas.getZoom() + (height * canvas.getZoom() - heightToolBar) / 2)
       setDisplay('block')
     }
 
     const evetnSelection = (evt: any) => {
       const { target } = evt
-      const { width, height } = target
+      const { height } = target
       const { aCoords } = target
-      const { tr } = aCoords
+      // const { tr } = aCoords
+      const tr = handlePosMax(aCoords)
+      setRight(canvas.width / 2 - tr.x * canvas.getZoom() - 80)
+      setTop(canvas.height / 2 + tr.y * canvas.getZoom() + (height * canvas.getZoom() - heightToolBar) / 2)
+      setDisplay('block')
+    }
 
-      setLeft(window.innerWidth / 2 + tr.x * canvas.getZoom() + width)
-      setTop(window.innerHeight / 2 + tr.y * canvas.getZoom() - height / 4)
+    const eventScaling = () => {
+      setDisplay('none')
+    }
+
+    const eventScaled = (evt: any) => {
+      setTimeout(() => {
+        const { target } = evt
+        const { height } = target
+        const { aCoords } = target
+        // const { tr } = aCoords
+        const tr = handlePosMax(aCoords)
+  
+        setRight(canvas.width / 2 - tr.x * canvas.getZoom() - 80)
+        setTop(canvas.height / 2 + tr.y * canvas.getZoom() + (height * canvas.getZoom() - heightToolBar) / 2)
+        setDisplay('block')
+      })
+    }
+
+    const eventRotating = () => {
+      setDisplay('none')
+    }
+
+    const eventRotated = (evt: any) => {
+      const { target } = evt
+      const { height } = target
+      const { aCoords } = target
+      // const { tr } = aCoords
+      const tr = handlePosMax(aCoords)
+
+      setRight(canvas.width / 2 - tr.x * canvas.getZoom() - 80)
+      setTop(canvas.height / 2 + tr.y * canvas.getZoom() + (height * canvas.getZoom() - heightToolBar) / 2)
       setDisplay('block')
     }
 
@@ -62,6 +115,14 @@ function Index() {
     canvas.on('selection:created', evetnSelection)
 
     canvas.on('selection:updated', evetnSelection)
+
+    canvas.on('object:scaling', eventScaling)
+
+    canvas.on('object:scaled', eventScaled)
+
+    canvas.on('object:rotating', eventRotating)
+
+    canvas.on('object:rotated', eventRotated)
 
     const objs = []
     objs.unshift(backgroundPro)
@@ -174,7 +235,7 @@ function Index() {
               />
             )}
           </div>
-          <ToolBar top={top} left={left} display={display} />
+          <ToolBar top={top} right={right} display={display} />
       </div>
     </div>
   );

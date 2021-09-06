@@ -4,16 +4,16 @@ import Style from './Style'
 
 interface Props {
   top: number;
-  left: number;
+  right: number;
   display: string;
 }
 
-const Index = ({ top, left, display }: Props) => {
+const Index = ({ top, right, display }: Props) => {
 
   return (
     <Style theme={{
       top,
-      left,
+      right,
       display
     }}>
       
