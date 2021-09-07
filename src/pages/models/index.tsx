@@ -7,6 +7,8 @@ import DynamicImagePro from '@/canvas/objects/DynamicImage'
 import { db } from '@/intergations/firebase'
 import { collection, getDocs } from 'firebase/firestore'
 
+import { v4 } from 'uuid'
+
 interface Props {
   canvas: any
 }
@@ -34,7 +36,7 @@ const Index = ({ canvas }: Props) => {
 
     const initDynamic = Data.Layers[1]
     initDynamic.src = model.url
-    const newDynamicImagePro = new DynamicImagePro(Data.Layers[1])
+    const newDynamicImagePro = new DynamicImagePro({ ...Data.Layers[1], id: v4() })
 
     canvas.add(newDynamicImagePro)
     canvas.setActiveObject(newDynamicImagePro);

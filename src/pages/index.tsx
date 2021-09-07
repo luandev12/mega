@@ -56,8 +56,6 @@ function Index() {
       // const { tr, tl, br, bl } = aCoords
       const tr = handlePosMax(aCoords)
 
-      console.log(aCoords, 'aCoords')
-
       setRight(canvas.width / 2 - tr.x * canvas.getZoom() - 80)
       setTop(canvas.height / 2 + tr.y * canvas.getZoom() + (height * canvas.getZoom() - heightToolBar) / 2)
       setDisplay('block')
@@ -235,7 +233,7 @@ function Index() {
               />
             )}
           </div>
-          <ToolBar top={top} right={right} display={display} />
+          <ToolBar setDisplay={setDisplay} canvas={canvas} top={top} right={right} display={display} />
       </div>
     </div>
   );

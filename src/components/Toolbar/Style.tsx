@@ -8,7 +8,11 @@ const Style = styled.div`
   z-index: 9999;
   right: ${props => `${props.theme.right}px`};
   top: ${props => `${props.theme.top}px`};
-  display: ${props => props.theme.display}
+  display: ${props => props.theme.display};
+
+  .wrap__icon {
+    cursor: pointer;
+  }
 `;
 
 export default Style;
