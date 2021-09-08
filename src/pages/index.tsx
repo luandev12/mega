@@ -13,7 +13,7 @@ import ToolBar from '@/components/Toolbar'
 
 import Models from './models'
 
-import styles from './index.css'
+import Style from './Style'
 
 function Index() {
   const [canvas, setCanvas]: any = useState();
@@ -22,6 +22,7 @@ function Index() {
   const [top, setTop] = useState(0)
   const [right, setRight] = useState(0)
   const [display, setDisplay] = useState('none')
+  const [width, setWidth] = useState(null)
   const colorRef = useRef(null)
 
   const handlePosMax = (aCoords) => {
@@ -43,6 +44,38 @@ function Index() {
   useEffect(() => {
     const heightToolBar = 330
     if (!canvas) return
+
+    function resize() {
+      canvas.setDimensions({
+        width: window.innerWidth - 450,
+        height: window.innerHeight
+      })
+      if (canvas.width <= canvas.height) {
+        canvas.setViewportTransform([
+          canvas.width / 1000 - 0.1,
+          0,
+          0,
+          canvas.width / 1000 - 0.1,
+          canvas.getCenter().left,
+          canvas.getCenter().top,
+        ]);
+        canvas.requestRenderAll();
+        canvas.renderAll();
+      } else {
+        canvas.setViewportTransform([
+          canvas.height / 1000 - 0.1,
+          0,
+          0,
+          canvas.height / 1000 - 0.1,
+          canvas.getCenter().left,
+          canvas.getCenter().top,
+        ]);
+        canvas.requestRenderAll();
+        canvas.renderAll();
+      }
+      setWidth(window.innerWidth - 450)
+    }
+    window.addEventListener('resize', resize)
 
     const eventMoving = () => {
 
@@ -143,16 +176,39 @@ function Index() {
     return () => window.removeEventListener('mousedown', handleClick)
   }, [pickerVisiable])
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    const resize = () => {
-
-    }
-
-    window.addEventListener('resize', resize)
+  //   function resize() {
+  //     console.log(window.innerWidth)
+  //     setWidth(window.innerWidth - 450)
+  //     if (canvas.width <= canvas.height) {
+  //       canvas.setViewportTransform([
+  //         canvas.width / 1000 - 0.1,
+  //         0,
+  //         0,
+  //         canvas.width / 1000 - 0.1,
+  //         canvas.getCenter().left,
+  //         canvas.getCenter().top,
+  //       ]);
+  //       canvas.requestRenderAll();
+  //       canvas.renderAll();
+  //     } else {
+  //       canvas.setViewportTransform([
+  //         canvas.height / 1000 - 0.1,
+  //         0,
+  //         0,
+  //         canvas.height / 1000 - 0.1,
+  //         canvas.getCenter().left,
+  //         canvas.getCenter().top,
+  //       ]);
+  //       canvas.requestRenderAll();
+  //       canvas.renderAll();
+  //     }
+  //   }
+  //   window.addEventListener('resize', resize)
     
-    return window.removeEventListener('resize', resize)
-  }, [])
+  //   // return window.removeEventListener('resize', resize)
+  // })
 
   const handleColor = (e: any) => {
     const bgUrl = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
@@ -204,17 +260,19 @@ function Index() {
   }
 
   return (
-    <div
-      className={styles.page__container}
+    <Style
+      theme={{
+        width
+      }}
     >
-      <div className={styles.items__container}>
+      <div className="items__container">
         <Models canvas={canvas} />
       </div>
       <div
-        className={styles.canvas__container}
+        className="canvas__container"
       >
         <Canvas setCanvas={setCanvas} />
-          <div className={styles.canvas__fill} ref={colorRef}>
+          <div className="canvas__fill" ref={colorRef}>
             {!pickerVisiable ? (
               <Tooltip
                 title="Background Color"
@@ -235,7 +293,7 @@ function Index() {
           </div>
           <ToolBar setDisplay={setDisplay} canvas={canvas} top={top} right={right} display={display} />
       </div>
-    </div>
+    </Style>
   );
 }
 

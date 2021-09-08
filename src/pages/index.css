@@ -34,7 +34,7 @@
 }
 
 .canvas__container {
-  width: calc(100% - 300px);
+  width: calc(100vw - 450px);
   height: 100vh;
   position: relative;
 }

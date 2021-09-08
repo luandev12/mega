@@ -3,7 +3,7 @@ import { fabric } from "fabric";
 
 import Style from './Style'
 
-import { Delete, Duplicate, BringForward, SendBackwards } from '@/svg'
+import { Delete, Duplicate, BringForward, SendBackwards, FlipVertical, FlipHorizontal } from '@/svg'
 import { v4 as uuidv4 } from 'uuid'
 
 interface Props {
@@ -116,12 +116,34 @@ const Index = ({ top, right, display, canvas, setDisplay }: Props) => {
     setDisplay('none')
   }
 
+  const handleFlipVertical = () => {
+    const objectActives = canvas.getActiveObjects()
+    objectActives.forEach(obj => {
+      obj.item(0).flipY = !obj.item(0).flipY
+    })
+    canvas.renderAll()
+  }
+
+  const handleFlipHorizontal = () => {
+    const objectActives = canvas.getActiveObjects()
+    objectActives.forEach(obj => {
+      obj.item(0).flipX = !obj.item(0).flipX
+    })
+    canvas.renderAll()
+  }
+
   return (
     <Style theme={{
       top,
       right,
       display
     }}>
+      <div onClick={handleFlipHorizontal} className="wrap__icon">
+        <FlipHorizontal />
+      </div>
+      <div onClick={handleFlipVertical} className="wrap__icon">
+        <FlipVertical />
+      </div>
       <div onClick={handleBringForward} className="wrap__icon">
         <BringForward />
       </div>

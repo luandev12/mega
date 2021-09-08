@@ -21,26 +21,14 @@ export default function Canvas({ setCanvas, children }: Props) {
       centeredKey: 'shiftKey',
       altActionKey: null
     });
-    
-    const resize = () => {
-      canvas.setHeight(canvasRef.current.clientHeight);
-      canvas.setWidth((canvasRef.current.clientWidth));
-      canvas.renderAll();
-      
-    }
 
     canvas.setWidth(canvasRef.current.clientWidth);
     canvas.setHeight(canvasRef.current.clientHeight);
     
-    
-    
     setCanvas(canvas);
-
-    window.addEventListener('resize', resize);
 
     return () => {
       canvas.dispose();
-      window.removeEventListener('resize', resize)
     };
   }, [setCanvas]);
 
