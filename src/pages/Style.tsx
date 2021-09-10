@@ -12,16 +12,17 @@ const Style = styled.div`
   }
 
   .canvas__container {
-    width: ${props => !props.theme.width ? 'calc(100vw - 450px)' : `${props.theme.width}px`};
+    width: ${props => (!props.theme.width ? 'calc(100vw - 450px)' : `${props.theme.width}px`)};
     height: 100vh;
     position: relative;
   }
 
-  /* .canvas-container {
-    width: ${props => !props.theme.width ? 'calc(100vw - 450px)' : `${props.theme.width}px`}!important;
-    height: 100vh!important;
+  .canvas-container {
+    width: ${props =>
+      !props.theme.width ? 'calc(100vw - 450px)' : `${props.theme.width}px`}!important;
+    height: 100vh !important;
     position: relative;
-  } */
+  }
 
   .canvas__fill {
     position: absolute;

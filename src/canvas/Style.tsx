@@ -8,7 +8,7 @@ const Style = styled.div`
   left: 0;
 
   #canvas-editor {
-    background-color: #e5e5e5;
+    background-color: #1a1a1a;
   }
 `;
 

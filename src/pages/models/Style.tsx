@@ -10,14 +10,14 @@ const Style = styled.div`
 
   .header__models {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
   }
 
   .list__models {
     display: flex;
     flex-wrap: wrap;
     img {
-      max-width: 100px;
+      max-width: 86px;
       max-height: 200px;
       width: auto;
       height: auto;

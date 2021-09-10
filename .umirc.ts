@@ -18,7 +18,7 @@ const config: IConfig = {
         antd: true,
         dva: false,
         dynamicImport: { webpackChunkName: true },
-        title: 'nemo-mega',
+        title: 'Mega',
         dll: false,
         locale: {
           enable: true,
