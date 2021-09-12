@@ -26,6 +26,8 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
       const center = this.canvas.getCenter();
       this.top = center.top;
       this.left = center.left;
+      const zoomWidth = rectOptions.typeRender ? 0 : 0.15;
+      const zoomTop = rectOptions.typeRender ? 0 : 25;
 
       if (rectOptions.src) {
         fabric.Image.fromURL(rectOptions.src, (myImg: any) => {
@@ -35,7 +37,7 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
             width: myImg.width,
             height: myImg.height,
             crossOrigin: 'anonymous',
-            backgroundColor: '#fff',
+            backgroundColor: rectOptions.fill || '#fff',
           });
 
           this.canvas.setBackgroundImage(myImg, this.canvas.renderAll.bind(this.canvas));
@@ -50,13 +52,26 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
             ]);
           } else {
             this.canvas.setViewportTransform([
-              this.canvas.height / myImg.height - 0.1,
+              this.canvas.height / myImg.height - zoomWidth,
               0,
               0,
-              this.canvas.height / myImg.height - 0.1,
+              this.canvas.height / myImg.height - zoomWidth,
               this.canvas.getCenter().left,
               this.canvas.getCenter().top,
             ]);
+          }
+
+          //render image
+          if (rectOptions.typeRender) {
+            console.log('vl');
+            fabric.Object.NUM_FRACTION_DIGITS = 10;
+            const link = document.createElement('a');
+            const dataURL = this.canvas.toDataURL({ format: 'png' });
+            link.download = 'image.png';
+            link.href = dataURL;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
           }
         });
       } else {
@@ -85,26 +100,39 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
 
             if (this.canvas.width <= this.canvas.height) {
               this.canvas.setViewportTransform([
-                this.canvas.width / myImg.width - 0.15,
+                this.canvas.width / myImg.width - zoomWidth,
                 0,
                 0,
-                this.canvas.width / myImg.width - 0.15,
+                this.canvas.width / myImg.width - zoomWidth,
                 this.canvas.getCenter().left,
-                this.canvas.getCenter().top + 25,
+                this.canvas.getCenter().top + zoomTop,
               ]);
               this.canvas.requestRenderAll();
               this.canvas.renderAll();
             } else {
               this.canvas.setViewportTransform([
-                this.canvas.height / myImg.height - 0.15,
+                this.canvas.height / myImg.height - zoomWidth,
                 0,
                 0,
-                this.canvas.height / myImg.height - 0.15,
+                this.canvas.height / myImg.height - zoomWidth,
                 this.canvas.getCenter().left,
-                this.canvas.getCenter().top + 25,
+                this.canvas.getCenter().top + zoomTop,
               ]);
               this.canvas.requestRenderAll();
               this.canvas.renderAll();
+            }
+
+            //render image
+            if (rectOptions.typeRender) {
+              console.log('vl hihi');
+              fabric.Object.NUM_FRACTION_DIGITS = 10;
+              const link = document.createElement('a');
+              const dataURL = this.canvas.toDataURL({ format: 'png' });
+              link.download = 'image.png';
+              link.href = dataURL;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
             }
           },
           { crossOrigin: 'anonymous' },

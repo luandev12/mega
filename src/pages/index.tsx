@@ -275,7 +275,7 @@ function Index() {
         {/* <Models canvas={canvas} /> */}
       </div>
       <div className="canvas__container">
-        <Header />
+        <Header color={color} canvas={canvas} />
         <div className="">
           <Canvas setCanvas={setCanvas} />
           <div className="canvas__fill" ref={colorRef}>

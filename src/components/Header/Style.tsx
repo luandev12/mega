@@ -11,6 +11,7 @@ const Style = styled.div`
 
   .header-export {
     margin-right: 30px;
+    cursor: pointer;
   }
 `;
 
