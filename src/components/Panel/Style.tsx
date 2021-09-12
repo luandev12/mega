@@ -4,7 +4,7 @@ const Style = styled.div`
   background-color: #2e2e2e;
   height: 100vh;
   color: #f5f5f5;
-
+  
   .panel-logo {
     border-bottom: 1px solid hsla(0, 0%, 100%, 0.05);
     height: 80px;
@@ -17,7 +17,6 @@ const Style = styled.div`
   }
 
   .panel-tab {
-    border-right: 1px solid hsla(0, 0%, 100%, 0.05);
     background-color: #2e2e2e;
     width: 25%;
     height: 100vh;
@@ -44,6 +43,7 @@ const Style = styled.div`
   .panel-galery {
     width: 75%;
     padding-top: 30px;
+    height: calc(100vh - 80px);
   }
 
   .tab-item-name {

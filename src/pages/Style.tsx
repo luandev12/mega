@@ -5,6 +5,7 @@ const Style = styled.div`
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  font-family: 'Azeret Mono';
   .items__container {
     width: 450px;
     height: 100vh;

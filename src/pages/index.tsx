@@ -10,6 +10,10 @@ import withRedux from '@/libraries/withRedux';
 import BackgroundPro from '@/canvas/objects/BachgroundPro';
 import ToolBar from '@/components/Toolbar';
 import Panel from '@/components/Panel';
+import { loadFontFamilies } from '@/canvas/utils/textUtil'
+
+import { db } from '@/intergations/firebase'
+import { collection, getDocs } from 'firebase/firestore'
 
 import Models from './models';
 
@@ -40,6 +44,25 @@ function Index() {
 
     return { x: xMax, y: yMax };
   };
+
+  useEffect(() => {
+    const fetchsData = async () => {
+      const fontsData = []
+      const querySnapshot = await getDocs(collection(db, "tests"));
+      querySnapshot.forEach((doc) => {
+        fontsData.push(doc.data())
+      });
+
+      const convertData = fontsData.map((item) => {
+        const { name, url } = item;
+        return { fontFamily: name, value: name, fontUrl: url, label: url };
+      });
+      
+      loadFontFamilies(convertData);
+    }
+
+    fetchsData()
+  }, [])
 
   useEffect(() => {
     const heightToolBar = 330;
@@ -191,40 +214,6 @@ function Index() {
 
     return () => window.removeEventListener('mousedown', handleClick);
   }, [pickerVisiable]);
-
-  // useEffect(() => {
-
-  //   function resize() {
-  //     console.log(window.innerWidth)
-  //     setWidth(window.innerWidth - 450)
-  //     if (canvas.width <= canvas.height) {
-  //       canvas.setViewportTransform([
-  //         canvas.width / 1000 - 0.1,
-  //         0,
-  //         0,
-  //         canvas.width / 1000 - 0.1,
-  //         canvas.getCenter().left,
-  //         canvas.getCenter().top,
-  //       ]);
-  //       canvas.requestRenderAll();
-  //       canvas.renderAll();
-  //     } else {
-  //       canvas.setViewportTransform([
-  //         canvas.height / 1000 - 0.1,
-  //         0,
-  //         0,
-  //         canvas.height / 1000 - 0.1,
-  //         canvas.getCenter().left,
-  //         canvas.getCenter().top,
-  //       ]);
-  //       canvas.requestRenderAll();
-  //       canvas.renderAll();
-  //     }
-  //   }
-  //   window.addEventListener('resize', resize)
-
-  //   // return window.removeEventListener('resize', resize)
-  // })
 
   const handleColor = (e: any) => {
     const bgUrl =

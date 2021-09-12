@@ -30,6 +30,13 @@ const config: IConfig = {
       },
     ],
   ],
+  chainWebpack: (config) => {
+    config.module // 配置 file-loader
+    .rule('ttf')
+    .test(/.ttf$/)
+    .use('file-loader')
+    .loader('file-loader');
+  },
 };
 
 export default config;

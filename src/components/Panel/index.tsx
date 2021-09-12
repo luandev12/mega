@@ -5,6 +5,8 @@ import { Upload, Photos, Background, Illustration, Text } from '@/svg/index';
 
 import Models from '@/pages/models/index';
 
+import TextModel from '../Text'
+
 import Style from './Style';
 
 const tabLists = [
@@ -31,7 +33,7 @@ export default function index({ canvas }) {
       case 'Background':
         return 'Background';
       case 'Text':
-        return 'Text';
+        return <TextModel canvas={canvas} />;
       case 'Upload':
         return 'Upload';
       default:
