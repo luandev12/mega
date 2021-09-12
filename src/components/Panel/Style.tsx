@@ -7,8 +7,8 @@ const Style = styled.div`
 
   .panel-logo {
     border-bottom: 1px solid hsla(0, 0%, 100%, 0.05);
-    height: 80px;
-    line-height: 80px;
+    height: 48px;
+    line-height: 48px;
   }
 
   .panel-main {

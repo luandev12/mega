@@ -11,6 +11,7 @@ import Header from '@/components/Header';
 import withRedux from '@/libraries/withRedux';
 import BackgroundPro from '@/canvas/objects/BachgroundPro';
 import ToolBar from '@/components/Toolbar';
+import ToolbarText from '@/components/ToolbarText'
 import Panel from '@/components/Panel';
 import { loadFontFamilies } from '@/canvas/utils/textUtil';
 
@@ -29,6 +30,9 @@ function Index() {
   const [right, setRight] = useState(0);
   const [display, setDisplay] = useState('none');
   const [width, setWidth] = useState(null);
+  const [topText, setTopText] = useState(0);
+  const [rightText, setRightText] = useState(0);
+  const [displayText, setDisplayText] = useState('none');
   const colorRef = useRef(null);
 
   const handlePosMax = aCoords => {
@@ -46,6 +50,12 @@ function Index() {
 
     return { x: xMax, y: yMax };
   };
+
+  const checkTextBox = (canvas: any) => {
+    const obj = canvas.getActiveObject()
+
+    return obj.type === 'textBoxPro'
+  }
 
   useEffect(() => {
     const fetchsData = async () => {
@@ -67,7 +77,9 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    const heightToolBar = 182.53;
+    const heightToolBar = 182.53
+    const heightToolBarText = 144
+    const widthToolBarText = 380
     if (!canvas) return;
 
     function resize() {
@@ -104,11 +116,12 @@ function Index() {
 
     const eventMoving = () => {
       setDisplay('none');
+      setDisplayText('none');
     };
 
     const eventMoved = (evt: any) => {
       const { target } = evt;
-      const { height } = target;
+      const { height, width } = target;
       const { aCoords } = target;
       // const { tr, tl, br, bl } = aCoords
       const tr = handlePosMax(aCoords);
@@ -120,11 +133,19 @@ function Index() {
           (height * canvas.getZoom() - heightToolBar) / 2,
       );
       setDisplay('block');
+
+      if (!checkTextBox(canvas)) return
+
+      setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
+      setTopText(
+        canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50,
+      );
+      setDisplayText('block');
     };
 
     const evetnSelection = (evt: any) => {
       const { target } = evt;
-      const { height } = target;
+      const { height, width } = target;
       const { aCoords } = target;
       // const { tr } = aCoords
       const tr = handlePosMax(aCoords);
@@ -135,16 +156,25 @@ function Index() {
           (height * canvas.getZoom() - heightToolBar) / 2,
       );
       setDisplay('block');
+
+      if (!checkTextBox(canvas)) return
+
+      setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
+      setTopText(
+        canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50
+      );
+      setDisplayText('block');
     };
 
     const eventScaling = () => {
       setDisplay('none');
+      setDisplayText('none');
     };
 
     const eventScaled = (evt: any) => {
       setTimeout(() => {
         const { target } = evt;
-        const { height } = target;
+        const { height, width } = target;
         const { aCoords } = target;
         // const { tr } = aCoords
         const tr = handlePosMax(aCoords);
@@ -156,16 +186,25 @@ function Index() {
             (height * canvas.getZoom() - heightToolBar) / 2,
         );
         setDisplay('block');
+
+        if (!checkTextBox(canvas)) return
+
+        setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
+        setTopText(
+          canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50,
+        );
+        setDisplayText('block');
       });
     };
 
     const eventRotating = () => {
       setDisplay('none');
+      setDisplayText('none');
     };
 
     const eventRotated = (evt: any) => {
       const { target } = evt;
-      const { height } = target;
+      const { height, width } = target;
       const { aCoords } = target;
       // const { tr } = aCoords
       const tr = handlePosMax(aCoords);
@@ -177,7 +216,20 @@ function Index() {
           (height * canvas.getZoom() - heightToolBar) / 2,
       );
       setDisplay('block');
+
+      if (!checkTextBox(canvas)) return
+
+      setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
+      setTopText(
+        canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50,
+      );
+      setDisplayText('block');
     };
+
+    const offSelection = () => {
+      setDisplay('none');
+      setDisplayText('none');
+    }
 
     canvas.on('object:moving', eventMoving);
 
@@ -194,6 +246,7 @@ function Index() {
     canvas.on('object:rotating', eventRotating);
 
     canvas.on('object:rotated', eventRotated);
+    canvas.on('selection:cleared', offSelection);
 
     const objs = [];
     objs.unshift(backgroundPro);
@@ -306,6 +359,12 @@ function Index() {
             top={top}
             right={right}
             display={display}
+          />
+          <ToolbarText
+            top={topText}
+            right={rightText}
+            display={displayText}
+            canvas={canvas}
           />
         </div>
       </div>
