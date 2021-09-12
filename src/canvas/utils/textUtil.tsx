@@ -1,4 +1,4 @@
-import HFont from "./HFont";
+import HFont from './HFont';
 interface CapFirstLetter {
   s: string;
 }
@@ -31,7 +31,7 @@ export function draw(
   kerning: boolean,
   tracking: number,
   ctx: CanvasRenderingContext2D,
-  align: string
+  align: string,
 ): number {
   var path = font.getPath(character, 0, 0, getFontSizeCustom.call(ctx), {
     kerning: kerning,
@@ -42,37 +42,26 @@ export function draw(
     },
   });
   var cropData = path.getBoundingBox();
-  strokeRenderingCanvas.width =
-    cropData.x2 - cropData.x1 + 3 * opentypeStrokeWidth + 2;
-  strokeRenderingCanvas.height =
-    cropData.y2 - cropData.y1 + 3 * opentypeStrokeWidth + 2;
-  var ctxL: any = strokeRenderingCanvas.getContext("2d");
-  ctxL.lineJoin = "round";
-  ctxL.clearRect(
-    0,
-    0,
-    strokeRenderingCanvas.width,
-    strokeRenderingCanvas.height
-  );
+  strokeRenderingCanvas.width = cropData.x2 - cropData.x1 + 3 * opentypeStrokeWidth + 2;
+  strokeRenderingCanvas.height = cropData.y2 - cropData.y1 + 3 * opentypeStrokeWidth + 2;
+  var ctxL: any = strokeRenderingCanvas.getContext('2d');
+  ctxL.lineJoin = 'round';
+  ctxL.clearRect(0, 0, strokeRenderingCanvas.width, strokeRenderingCanvas.height);
   ctxL.save();
-  ctxL.fillStyle = "#000000";
-  ctxL.strokeStyle = opentypeStrokeWidth > 0 ? "#ff0000" : null;
+  ctxL.fillStyle = '#000000';
+  ctxL.strokeStyle = opentypeStrokeWidth > 0 ? '#ff0000' : null;
   ctxL.lineWidth = opentypeStrokeWidth;
   path.offsetX = 2 * opentypeStrokeWidth;
-  if ("right" === align) {
+  if ('right' === align) {
     path.offsetX = 0;
   }
   path.offsetY = strokeRenderingCanvas.height - opentypeStrokeWidth;
   render([path], ctxL, true, true);
-  var filters = ctxL.getImageData(
-    0,
-    0,
-    strokeRenderingCanvas.width,
-    strokeRenderingCanvas.height
-  ).data;
+  var filters = ctxL.getImageData(0, 0, strokeRenderingCanvas.width, strokeRenderingCanvas.height)
+    .data;
   var max = -1;
   var min = -1;
-  var res: any = (function (hex) {
+  var res: any = (function(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result
       ? {
@@ -81,28 +70,20 @@ export function draw(
           b: parseInt(result[3], 16),
         }
       : null;
-  })("#000000");
+  })('#000000');
   var results = 0;
-  if ("left" === align) {
+  if ('left' === align) {
     var w = 0;
     for (; w < strokeRenderingCanvas.width; ++w) {
       var y = 0;
       for (; y < strokeRenderingCanvas.height; ++y) {
-        var f =
-          filters[
-            (fieldStorage = y * (4 * strokeRenderingCanvas.width) + 4 * w)
-          ];
+        var f = filters[(fieldStorage = y * (4 * strokeRenderingCanvas.width) + 4 * w)];
         var value = filters[fieldStorage + 1];
         var filter = filters[fieldStorage + 2];
         var name = filters[fieldStorage + 3];
         if (0 === f && 0 === value && 0 === filter && 0 === name) {
         } else {
-          if (
-            0 !== name &&
-            f === res.r &&
-            value === res.g &&
-            filter === res.b
-          ) {
+          if (0 !== name && f === res.r && value === res.g && filter === res.b) {
             min = w;
             results = -1 === max ? 0 : min - max + 1;
             w = strokeRenderingCanvas.width;
@@ -120,21 +101,13 @@ export function draw(
       y = 0;
       for (; y < strokeRenderingCanvas.height; ++y) {
         var fieldStorage;
-        f =
-          filters[
-            (fieldStorage = y * (4 * strokeRenderingCanvas.width) + 4 * w)
-          ];
+        f = filters[(fieldStorage = y * (4 * strokeRenderingCanvas.width) + 4 * w)];
         value = filters[fieldStorage + 1];
         filter = filters[fieldStorage + 2];
         name = filters[fieldStorage + 3];
         if (0 === f && 0 === value && 0 === filter && 0 === name) {
         } else {
-          if (
-            0 !== name &&
-            f === res.r &&
-            value === res.g &&
-            filter === res.b
-          ) {
+          if (0 !== name && f === res.r && value === res.g && filter === res.b) {
             min = w;
             results = -1 === max ? 0 : max - min + 1;
             w = -1;
@@ -165,31 +138,26 @@ export function render(paths: any, ctx: any, isStroke: boolean, value: any) {
     var i = 0;
     for (; i < e.commands.length; i = i + 1) {
       var option = e.commands[i];
-      if ("M" === option.type) {
+      if ('M' === option.type) {
         ctx.moveTo(option.x + l, option.y + h);
       } else {
-        if ("L" === option.type) {
+        if ('L' === option.type) {
           ctx.lineTo(option.x + l, option.y + h);
         } else {
-          if ("C" === option.type) {
+          if ('C' === option.type) {
             ctx.bezierCurveTo(
               option.x1 + l,
               option.y1 + h,
               option.x2 + l,
               option.y2 + h,
               option.x + l,
-              option.y + h
+              option.y + h,
             );
           } else {
-            if ("Q" === option.type) {
-              ctx.quadraticCurveTo(
-                option.x1 + l,
-                option.y1 + h,
-                option.x + l,
-                option.y + h
-              );
+            if ('Q' === option.type) {
+              ctx.quadraticCurveTo(option.x1 + l, option.y1 + h, option.x + l, option.y + h);
             } else {
-              if ("Z" === option.type) {
+              if ('Z' === option.type) {
                 ctx.closePath();
               }
             }
@@ -213,7 +181,7 @@ export function render(paths: any, ctx: any, isStroke: boolean, value: any) {
         0,
         ctx._fillPatternImage.scaleY || 1,
         -ctx._fillPatternImage.source.width / 2,
-        -ctx._fillPatternImage.source.height / 2
+        -ctx._fillPatternImage.source.height / 2,
       );
       ctx.fill();
       ctx.restore();
@@ -221,12 +189,12 @@ export function render(paths: any, ctx: any, isStroke: boolean, value: any) {
   }
 }
 
-export const fillTextCustom =  function(
+export const fillTextCustom = function(
   text: string,
   x: number,
   y: number,
   width: number | null,
-  tracking: number
+  tracking: number,
 ) {
   var options;
   options = this.lineMetrics ? this.lineMetrics : this.measureText(text);
@@ -285,7 +253,7 @@ export const fillTextCustom =  function(
   this.save();
   this.strokeStyle = this.opentypeStroke;
   this.lineWidth = this.opentypeStrokeWidth;
-  this.lineJoin = "round";
+  this.lineJoin = 'round';
   render(paths, this, this.opentypeStrokeWidth > 0, false);
   this.lineWidth = 0;
   render(paths, this, false, true);
@@ -303,13 +271,13 @@ export const fillTextCustom =  function(
   return options;
 };
 
-export const getFontSizeCustom = function () {
+export const getFontSizeCustom = function() {
   return this.trueFontSize || 1 * this.font.match(/\d+/)[0];
 };
 
-export const getFontFamilyCustom = function () {
+export const getFontFamilyCustom = function() {
   var t = this.font.match(/(\s*\d+(\.\d{1,50})?)px (.*)/);
-  return t ? t[t.length - 1] : "";
+  return t ? t[t.length - 1] : '';
 };
 /**
  * @param {string} text
@@ -318,23 +286,23 @@ export const getFontFamilyCustom = function () {
  * @param {number} template
  * @return {?}
  */
-export const measureTextCustom = function (
+export const measureTextCustom = function(
   text: string,
   kerning: boolean,
   width: number | null,
-  tracking: number
+  tracking: number,
 ) {
   var fontFamily = getFontFamilyCustom.call(this);
   // while (Object.keys(window.husblizerFont).length !== DataFonts.FONTS.length) {
   //   loadFontFamilies()
   // }
-  var font: any = !!HFont.hasFont(fontFamily) && HFont.resolve(fontFamily);
+  var font: any = !!HFont?.hasFont(fontFamily) && HFont?.resolve(fontFamily);
   if (!font) {
     return this._measureText
       ? this._measureText.call(this, text)
       : this.measureText.call(this, text);
   }
-  if ("undefined" === typeof kerning) {
+  if ('undefined' === typeof kerning) {
     kerning = false;
   }
   this.lineSpacing = this.lineSpacing || 1;
@@ -370,7 +338,7 @@ export const measureTextCustom = function (
         kerning,
         tracking,
         this,
-        "left"
+        'left',
       );
       itemWidth = draw(
         t1,
@@ -380,7 +348,7 @@ export const measureTextCustom = function (
         kerning,
         tracking,
         this,
-        "right"
+        'right',
       );
     }
   }
@@ -397,7 +365,7 @@ export const measureTextCustom = function (
         rlig: this.ligatures,
       },
     },
-    function (options: any, offset: number, height: number, offset_1000: number) {
+    function(options: any, offset: number, height: number, offset_1000: number) {
       var scale = (1 / options.path.unitsPerEm) * offset_1000;
       if (options.path.commands.length > 0 && scale) {
         var font = options.getMetrics();
@@ -424,7 +392,7 @@ export const measureTextCustom = function (
         }
       }
       ++c;
-    }
+    },
   );
   var w: any;
   var totalWidth = right - t;
@@ -436,7 +404,7 @@ export const measureTextCustom = function (
     height = 1;
   }
   font.forEachGlyph(
-    text + " ",
+    text + ' ',
     0,
     0,
     fontSize,
@@ -448,22 +416,22 @@ export const measureTextCustom = function (
         rlig: this.ligatures,
       },
     },
-    function (canCreateDiscussions: any, wmax: any, n: any) {
+    function(canCreateDiscussions: any, wmax: any, n: any) {
       w = wmax;
       // console.log(canCreateDiscussions, n)
-    }
+    },
   );
   var rowWidth = totalWidth + horizontalGap + itemWidth;
   if (width) {
-    var searchRegex = new RegExp("\\s$", "gi");
+    var searchRegex = new RegExp('\\s$', 'gi');
     if (text.length > 1 && null == searchRegex.exec(text)) {
       w = totalWidth = width - horizontalGap - itemWidth;
     }
   }
 
   totalWidth = totalWidth + (horizontalGap + itemWidth);
-  return ({
-    width: (w = w + (horizontalGap + itemWidth)),
+  return {
+    width: w = w + (horizontalGap + itemWidth),
     height: height + (this.opentypeStrokeWidth || 0),
     heightNoStroke: height,
     totalWidth: totalWidth,
@@ -481,22 +449,21 @@ export const measureTextCustom = function (
     rightSideBearing: plane_h,
     leftStrokeWidth: horizontalGap,
     rightStrokeWidth: itemWidth,
-  });
+  };
 };
-
 
 export async function loadFontFamilies(Fonts) {
   // import("./Fonts.json").then((fonts) => {
-    Fonts.forEach((item) => {
-      HFont.loadSync(item.fontFamily, item.fontUrl);
-      new FontFace(item.fontFamily, `url(${item.fontUrl})`)
-        .load()
-        .then((loaded_face) => {
-          document.fonts.add(loaded_face);
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
-    });
+  Fonts.forEach(item => {
+    HFont.loadSync(item.fontFamily, item.fontUrl);
+    new FontFace(item.fontFamily, `url(${item.fontUrl})`)
+      .load()
+      .then(loaded_face => {
+        document.fonts.add(loaded_face);
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+  });
   // });
 }

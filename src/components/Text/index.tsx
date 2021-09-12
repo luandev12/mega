@@ -1,46 +1,47 @@
 import React, { useEffect, useState } from 'react';
 
-import { db } from '@/intergations/firebase'
-import { collection, getDocs } from 'firebase/firestore'
-import { v4 } from 'uuid'
+import { db } from '@/intergations/firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import { v4 } from 'uuid';
 
-import Data from '@/canvas/utils/InitialsLayer.json'
-import TextBox from '@/canvas/objects/TextBox'
+import Data from '@/canvas/utils/InitialsLayer.json';
+import TextBox from '@/canvas/objects/TextBox';
 
-
-import Style from './Style'
+import Style from './Style';
 
 interface Props {
   canvas: any;
 }
 
 const Index = ({ canvas }: Props) => {
-  const [fonts, setFonts] = useState([])
+  const [fonts, setFonts] = useState([]);
 
   useEffect(() => {
     const fetchsData = async () => {
-      const fontsData = []
-      const querySnapshot = await getDocs(collection(db, "tests"));
-      querySnapshot.forEach((doc) => {
-        fontsData.push(doc.data())
+      const fontsData = [];
+      const querySnapshot = await getDocs(collection(db, 'tests'));
+      querySnapshot.forEach(doc => {
+        fontsData.push(doc.data());
       });
 
-      setFonts(fontsData)
-    }
+      setFonts(fontsData);
+    };
 
-    fetchsData()
-  }, [])
+    fetchsData();
+  }, []);
 
   const handleAddTextBox = (font: any) => {
-    const initDynamic = Data.Layers[0]
-    initDynamic.src = font.url
-    initDynamic.fontFamily = font.name
-    const newTextBoxPro = new TextBox({ ...Data.Layers[1], id: v4() })
+    const initDynamic = Data.Layers[0];
+    initDynamic.src = font.url;
+    initDynamic.fontFamily = font.name;
+    const newTextBoxPro = new TextBox({ ...Data.Layers[1], id: v4() });
 
-    canvas.add(newTextBoxPro)
+    canvas.add(newTextBoxPro);
     canvas.setActiveObject(newTextBoxPro);
-    canvas.renderAll()
-  }
+    canvas.renderAll();
+  };
+
+  console.log(fonts, 'fonts');
 
   return (
     <Style>
@@ -54,6 +55,6 @@ const Index = ({ canvas }: Props) => {
       </ul>
     </Style>
   );
-}
+};
 
 export default Index;

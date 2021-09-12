@@ -10,14 +10,14 @@ import withRedux from '@/libraries/withRedux';
 import BackgroundPro from '@/canvas/objects/BachgroundPro';
 import ToolBar from '@/components/Toolbar';
 import Panel from '@/components/Panel';
-import { loadFontFamilies } from '@/canvas/utils/textUtil'
+import { loadFontFamilies } from '@/canvas/utils/textUtil';
 
-import { db } from '@/intergations/firebase'
-import { collection, getDocs } from 'firebase/firestore'
-
-import Models from './models';
+import { db } from '@/intergations/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 import Style from './Style';
+
+window.husblizerFont = {};
 
 function Index() {
   const [canvas, setCanvas]: any = useState();
@@ -47,22 +47,22 @@ function Index() {
 
   useEffect(() => {
     const fetchsData = async () => {
-      const fontsData = []
-      const querySnapshot = await getDocs(collection(db, "tests"));
-      querySnapshot.forEach((doc) => {
-        fontsData.push(doc.data())
+      const fontsData = [];
+      const querySnapshot = await getDocs(collection(db, 'tests'));
+      querySnapshot.forEach(doc => {
+        fontsData.push(doc.data());
       });
 
-      const convertData = fontsData.map((item) => {
+      const convertData = fontsData.map(item => {
         const { name, url } = item;
         return { fontFamily: name, value: name, fontUrl: url, label: url };
       });
-      
-      loadFontFamilies(convertData);
-    }
 
-    fetchsData()
-  }, [])
+      loadFontFamilies(convertData);
+    };
+
+    fetchsData();
+  }, []);
 
   useEffect(() => {
     const heightToolBar = 330;
