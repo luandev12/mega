@@ -41,7 +41,6 @@ class HFont {
       if (error) {
         console.error('Error loading font ' + key + ' at ' + fontUrl, error);
       } else {
-        console.log(key, 'key');
         window.husblizerFont[key] = data;
         // console.log(key, window.husblizerFont)
         let glyphStatus = null;

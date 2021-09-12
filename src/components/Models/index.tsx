@@ -35,9 +35,11 @@ const Index = ({ canvas }: Props) => {
     fetchsData();
   }, []);
 
-  const handleModel = (model: any) => {
+  const handleModel = async (model: any) => {
     const initDynamic = Data.Layers[1];
+
     initDynamic.src = model.url;
+
     const newDynamicImagePro = new DynamicImagePro({ ...initDynamic, id: v4() });
 
     canvas.add(newDynamicImagePro);

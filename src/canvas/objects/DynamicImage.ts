@@ -15,26 +15,26 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
   debug: true,
   version: '4.3.1',
   _okImage: false,
-  initialize: function (options: any) {
+  initialize: function(options: any) {
     const image = new Image();
-    if (options.src && options.src.indexOf('blog') === -1) {
+    if (options.src) {
       image.src = options.src;
     }
     this.optionId = options.optionId;
     this.imageLibraryId = options.imageLibraryId;
-    this.imagesUpload = options.imagesUpload
-    this.initSrc = options.src
-    this.selectable = options.selectable === false ? false : true
-    options.evented = this.selectable
-    this.visible = options.visible === false ? false : true
-    this.evented = this.selectable
+    this.imagesUpload = options.imagesUpload;
+    this.initSrc = options.src;
+    this.selectable = options.selectable === false ? false : true;
+    options.evented = this.selectable;
+    this.visible = options.visible === false ? false : true;
+    this.evented = this.selectable;
     const createdObj = new fabric.Image(image, {
       originX: 'center',
       originY: 'center',
       width: options.width || 300,
       height: options.height || 300,
     }) as FabricImage;
-    createdObj.globalCompositeOperation = 'source-atop'
+    createdObj.globalCompositeOperation = 'source-atop';
     var rect = new fabric.Rect({
       strokeDashArray: options.strokeDashArray,
       originX: 'center',
@@ -49,15 +49,15 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
     this.callSuper('initialize', [createdObj, rect], Object.assign(options, groupBoundedOption));
 
     this.on({
-      scaled: function () {
+      scaled: function() {
         this.updateFromGroupScaling();
       },
-      added: function () {
+      added: function() {
         this.updateFromGroupScaling();
       },
     });
   },
-  _set: function (key: string, value: any) {
+  _set: function(key: string, value: any) {
     this.callSuper('_set', key, value);
     switch (key) {
       case 'src':
@@ -67,7 +67,7 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
         break;
     }
   },
-  updateFromGroupScaling: function () {
+  updateFromGroupScaling: function() {
     var width = this.width * this.scaleX;
     var height = this.height * this.scaleY;
     this.scaleX = 1;
@@ -75,10 +75,10 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
     this.setWidth(width);
     this.setHeight(height);
   },
-  getWidth: function () {
+  getWidth: function() {
     return this.width * this.scaleX;
   },
-  setWidth: function (width: number) {
+  setWidth: function(width: number) {
     if (!width) {
       width = 0;
     }
@@ -86,10 +86,10 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
     this.set('width', width);
     this.fixImage();
   },
-  getHeight: function () {
+  getHeight: function() {
     return this.height * this.scaleY;
   },
-  setHeight: function (height: number) {
+  setHeight: function(height: number) {
     if (!height) {
       height = 0;
     }
@@ -97,7 +97,7 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
     this.set('height', height);
     this.fixImage();
   },
-  setWidthHeight: function (width: number, height: number) {
+  setWidthHeight: function(width: number, height: number) {
     if (!width) {
       width = 0;
     }
@@ -110,18 +110,18 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
     this.set('height', height);
     this.fixImage();
   },
-  setLeftTop: function (left: number, top: number) {
+  setLeftTop: function(left: number, top: number) {
     this.set({
       top: top,
       left: left,
     });
     this.canvas.renderAll();
   },
-  setRotation: function (angle: number) {
+  setRotation: function(angle: number) {
     this.set('angle', angle);
     this.canvas.renderAll();
   },
-  fixImage: function () {
+  fixImage: function() {
     if (this.width >= this.height) {
       this.item(0).scaleToHeight(this.height);
     } else {
@@ -137,13 +137,13 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
       this.item(0).scaleToHeight(this.height);
     }
   },
-  dynamicImage: function (src: string) {
+  dynamicImage: function(src: string) {
     this.set('src', src);
   },
-  setInitSrc: function (src: string) {
-    this.initSrc = src
+  setInitSrc: function(src: string) {
+    this.initSrc = src;
   },
-  _setImage: function (obj: FabricImage, source?: File | string) {
+  _setImage: function(obj: FabricImage, source?: File | string) {
     this._okImage = false;
     if (!source) {
       this.loadImage(obj, null);
@@ -165,9 +165,9 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
       obj.set('src', source);
     }
   },
-  loadImage: function (obj: FabricImage, src: string) {
+  loadImage: function(obj: FabricImage, src: string) {
     let url = src;
-    fabric.util.loadImage(url, (source) => {
+    fabric.util.loadImage(url, source => {
       if (obj.type !== 'image') {
         obj.setPatternFill(
           {
@@ -193,7 +193,7 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
       this.canvas?.renderAll();
     });
   },
-  updateCalcPostion: function (name: string, value: number) {
+  updateCalcPostion: function(name: string, value: number) {
     if (name === 'left') {
       this.set({
         left: value,
@@ -223,30 +223,30 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
     if (name === 'optionId') this.optionId = value;
 
     if (name === 'imageLibraryId') this.imageLibraryId = value;
-    if (name === 'imagesUpload') this.imagesUpload = value
+    if (name === 'imagesUpload') this.imagesUpload = value;
 
-    if (name === 'typeResize') this.typeResize = value
+    if (name === 'typeResize') this.typeResize = value;
 
     this.canvas.renderAll();
   },
-  __updateView: function () {
+  __updateView: function() {
     this.visible = !this.visible;
     // this.__addImageToRect();
     this.canvas.renderAll.bind(this.canvas);
     this.canvas.renderAll();
   },
 
-  __updateLock: function () {
+  __updateLock: function() {
     this.selectable = !this.selectable;
     this.evented = this.selectable;
     // this.__addImageToRect();
     this.canvas.renderAll.bind(this.canvas);
     this.canvas.renderAll();
   },
-  _updateName: function (name: string) {
-    this.name = name
+  _updateName: function(name: string) {
+    this.name = name;
   },
-  countStepForward: function () {
+  countStepForward: function() {
     let step = 0;
     const objects = this.canvas.getObjects();
     const indexThis = findIndex(objects, { id: this.id });
@@ -262,7 +262,7 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
     }
     return step;
   },
-  countStepBackward: function () {
+  countStepBackward: function() {
     let step = 0;
     const objects = this.canvas.getObjects();
     const indexThis = findIndex(objects, { id: this.id });
@@ -285,35 +285,36 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
 
     return step;
   },
-  setZIndex: function (name: string) {
+  setZIndex: function(name: string) {
     switch (name) {
       case 'forward':
         const stepForward = this.countStepForward();
         for (let i = 0; i < stepForward; i++) {
           this.canvas.bringForward(this);
         }
-        break
-      
+        break;
+
       case 'backward':
         const stepBackward = this.countStepBackward();
         for (let i = 0; i < stepBackward; i++) {
           this.canvas.sendBackwards(this);
         }
-        break
-      
+        break;
+
       case 'tofront':
-        this.canvas.bringToFront(this)
-        break
+        this.canvas.bringToFront(this);
+        break;
 
       case 'toback':
-        this.canvas.sendToBack(this)
+        this.canvas.sendToBack(this);
 
-      default: break
+      default:
+        break;
     }
-    
+
     this.canvas.renderAll();
   },
-  toObject: function () {
+  toObject: function() {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       id: this.id,
       elementId: this.elementId,
@@ -329,7 +330,7 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
       selectable: this.selectable,
       visible: this.visible,
       evented: this.evented,
-      typeResize: this.typeResize || 'default'
+      typeResize: this.typeResize || 'default',
     });
   },
 });

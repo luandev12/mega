@@ -63,7 +63,6 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
 
           //render image
           if (rectOptions.typeRender) {
-            console.log('vl');
             fabric.Object.NUM_FRACTION_DIGITS = 10;
             const link = document.createElement('a');
             const dataURL = this.canvas.toDataURL({ format: 'png' });
@@ -124,7 +123,6 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
 
             //render image
             if (rectOptions.typeRender) {
-              console.log('vl hihi');
               fabric.Object.NUM_FRACTION_DIGITS = 10;
               const link = document.createElement('a');
               const dataURL = this.canvas.toDataURL({ format: 'png' });
