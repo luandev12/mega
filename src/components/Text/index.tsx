@@ -41,14 +41,12 @@ const Index = ({ canvas }: Props) => {
     canvas.renderAll();
   };
 
-  console.log(fonts, 'fonts');
-
   return (
     <Style>
       <ul>
         {fonts.map((font, index) => (
           <li onClick={() => handleAddTextBox(font)} key={index}>
-            <h2>The quick brown fox jumps over the lazy dog</h2>
+            <h2 style={{ fontFamily: font.name }}>The quick brown fox jumps over the lazy dog</h2>
             <p>{font.name}</p>
           </li>
         ))}

@@ -6,5 +6,17 @@ body,
 
 body {
     margin: 0;
-    font-family: sans-serif;
+    font-family: 'Roboto', sans-serif;
+}
+
+img {
+    max-width: 90px;
+    max-height: 200px;
+    min-height: 90px;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAADKADAAQAAAABAAAADAAAAAATDPpdAAAAfUlEQVQoFbVQQQ7AIAgD7Sf8/8s8+gd1s0vIptMlHkZiUGyBVmOMRwux4B2AhBDEOWflK6uqgICRYLVn3Zh9C6t+5G3CcqXVkKYPnQYCvfdSSpFaa8ejaM05N223S0QQmFJ6NeIfaN1I4JtnNmFb9L8Ergm6MWrg7jP36NIJC0BbmAiDWGoAAAAASUVORK5CYII=');
 }

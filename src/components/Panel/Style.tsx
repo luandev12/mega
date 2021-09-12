@@ -4,7 +4,7 @@ const Style = styled.div`
   background-color: #2e2e2e;
   height: 100vh;
   color: #f5f5f5;
-  
+
   .panel-logo {
     border-bottom: 1px solid hsla(0, 0%, 100%, 0.05);
     height: 80px;
@@ -46,6 +46,10 @@ const Style = styled.div`
     height: calc(100vh - 80px);
   }
 
+  .tab-item {
+    padding-top: 10px;
+  }
+
   .tab-item-name {
     margin-top: 10px;
   }
@@ -59,6 +63,8 @@ const Style = styled.div`
     height: 24px;
     margin: 0;
     background-color: #373737;
+    padding: 7px 9px 9px 9px;
+    border-radius: 5px;
   }
 `;
 

@@ -3,15 +3,17 @@ import classnames from 'classnames';
 
 import { Upload, Photos, Background, Illustration, Text } from '@/svg/index';
 
-import Models from '@/pages/models/index';
+import Models from '@/components/Models/index';
+import BackgroundImage from '@/components/Backgrounds/index';
+import Icons from '@/components/Icons/index';
 
-import TextModel from '../Text'
+import TextModel from '../Text';
 
 import Style from './Style';
 
 const tabLists = [
   { name: 'Photos', icon: <Photos /> },
-  { name: 'Illustration', icon: <Illustration /> },
+  { name: 'Icons', icon: <Illustration /> },
   { name: 'Background', icon: <Background /> },
   { name: 'Text', icon: <Text /> },
   { name: 'Upload', icon: <Upload /> },
@@ -28,10 +30,10 @@ export default function index({ canvas }) {
     switch (v) {
       case 'Photos':
         return <Models canvas={canvas} />;
-      case 'Illustration':
-        return 'Illustration';
+      case 'Icons':
+        return <Icons canvas={canvas} />;
       case 'Background':
-        return 'Background';
+        return <BackgroundImage canvas={canvas} />;
       case 'Text':
         return <TextModel canvas={canvas} />;
       case 'Upload':
