@@ -27,7 +27,7 @@ const Style = styled.div`
 
   .canvas__fill {
     position: absolute;
-    top: 20px;
+    top: 70px;
     right: 50px;
     cursor: pointer;
   }

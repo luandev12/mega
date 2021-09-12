@@ -60,7 +60,8 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
           }
         });
       } else {
-        const bgUrl = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
+        const bgUrl =
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=';
         // const bgUrl = 'https://st.quantrimang.com/photos/image/2020/07/30/Hinh-Nen-Trang-10.jpg';
         fabric.Image.fromURL(
           bgUrl,
@@ -71,7 +72,7 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
               width: rectOptions.width || 1000,
               height: rectOptions.height || 1000,
               crossOrigin: 'anonymous',
-              backgroundColor: rectOptions.fill || "#fff",
+              backgroundColor: rectOptions.fill || '#fff',
             });
             // anonymous", "allow-credentials"
             var filter = new fabric.Image.filters.BlendColor({
@@ -84,23 +85,23 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
 
             if (this.canvas.width <= this.canvas.height) {
               this.canvas.setViewportTransform([
-                this.canvas.width / myImg.width - 0.1,
+                this.canvas.width / myImg.width - 0.15,
                 0,
                 0,
-                this.canvas.width / myImg.width - 0.1,
+                this.canvas.width / myImg.width - 0.15,
                 this.canvas.getCenter().left,
-                this.canvas.getCenter().top,
+                this.canvas.getCenter().top + 25,
               ]);
               this.canvas.requestRenderAll();
               this.canvas.renderAll();
             } else {
               this.canvas.setViewportTransform([
-                this.canvas.height / myImg.height - 0.1,
+                this.canvas.height / myImg.height - 0.15,
                 0,
                 0,
-                this.canvas.height / myImg.height - 0.1,
+                this.canvas.height / myImg.height - 0.15,
                 this.canvas.getCenter().left,
-                this.canvas.getCenter().top,
+                this.canvas.getCenter().top + 25,
               ]);
               this.canvas.requestRenderAll();
               this.canvas.renderAll();
@@ -183,7 +184,7 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
     });
   },
 
-  setBackground: function (zoom: any) {
+  setBackground: function(zoom: any) {
     const center = this.canvas.getCenter();
 
     this.canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
@@ -191,7 +192,7 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
     return this.canvas.renderAll();
   },
 
-  updatePan: function () {},
+  updatePan: function() {},
 
   // render
   _render(ctx: any) {
