@@ -67,7 +67,7 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    const heightToolBar = 330;
+    const heightToolBar = 182.53;
     if (!canvas) return;
 
     function resize() {

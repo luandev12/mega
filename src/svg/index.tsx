@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const Delete = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="bin">
+  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="bin">
     <path
       d="M9.99805 4C9.44574 4 8.99805 4.44772 8.99805 5H5.99805C5.44574 5 4.99805 5.44772 4.99805 6C4.99805 6.55228 5.44574 7 5.99805 7H17.998C18.5504 7 18.998 6.5 18.998 6C18.998 5.5 18.5504 5 17.998 5H14.998C14.998 4.44772 14.5504 4 13.998 4H9.99805Z"
       fill="#F5F5F5"
@@ -16,7 +16,7 @@ export const Delete = () => (
 );
 
 export const Duplicate = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="copy">
+  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="copy">
     <path
       d="M7 4C5.34315 4 4 5.34315 4 7V17C4 17.5523 4.44772 18 5 18C5.55228 18 6 17.5523 6 17V7C6 6.44772 6.44772 6 7 6H17C17.5523 6 18 5.55228 18 5C18 4.44772 17.5523 4 17 4H7Z"
       fill="#F5F5F5"
@@ -31,7 +31,7 @@ export const Duplicate = () => (
 );
 
 export const BringForward = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="up">
+  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="up">
     <path
       d="M7.04792 9.36396C6.6574 8.97344 6.6574 8.34028 7.04792 7.94977L11.9977 3L16.9474 7.94974C17.3379 8.34027 17.3379 8.97345 16.9474 9.36397C16.5569 9.75448 15.9237 9.75447 15.5332 9.36395L12.998 6.8288V18H20C20.5523 18 21 18.4477 21 19C21 19.5523 20.5523 20 20 20H4C3.44772 20 3 19.5523 3 19C3 18.4477 3.44772 18 4 18H10.998V6.82806L8.4621 9.36396C8.07158 9.75447 7.43843 9.75447 7.04792 9.36396Z"
       fill="#F5F5F5"
@@ -48,7 +48,7 @@ export const BringForward = () => (
 );
 
 export const SendBackwards = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="down">
+  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="down">
     <path
       d="M7.04792 14.636C6.6574 15.0266 6.6574 15.6597 7.04792 16.0502L11.9977 21L16.9474 16.0503C17.3379 15.6597 17.3379 15.0266 16.9474 14.636C16.5569 14.2455 15.9237 14.2455 15.5332 14.636L12.998 17.1712V6H20C20.5523 6 21 5.55228 21 5C21 4.44772 20.5523 4 20 4H4C3.44772 4 3 4.44772 3 5C3 5.55228 3.44772 6 4 6H10.998V17.1719L8.4621 14.636C8.07158 14.2455 7.43843 14.2455 7.04792 14.636Z"
       fill="#F5F5F5"
@@ -62,7 +62,7 @@ export const SendBackwards = () => (
 );
 
 export const FlipVertical = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="flipVertically">
+  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="flipVertically">
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
@@ -77,7 +77,7 @@ export const FlipVertical = () => (
 );
 
 export const FlipHorizontal = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="flipHorizontally">
+  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="flipHorizontally">
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
@@ -92,7 +92,7 @@ export const FlipHorizontal = () => (
 );
 
 export const Photos = () => (
-  <svg width="16px" height="16px">
+  <svg  width="16px" height="16px">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" id="photos-active">
       <path
         fill-rule="evenodd"

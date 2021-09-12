@@ -40,7 +40,7 @@ const TextBoxPro = fabric.util.createClass(fabric.Group, {
       textAlign: options.textAlign || 'center',
       centeredRotation: true,
       color: options.color || 'black',
-      fontFamily: options.fontFamily || 'Arial  Regular ',
+      fontFamily: options.fontFamily || 'allitta_calligraphy',
       backgroundColor: this.debug ? '#f7dacf' : 'rgba(0,0,0,0)',
       tracking: options.tracking || 0,
       version: options.version,
@@ -48,7 +48,7 @@ const TextBoxPro = fabric.util.createClass(fabric.Group, {
         `${options.stroke?.slice(0, 7)}${percentToHex(options.opacityStroke || 100)}` || '#000000',
       lockScalingFlip: true,
       globalCompositeOperation: 'source-atop',
-      fill: `${options.fill?.slice(0, 7)}${percentToHex(options.opacityFill || 100)}` || '#000000',
+      fill: '#000000',
       opentypeStrokeWidth: options.strokeWidth || 0,
       opentypeStroke: options.stroke || '#000000',
     };

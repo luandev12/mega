@@ -13,6 +13,8 @@ interface Props {
   canvas: any;
 }
 
+window.husblizerFont = {};
+
 const Index = ({ canvas }: Props) => {
   const [fonts, setFonts] = useState([]);
 
@@ -31,10 +33,10 @@ const Index = ({ canvas }: Props) => {
   }, []);
 
   const handleAddTextBox = (font: any) => {
-    const initDynamic = Data.Layers[0];
-    initDynamic.src = font.url;
-    initDynamic.fontFamily = font.name;
-    const newTextBoxPro = new TextBox({ ...Data.Layers[1], id: v4() });
+    const initTextBox = Data.Layers[0];
+    initTextBox.src = font.url;
+    initTextBox.fontFamily = font.name;
+    const newTextBoxPro = new TextBox({ ...initTextBox, id: v4() });
 
     canvas.add(newTextBoxPro);
     canvas.setActiveObject(newTextBoxPro);
