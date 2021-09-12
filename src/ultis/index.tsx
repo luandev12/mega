@@ -56,8 +56,6 @@ export const getBlobFromUrl = myImageUrl => {
         myImage.onload = () => {
           resolve(objectURL);
         };
-
-        reject('error');
       });
   });
 };

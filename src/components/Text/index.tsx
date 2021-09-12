@@ -7,8 +7,6 @@ import { v4 } from 'uuid';
 import Data from '@/canvas/utils/InitialsLayer.json';
 import TextBox from '@/canvas/objects/TextBox';
 
-import { getBlobFromUrl } from '@/ultis/index';
-
 import Style from './Style';
 
 interface Props {
@@ -37,9 +35,7 @@ const Index = ({ canvas }: Props) => {
   const handleAddTextBox = async (font: any) => {
     const initTextBox = Data.Layers[0];
 
-    const x: any = await getBlobFromUrl(font.url);
-
-    initTextBox.src = x;
+    initTextBox.src = font.url;
     initTextBox.fontFamily = font.name;
     const newTextBoxPro = new TextBox({ ...initTextBox, id: v4() });
 
