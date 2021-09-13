@@ -16,6 +16,27 @@ const Style = styled.div`
   .text__top {
     display: flex;
   }
+
+  .text__bottom {
+    display: flex;
+
+    .text__align {
+      display: flex;
+      align-items: center;
+      background-color: #454545;
+      border: 1px solid #595959;
+      border-radius: 6px;
+      div {
+        color: #fff;
+        padding: 3px 10px;
+        cursor: pointer;
+      }
+      div.active {
+        background-color: #fff;
+        color: #000;
+      }
+    }
+  }
 `
 
 export default Style
