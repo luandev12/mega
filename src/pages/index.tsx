@@ -11,7 +11,7 @@ import Header from '@/components/Header';
 import withRedux from '@/libraries/withRedux';
 import BackgroundPro from '@/canvas/objects/BachgroundPro';
 import ToolBar from '@/components/Toolbar';
-import ToolbarText from '@/components/ToolbarText'
+import ToolbarText from '@/components/ToolbarText';
 import Panel from '@/components/Panel';
 import { loadFontFamilies } from '@/canvas/utils/textUtil';
 
@@ -30,6 +30,8 @@ function Index() {
   const [right, setRight] = useState(0);
   const [display, setDisplay] = useState('none');
   const [width, setWidth] = useState(null);
+  const [widthBg, setWidthBg] = useState(1000);
+  const [heightBg, setHeightBg] = useState(1000);
   const [topText, setTopText] = useState(0);
   const [rightText, setRightText] = useState(0);
   const [displayText, setDisplayText] = useState('none');
@@ -52,10 +54,10 @@ function Index() {
   };
 
   const checkTextBox = (canvas: any) => {
-    const obj = canvas.getActiveObject()
+    const obj = canvas.getActiveObject();
 
-    return obj.type === 'textBoxPro'
-  }
+    return obj.type === 'textBoxPro';
+  };
 
   useEffect(() => {
     const fetchsData = async () => {
@@ -77,9 +79,9 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    const heightToolBar = 182.53
-    const heightToolBarText = 144
-    const widthToolBarText = 380
+    const heightToolBar = 182.53;
+    const heightToolBarText = 144;
+    const widthToolBarText = 380;
     if (!canvas) return;
 
     function resize() {
@@ -134,12 +136,14 @@ function Index() {
       );
       setDisplay('block');
 
-      if (!checkTextBox(canvas)) return
+      if (!checkTextBox(canvas)) return;
 
-      setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
-      setTopText(
-        canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50,
+      setRightText(
+        canvas.width / 2 -
+          tr.x * canvas.getZoom() -
+          (widthToolBarText - width * canvas.getZoom()) / 2,
       );
+      setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50);
       setDisplayText('block');
     };
 
@@ -157,12 +161,14 @@ function Index() {
       );
       setDisplay('block');
 
-      if (!checkTextBox(canvas)) return
+      if (!checkTextBox(canvas)) return;
 
-      setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
-      setTopText(
-        canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50
+      setRightText(
+        canvas.width / 2 -
+          tr.x * canvas.getZoom() -
+          (widthToolBarText - width * canvas.getZoom()) / 2,
       );
+      setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50);
       setDisplayText('block');
     };
 
@@ -187,12 +193,14 @@ function Index() {
         );
         setDisplay('block');
 
-        if (!checkTextBox(canvas)) return
+        if (!checkTextBox(canvas)) return;
 
-        setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
-        setTopText(
-          canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50,
+        setRightText(
+          canvas.width / 2 -
+            tr.x * canvas.getZoom() -
+            (widthToolBarText - width * canvas.getZoom()) / 2,
         );
+        setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50);
         setDisplayText('block');
       });
     };
@@ -217,19 +225,21 @@ function Index() {
       );
       setDisplay('block');
 
-      if (!checkTextBox(canvas)) return
+      if (!checkTextBox(canvas)) return;
 
-      setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
-      setTopText(
-        canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50,
+      setRightText(
+        canvas.width / 2 -
+          tr.x * canvas.getZoom() -
+          (widthToolBarText - width * canvas.getZoom()) / 2,
       );
+      setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50);
       setDisplayText('block');
     };
 
     const offSelection = () => {
       setDisplay('none');
       setDisplayText('none');
-    }
+    };
 
     canvas.on('object:moving', eventMoving);
 
@@ -328,7 +338,15 @@ function Index() {
         {/* <Models canvas={canvas} /> */}
       </div>
       <div className="canvas__container">
-        <Header color={color} canvas={canvas} />
+        <Header
+          color={color}
+          canvas={canvas}
+          width={widthBg}
+          height={heightBg}
+          setWidthBg={setWidthBg}
+          setHeightBg={setHeightBg}
+          setWidth={setWidth}
+        />
         <div className="">
           <Canvas setCanvas={setCanvas} />
           <div className="canvas__fill" ref={colorRef}>
@@ -360,12 +378,7 @@ function Index() {
             right={right}
             display={display}
           />
-          <ToolbarText
-            top={topText}
-            right={rightText}
-            display={displayText}
-            canvas={canvas}
-          />
+          <ToolbarText top={topText} right={rightText} display={displayText} canvas={canvas} />
         </div>
       </div>
     </Style>
