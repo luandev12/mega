@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
+import 'fabric-history';
 
 import Canvas from '@/canvas/Canvas';
 import { backgroundPro } from '@/canvas/constants/defaults';

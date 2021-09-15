@@ -20,7 +20,7 @@ interface Props {
 
 export default function index({ canvas, color, height, width, setWidthBg, setHeightBg }: Props) {
   const exportPng = async () => {
-    const objRender = canvas.getObjects().map(async obj => {
+    const objRender = canvas?.getObjects().map(async obj => {
       const item = { ...obj.toJSON() };
 
       if (item.type === 'backgroundPro') {
@@ -59,7 +59,7 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
   const formik = useFormik({
     initialValues: { width, height },
     onSubmit: async () => {
-      canvas.setDimensions({
+      canvas?.setDimensions({
         width: window.innerWidth - 450,
         height: window.innerHeight,
       });
@@ -81,57 +81,57 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
         });
         myImg.filters.push(filter);
         myImg.applyFilters();
-        canvas.setBackgroundImage(myImg, canvas.renderAll.bind(canvas));
+        canvas?.setBackgroundImage(myImg, canvas?.renderAll.bind(canvas));
 
-        if (canvas.width <= canvas.height) {
-          canvas.setViewportTransform([
-            canvas.width / width - 0.15,
+        if (canvas?.width <= canvas?.height) {
+          canvas?.setViewportTransform([
+            canvas?.width / width - 0.15,
             0,
             0,
-            canvas.width / width - 0.15,
-            canvas.getCenter().left,
-            canvas.getCenter().top + 25,
+            canvas?.width / width - 0.15,
+            canvas?.getCenter().left,
+            canvas?.getCenter().top + 25,
           ]);
 
-          canvas.requestRenderAll();
-          canvas.renderAll();
+          canvas?.requestRenderAll();
+          canvas?.renderAll();
         } else {
-          canvas.setViewportTransform([
-            canvas.height / height - 0.15,
+          canvas?.setViewportTransform([
+            canvas?.height / height - 0.15,
             0,
             0,
-            canvas.height / height - 0.15,
-            canvas.getCenter().left,
-            canvas.getCenter().top + 25,
+            canvas?.height / height - 0.15,
+            canvas?.getCenter().left,
+            canvas?.getCenter().top + 25,
           ]);
 
-          canvas.requestRenderAll();
-          canvas.renderAll();
+          canvas?.requestRenderAll();
+          canvas?.renderAll();
         }
 
-        let scaleX = canvas.getWidth() / width;
-        const scaleY = canvas.getHeight() / height;
+        let scaleX = canvas?.getWidth() / width;
+        const scaleY = canvas?.getHeight() / height;
         if (height >= width) {
           scaleX = scaleY;
-          if (canvas.getWidth() < width * scaleX) {
-            scaleX = scaleX * (canvas.getWidth() / (width * scaleX));
+          if (canvas?.getWidth() < width * scaleX) {
+            scaleX = scaleX * (canvas?.getWidth() / (width * scaleX));
           }
         } else {
-          if (canvas.getHeight() < height * scaleX) {
-            scaleX = scaleX * (canvas.getHeight() / (height * scaleX));
+          if (canvas?.getHeight() < height * scaleX) {
+            scaleX = scaleX * (canvas?.getHeight() / (height * scaleX));
           }
         }
-        const center = canvas.getCenter();
+        const center = canvas?.getCenter();
 
-        canvas.zoomToPoint(new fabric.Point(center.left, center.top), scaleX - 0.15);
-        canvas.requestRenderAll();
-        canvas.renderAll();
+        canvas?.zoomToPoint(new fabric.Point(center.left, center.top), scaleX - 0.15);
+        canvas?.requestRenderAll();
+        canvas?.renderAll();
       });
     },
   });
 
   const handlePan = () => {
-    if (canvas && canvas.defaultCursor !== 'grab') {
+    if (canvas && canvas?.defaultCursor !== 'grab') {
       canvas.defaultCursor = 'grab';
       canvas.renderAll();
     } else {
@@ -145,10 +145,10 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
       <div className="d-flex justify-content-between align-items-center mr-3">
         <div className="d-flex">
           <span className="tool-icon">
-            <span className="your-hand">
+            <span onClick={() => canvas?.undo()} className="your-hand">
               <Undo />
             </span>
-            <span className="your-hand">
+            <span onClick={() => canvas.redo()} className="your-hand">
               <Redo />
             </span>
             <span onClick={handlePan} className="mouse-hand">

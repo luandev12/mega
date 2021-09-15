@@ -116,11 +116,11 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
       top: top,
       left: left,
     });
-    this.canvas.renderAll();
+    this.canvas?.renderAll();
   },
   setRotation: function(angle: number) {
     this.set('angle', angle);
-    this.canvas.renderAll();
+    this.canvas?.renderAll();
   },
   fixImage: function() {
     if (this.width >= this.height) {
@@ -128,7 +128,7 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
     } else {
       this.item(0).scaleToWidth(this.width);
     }
-    this.canvas.renderAll();
+    this.canvas?.renderAll();
 
     var width = this.item(0).width * this.item(0).scaleX;
     var height = this.item(0).height * this.item(0).scaleY;
@@ -179,7 +179,7 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
         );
         obj.setCoords();
         this._okImage = true;
-        this.canvas.renderAll();
+        this.canvas?.renderAll();
         return;
       }
       if (!source) {
@@ -228,28 +228,28 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
 
     if (name === 'typeResize') this.typeResize = value;
 
-    this.canvas.renderAll();
+    this.canvas?.renderAll();
   },
   __updateView: function() {
     this.visible = !this.visible;
     // this.__addImageToRect();
-    this.canvas.renderAll.bind(this.canvas);
-    this.canvas.renderAll();
+    this.canvas?.renderAll.bind(this.canvas);
+    this.canvas?.renderAll();
   },
 
   __updateLock: function() {
     this.selectable = !this.selectable;
     this.evented = this.selectable;
     // this.__addImageToRect();
-    this.canvas.renderAll.bind(this.canvas);
-    this.canvas.renderAll();
+    this.canvas?.renderAll.bind(this.canvas);
+    this.canvas?.renderAll();
   },
   _updateName: function(name: string) {
     this.name = name;
   },
   countStepForward: function() {
     let step = 0;
-    const objects = this.canvas.getObjects();
+    const objects = this.canvas?.getObjects();
     const indexThis = findIndex(objects, { id: this.id });
     let i = indexThis + 1;
     const length = objects.length;
@@ -265,7 +265,7 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
   },
   countStepBackward: function() {
     let step = 0;
-    const objects = this.canvas.getObjects();
+    const objects = this.canvas?.getObjects();
     const indexThis = findIndex(objects, { id: this.id });
     let i = indexThis - 1;
     let count = 0;
@@ -291,29 +291,29 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
       case 'forward':
         const stepForward = this.countStepForward();
         for (let i = 0; i < stepForward; i++) {
-          this.canvas.bringForward(this);
+          this.canvas?.bringForward(this);
         }
         break;
 
       case 'backward':
         const stepBackward = this.countStepBackward();
         for (let i = 0; i < stepBackward; i++) {
-          this.canvas.sendBackwards(this);
+          this.canvas?.sendBackwards(this);
         }
         break;
 
       case 'tofront':
-        this.canvas.bringToFront(this);
+        this.canvas?.bringToFront(this);
         break;
 
       case 'toback':
-        this.canvas.sendToBack(this);
+        this.canvas?.sendToBack(this);
 
       default:
         break;
     }
 
-    this.canvas.renderAll();
+    this.canvas?.renderAll();
   },
   toObject: function() {
     return fabric.util.object.extend(this.callSuper('toObject'), {
