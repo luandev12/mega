@@ -20,27 +20,38 @@ const Index = ({ top, right, display, canvas, fonts }: Props) => {
   const [size, setSize] = useState(0)
   const [align, setAlign] = useState('center')
   const [fontFamily, setFontFamily] = useState('')
+  const [text, setText] = useState('')
   const handleColor = (e: any) => {
     canvas.getActiveObject().updateColor('fill', e.target.value)
     setColor(e.target.value)
   }
+  
+  const handleFontName = (name) => {
+    if (name[0] === "'") {
+      return name.substring(1, name.length - 1)
+    }
+
+    return name
+  }
 
   useEffect(() => {
     const obj = canvas?.getActiveObject()
-    if (!obj) return
+    if (!obj || obj?.type !== 'textBoxPro') return
     
     setColor(obj.item(0).fill.substring(0, 7))
     setSize(obj.maxSize)
-    setAlign(obj.textAlign)
-    setFontFamily(obj.item(0).fontFamily)
+    setAlign(obj.item(0).textAlign)
+    setFontFamily(handleFontName(obj.item(0).fontFamily))
+    setText(obj.originalText)
   }, [canvas?.getActiveObject()])
 
   const handleText = (e: any) => {
-    canvas.getActiveObject().setText(e.target.value, '')
+    const { value } = e.target
+    setText(value)
+    canvas.getActiveObject().setText(value, '')
   }
 
   const handleFontSize = (value: any) => {
-    console.log(parseInt(value, 10))
     
     canvas.getActiveObject().updateCalcPostion('maxSize', value)
     setSize(value)
@@ -54,7 +65,7 @@ const Index = ({ top, right, display, canvas, fonts }: Props) => {
 
   const handleFont = (value) => {
     const obj = canvas?.getActiveObject()
-    setFontFamily(value)
+    setFontFamily(handleFontName(value))
     obj.setFontFamily(value)
   }
 
@@ -68,7 +79,22 @@ const Index = ({ top, right, display, canvas, fonts }: Props) => {
     >
       <div className="text__top">
         <input onChange={handleColor} type="color" value={color} />
-        <Input onChange={handleText} />
+        <div>
+          <Select
+            style={{ width: '200px' }}
+            value={fontFamily}
+            onChange={handleFont}
+          >
+            {fonts.map((font: any) => {
+
+              return (
+                <Option value={font.fontFamily}>
+                  {font.fontFamily}
+                </Option>
+              )
+            })}
+          </Select>
+        </div>
       </div>
       <div className="text__bottom">
         <InputNumber value={size} onChange={handleFontSize} />
@@ -83,22 +109,13 @@ const Index = ({ top, right, display, canvas, fonts }: Props) => {
             <RightCenter />
           </div>
         </div>
-        <div>
-          <Select
-            style={{ width: 120 }}
-            value={fontFamily}
-            onChange={handleFont}
-          >
-            {fonts.map((font: any) => {
-
-              return (
-                <Option value={font.fontFamily}>
-                  {font.fontFamily}
-                </Option>
-              )
-            })}
-          </Select>
-        </div>
+      </div>
+      <div
+        style={{
+          marginTop: '10px'
+        }}
+      >
+        <Input value={text} onChange={handleText} />
       </div>
     </Style>
   );

@@ -15,6 +15,11 @@ const Style = styled.div`
 
   .text__top {
     display: flex;
+    margin-bottom: 10px;
+
+    input {
+      margin-right: 20px;
+    }
   }
 
   .text__bottom {
@@ -26,10 +31,21 @@ const Style = styled.div`
       background-color: #454545;
       border: 1px solid #595959;
       border-radius: 6px;
+      margin-left: 20px;
       div {
         color: #fff;
         padding: 3px 10px;
         cursor: pointer;
+
+        &:first-child {
+          border-bottom-left-radius: 6px;
+          border-top-left-radius: 6px;
+        }
+
+        &:last-child {
+          border-bottom-right-radius: 6px;
+          border-top-right-radius: 6px;
+        }
       }
       div.active {
         background-color: #fff;
