@@ -769,7 +769,7 @@ const TextBoxPro = fabric.util.createClass(fabric.Group, {
       borderWidth: this.item(1).strokeWidth,
       prefix: this.prefix,
       suffix: this.suffix,
-      originalText: 'A',
+      originalText: this.originalText,
       step: this.step,
       fontUrl: this.fontUrl,
       selectable: this.selectable,

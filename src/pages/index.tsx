@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
+import 'fabric-history';
 
 import Canvas from '@/canvas/Canvas';
 import { backgroundPro } from '@/canvas/constants/defaults';
@@ -11,7 +12,7 @@ import Header from '@/components/Header';
 import withRedux from '@/libraries/withRedux';
 import BackgroundPro from '@/canvas/objects/BachgroundPro';
 import ToolBar from '@/components/Toolbar';
-import ToolbarText from '@/components/ToolbarText'
+import ToolbarText from '@/components/ToolbarText';
 import Panel from '@/components/Panel';
 import { loadFontFamilies } from '@/canvas/utils/textUtil';
 
@@ -30,6 +31,8 @@ function Index() {
   const [right, setRight] = useState(0);
   const [display, setDisplay] = useState('none');
   const [width, setWidth] = useState(null);
+  const [widthBg, setWidthBg] = useState(1000);
+  const [heightBg, setHeightBg] = useState(1000);
   const [topText, setTopText] = useState(0);
   const [rightText, setRightText] = useState(0);
   const [displayText, setDisplayText] = useState('none');
@@ -53,10 +56,10 @@ function Index() {
   };
 
   const checkTextBox = (canvas: any) => {
-    const obj = canvas.getActiveObject()
+    const obj = canvas.getActiveObject();
 
-    return obj.type === 'textBoxPro'
-  }
+    return obj.type === 'textBoxPro';
+  };
 
   useEffect(() => {
     const fetchsData = async () => {
@@ -78,9 +81,9 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    const heightToolBar = 182.53
-    const heightToolBarText = 144
-    const widthToolBarText = 380
+    const heightToolBar = 182.53;
+    const heightToolBarText = 144;
+    const widthToolBarText = 380;
     if (!canvas) return;
 
     function resize() {
@@ -90,21 +93,22 @@ function Index() {
       });
       if (canvas.width <= canvas.height) {
         canvas.setViewportTransform([
-          canvas.width / 1000 - 0.15,
+          canvas.width / widthBg - 0.15,
           0,
           0,
-          canvas.width / 1000 - 0.15,
+          canvas.width / widthBg - 0.15,
           canvas.getCenter().left,
           canvas.getCenter().top + 25,
         ]);
         canvas.requestRenderAll();
         canvas.renderAll();
       } else {
+        console.log('dfvdfvdfvdfv');
         canvas.setViewportTransform([
-          canvas.height / 1000 - 0.15,
+          canvas.height / heightBg - 0.15,
           0,
           0,
-          canvas.height / 1000 - 0.15,
+          canvas.height / heightBg - 0.15,
           canvas.getCenter().left,
           canvas.getCenter().top + 25,
         ]);
@@ -135,12 +139,14 @@ function Index() {
       );
       setDisplay('block');
 
-      if (!checkTextBox(canvas)) return
+      if (!checkTextBox(canvas)) return;
 
-      setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
-      setTopText(
-        canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50,
+      setRightText(
+        canvas.width / 2 -
+          tr.x * canvas.getZoom() -
+          (widthToolBarText - width * canvas.getZoom()) / 2,
       );
+      setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50);
       setDisplayText('block');
     };
 
@@ -158,12 +164,14 @@ function Index() {
       );
       setDisplay('block');
 
-      if (!checkTextBox(canvas)) return
+      if (!checkTextBox(canvas)) return;
 
-      setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
-      setTopText(
-        canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50
+      setRightText(
+        canvas.width / 2 -
+          tr.x * canvas.getZoom() -
+          (widthToolBarText - width * canvas.getZoom()) / 2,
       );
+      setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50);
       setDisplayText('block');
     };
 
@@ -188,12 +196,14 @@ function Index() {
         );
         setDisplay('block');
 
-        if (!checkTextBox(canvas)) return
+        if (!checkTextBox(canvas)) return;
 
-        setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
-        setTopText(
-          canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50,
+        setRightText(
+          canvas.width / 2 -
+            tr.x * canvas.getZoom() -
+            (widthToolBarText - width * canvas.getZoom()) / 2,
         );
+        setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50);
         setDisplayText('block');
       });
     };
@@ -218,19 +228,21 @@ function Index() {
       );
       setDisplay('block');
 
-      if (!checkTextBox(canvas)) return
+      if (!checkTextBox(canvas)) return;
 
-      setRightText(canvas.width / 2 - tr.x * canvas.getZoom() - ((widthToolBarText - width * canvas.getZoom()) / 2))
-      setTopText(
-        canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50,
+      setRightText(
+        canvas.width / 2 -
+          tr.x * canvas.getZoom() -
+          (widthToolBarText - width * canvas.getZoom()) / 2,
       );
+      setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarText - 50);
       setDisplayText('block');
     };
 
     const offSelection = () => {
       setDisplay('none');
       setDisplayText('none');
-    }
+    };
 
     canvas.on('object:moving', eventMoving);
 
@@ -248,6 +260,50 @@ function Index() {
 
     canvas.on('object:rotated', eventRotated);
     canvas.on('selection:cleared', offSelection);
+
+    canvas?.on('mouse:wheel', opt => {
+      const center = canvas.getCenter();
+      var delta = opt.e.deltaY;
+      var zoom = canvas.getZoom();
+
+      zoom *= 0.999 ** delta;
+      if (zoom > 10) zoom = 10;
+      if (zoom < 0.1) zoom = 0.1;
+      canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
+      opt.e.preventDefault();
+      opt.e.stopPropagation();
+    });
+
+    let panning = false;
+    let lastPosX;
+    let lastPosY;
+
+    canvas?.on('mouse:up', e => {
+      panning = false;
+      canvas.selection = false;
+    });
+
+    canvas?.on('mouse:down', function(opt) {
+      var evt = opt.e;
+      panning = true;
+
+      lastPosX = evt.clientX;
+      lastPosY = evt.clientY;
+    });
+
+    canvas?.on('mouse:move', opt => {
+      canvas.selection = false;
+
+      if (panning && opt && opt.e && canvas.defaultCursor === 'grab') {
+        var e = opt.e;
+        var vpt = canvas.viewportTransform;
+        vpt[4] += e.clientX - lastPosX;
+        vpt[5] += e.clientY - lastPosY;
+        canvas.requestRenderAll();
+        lastPosX = e.clientX;
+        lastPosY = e.clientY;
+      }
+    });
 
     const objs = [];
     objs.unshift(backgroundPro);
@@ -278,8 +334,8 @@ function Index() {
       myImg.set({
         originX: 'center',
         originY: 'center',
-        width: 1000,
-        height: 1000,
+        width: widthBg,
+        height: heightBg,
         crossOrigin: 'anonymous',
         backgroundColor: e.hex,
       });
@@ -293,10 +349,10 @@ function Index() {
 
       if (canvas.width <= canvas.height) {
         canvas.setViewportTransform([
-          canvas.width / myImg.width - 0.15,
+          canvas.width / widthBg - 0.15,
           0,
           0,
-          canvas.width / myImg.width - 0.15,
+          canvas.width / widthBg - 0.15,
           canvas.getCenter().left,
           canvas.getCenter().top + 25,
         ]);
@@ -304,16 +360,34 @@ function Index() {
         canvas.renderAll();
       } else {
         canvas.setViewportTransform([
-          canvas.height / myImg.height - 0.15,
+          canvas.height / heightBg - 0.15,
           0,
           0,
-          canvas.height / myImg.height - 0.15,
+          canvas.height / heightBg - 0.15,
           canvas.getCenter().left,
           canvas.getCenter().top + 25,
         ]);
         canvas.requestRenderAll();
         canvas.renderAll();
       }
+
+      let scaleX = canvas.getWidth() / widthBg;
+      const scaleY = canvas.getHeight() / heightBg;
+      if (heightBg >= widthBg) {
+        scaleX = scaleY;
+        if (canvas.getWidth() < widthBg * scaleX) {
+          scaleX = scaleX * (canvas.getWidth() / (widthBg * scaleX));
+        }
+      } else {
+        if (canvas.getHeight() < heightBg * scaleX) {
+          scaleX = scaleX * (canvas.getHeight() / (heightBg * scaleX));
+        }
+      }
+      const center = canvas.getCenter();
+
+      canvas.zoomToPoint(new fabric.Point(center.left, center.top), scaleX - 0.15);
+      canvas.requestRenderAll();
+      canvas.renderAll();
     });
     setColor(e.hex);
   };
@@ -329,7 +403,15 @@ function Index() {
         {/* <Models canvas={canvas} /> */}
       </div>
       <div className="canvas__container">
-        <Header color={color} canvas={canvas} />
+        <Header
+          color={color}
+          canvas={canvas}
+          width={widthBg}
+          height={heightBg}
+          setWidthBg={setWidthBg}
+          setHeightBg={setHeightBg}
+          setWidth={setWidth}
+        />
         <div className="">
           <Canvas setCanvas={setCanvas} />
           <div className="canvas__fill" ref={colorRef}>

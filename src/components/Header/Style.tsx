@@ -13,6 +13,37 @@ const Style = styled.div`
     margin-right: 30px;
     cursor: pointer;
   }
+
+  .tool-icon {
+    padding-left: 15px;
+    display: flex;
+    width: 100px;
+  }
+
+  .your-hand {
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+    padding: 0 5px;
+
+    &:hover {
+      background-color: #2e2e2e;
+      border-radius: 5px;
+      height: 48px;
+      cursor: pointer;
+    }
+  }
+
+  .mouse-hand {
+    padding: 0 5px;
+
+    &:hover {
+      background-color: #2e2e2e;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
 `;
 
 export default Style;
