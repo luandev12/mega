@@ -13,6 +13,18 @@ const Style = styled.div`
     margin-right: 30px;
     cursor: pointer;
   }
+
+  .tool-icon {
+    padding-left: 15px;
+  }
+
+  .mouse-hand {
+    padding: 5px;
+    &:hover {
+      background-color: #2e2e2e;
+      border-radius: 5px;
+    }
+  }
 `;
 
 export default Style;

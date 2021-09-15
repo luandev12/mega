@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Style = styled.div`
   background-color: #2e2e2e;
@@ -37,6 +37,6 @@ const Style = styled.div`
       }
     }
   }
-`
+`;
 
-export default Style
+export default Style;

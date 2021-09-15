@@ -259,6 +259,50 @@ function Index() {
     canvas.on('object:rotated', eventRotated);
     canvas.on('selection:cleared', offSelection);
 
+    canvas?.on('mouse:wheel', opt => {
+      const center = canvas.getCenter();
+      var delta = opt.e.deltaY;
+      var zoom = canvas.getZoom();
+
+      zoom *= 0.999 ** delta;
+      if (zoom > 10) zoom = 10;
+      if (zoom < 0.1) zoom = 0.1;
+      canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
+      opt.e.preventDefault();
+      opt.e.stopPropagation();
+    });
+
+    let panning = false;
+    let lastPosX;
+    let lastPosY;
+
+    canvas?.on('mouse:up', e => {
+      panning = false;
+      canvas.selection = false;
+    });
+
+    canvas?.on('mouse:down', function(opt) {
+      var evt = opt.e;
+      panning = true;
+
+      lastPosX = evt.clientX;
+      lastPosY = evt.clientY;
+    });
+
+    canvas?.on('mouse:move', opt => {
+      canvas.selection = false;
+
+      if (panning && opt && opt.e && canvas.defaultCursor === 'grab') {
+        var e = opt.e;
+        var vpt = canvas.viewportTransform;
+        vpt[4] += e.clientX - lastPosX;
+        vpt[5] += e.clientY - lastPosY;
+        canvas.requestRenderAll();
+        lastPosX = e.clientX;
+        lastPosY = e.clientY;
+      }
+    });
+
     const objs = [];
     objs.unshift(backgroundPro);
     canvas.loadFromJSON(
