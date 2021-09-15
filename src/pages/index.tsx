@@ -368,6 +368,24 @@ function Index() {
         canvas.requestRenderAll();
         canvas.renderAll();
       }
+
+      let scaleX = canvas.getWidth() / width;
+      const scaleY = canvas.getHeight() / heightBg;
+      if (heightBg >= width) {
+        scaleX = scaleY;
+        if (canvas.getWidth() < width * scaleX) {
+          scaleX = scaleX * (canvas.getWidth() / (width * scaleX));
+        }
+      } else {
+        if (canvas.getHeight() < heightBg * scaleX) {
+          scaleX = scaleX * (canvas.getHeight() / (heightBg * scaleX));
+        }
+      }
+      const center = canvas.getCenter();
+
+      canvas.zoomToPoint(new fabric.Point(center.left, center.top), scaleX - 0.15);
+      canvas.requestRenderAll();
+      canvas.renderAll();
     });
     setColor(e.hex);
   };
