@@ -348,10 +348,10 @@ function Index() {
 
       if (canvas.width <= canvas.height) {
         canvas.setViewportTransform([
-          canvas.width / myImg.width - 0.15,
+          canvas.width / widthBg - 0.15,
           0,
           0,
-          canvas.width / myImg.width - 0.15,
+          canvas.width / widthBg - 0.15,
           canvas.getCenter().left,
           canvas.getCenter().top + 25,
         ]);
@@ -359,10 +359,10 @@ function Index() {
         canvas.renderAll();
       } else {
         canvas.setViewportTransform([
-          canvas.height / myImg.height - 0.15,
+          canvas.height / heightBg - 0.15,
           0,
           0,
-          canvas.height / myImg.height - 0.15,
+          canvas.height / heightBg - 0.15,
           canvas.getCenter().left,
           canvas.getCenter().top + 25,
         ]);
@@ -370,12 +370,12 @@ function Index() {
         canvas.renderAll();
       }
 
-      let scaleX = canvas.getWidth() / width;
+      let scaleX = canvas.getWidth() / widthBg;
       const scaleY = canvas.getHeight() / heightBg;
-      if (heightBg >= width) {
+      if (heightBg >= widthBg) {
         scaleX = scaleY;
-        if (canvas.getWidth() < width * scaleX) {
-          scaleX = scaleX * (canvas.getWidth() / (width * scaleX));
+        if (canvas.getWidth() < widthBg * scaleX) {
+          scaleX = scaleX * (canvas.getWidth() / (widthBg * scaleX));
         }
       } else {
         if (canvas.getHeight() < heightBg * scaleX) {
