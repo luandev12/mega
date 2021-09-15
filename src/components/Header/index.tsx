@@ -93,11 +93,6 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
             canvas.getCenter().top + 25,
           ]);
 
-          canvas.zoomToPoint(
-            new fabric.Point(canvas.getCenter().left, canvas.getCenter().top),
-            width <= height ? width / height - 0.15 : height / width - 0.15,
-          );
-
           canvas.requestRenderAll();
           canvas.renderAll();
         } else {
@@ -110,13 +105,27 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
             canvas.getCenter().top + 25,
           ]);
 
-          canvas.zoomToPoint(
-            new fabric.Point(canvas.getCenter().left, canvas.getCenter().top),
-            width >= height ? canvas.height / height - 0.15 : canvas.height / width - 0.2,
-          );
           canvas.requestRenderAll();
           canvas.renderAll();
         }
+
+        let scaleX = canvas.getWidth() / width;
+        const scaleY = canvas.getHeight() / height;
+        if (height >= width) {
+          scaleX = scaleY;
+          if (canvas.getWidth() < width * scaleX) {
+            scaleX = scaleX * (canvas.getWidth() / (width * scaleX));
+          }
+        } else {
+          if (canvas.getHeight() < height * scaleX) {
+            scaleX = scaleX * (canvas.getHeight() / (height * scaleX));
+          }
+        }
+        const center = canvas.getCenter();
+
+        canvas.zoomToPoint(new fabric.Point(center.left, center.top), scaleX - 0.15);
+        canvas.requestRenderAll();
+        canvas.renderAll();
       });
     },
   });
