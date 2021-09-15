@@ -29,6 +29,8 @@ function Index() {
   const [right, setRight] = useState(0);
   const [display, setDisplay] = useState('none');
   const [width, setWidth] = useState(null);
+  const [widthBg, setWidthBg] = useState(1000);
+  const [heightBg, setHeightBg] = useState(1000);
   const colorRef = useRef(null);
 
   const handlePosMax = aCoords => {
@@ -77,21 +79,22 @@ function Index() {
       });
       if (canvas.width <= canvas.height) {
         canvas.setViewportTransform([
-          canvas.width / 1000 - 0.15,
+          canvas.width / widthBg - 0.15,
           0,
           0,
-          canvas.width / 1000 - 0.15,
+          canvas.width / widthBg - 0.15,
           canvas.getCenter().left,
           canvas.getCenter().top + 25,
         ]);
         canvas.requestRenderAll();
         canvas.renderAll();
       } else {
+        console.log('dfvdfvdfvdfv');
         canvas.setViewportTransform([
-          canvas.height / 1000 - 0.15,
+          canvas.height / heightBg - 0.15,
           0,
           0,
-          canvas.height / 1000 - 0.15,
+          canvas.height / heightBg - 0.15,
           canvas.getCenter().left,
           canvas.getCenter().top + 25,
         ]);
@@ -224,8 +227,8 @@ function Index() {
       myImg.set({
         originX: 'center',
         originY: 'center',
-        width: 1000,
-        height: 1000,
+        width: widthBg,
+        height: heightBg,
         crossOrigin: 'anonymous',
         backgroundColor: e.hex,
       });
@@ -275,7 +278,15 @@ function Index() {
         {/* <Models canvas={canvas} /> */}
       </div>
       <div className="canvas__container">
-        <Header color={color} canvas={canvas} />
+        <Header
+          color={color}
+          canvas={canvas}
+          width={widthBg}
+          height={heightBg}
+          setWidthBg={setWidthBg}
+          setHeightBg={setHeightBg}
+          setWidth={setWidth}
+        />
         <div className="">
           <Canvas setCanvas={setCanvas} />
           <div className="canvas__fill" ref={colorRef}>
