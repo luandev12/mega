@@ -34,6 +34,7 @@ function Index() {
   const [rightText, setRightText] = useState(0);
   const [displayText, setDisplayText] = useState('none');
   const colorRef = useRef(null);
+  const [fonts, setFonts] = useState([])
 
   const handlePosMax = aCoords => {
     const { tr, tl, br, bl } = aCoords;
@@ -69,7 +70,7 @@ function Index() {
         const { name, url } = item;
         return { fontFamily: name, value: name, fontUrl: url, label: url };
       });
-
+      setFonts(convertData)
       loadFontFamilies(convertData);
     };
 
@@ -365,6 +366,7 @@ function Index() {
             right={rightText}
             display={displayText}
             canvas={canvas}
+            fonts={fonts}
           />
         </div>
       </div>

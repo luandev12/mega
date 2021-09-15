@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputNumber } from 'antd'
+import { Input, InputNumber, Select } from 'antd'
 
 import { RightCenter, LeftAlign, CenterAlign } from '@/svg'
 
@@ -10,13 +10,16 @@ interface Props {
   right: number;
   display: string;
   canvas: any;
+  fonts: any;
 }
 
-const Index = ({ top, right, display, canvas }: Props) => {
+const { Option } = Select;
+
+const Index = ({ top, right, display, canvas, fonts }: Props) => {
   const [color, setColor] = useState('#000')
   const [size, setSize] = useState(0)
   const [align, setAlign] = useState('center')
-
+  const [fontFamily, setFontFamily] = useState('')
   const handleColor = (e: any) => {
     canvas.getActiveObject().updateColor('fill', e.target.value)
     setColor(e.target.value)
@@ -28,7 +31,8 @@ const Index = ({ top, right, display, canvas }: Props) => {
     
     setColor(obj.item(0).fill.substring(0, 7))
     setSize(obj.maxSize)
-    setSize(obj.textAlign)
+    setAlign(obj.textAlign)
+    setFontFamily(obj.item(0).fontFamily)
   }, [canvas?.getActiveObject()])
 
   const handleText = (e: any) => {
@@ -46,6 +50,12 @@ const Index = ({ top, right, display, canvas }: Props) => {
     const obj = canvas?.getActiveObject()
     setAlign(value)
     obj.setTextAlign(value)
+  }
+
+  const handleFont = (value) => {
+    const obj = canvas?.getActiveObject()
+    setFontFamily(value)
+    obj.setFontFamily(value)
   }
 
   return (
@@ -72,6 +82,22 @@ const Index = ({ top, right, display, canvas }: Props) => {
           <div onClick={() => handleTextAlign('right')} className={`${align === 'right' ? 'active' : ''}`}>
             <RightCenter />
           </div>
+        </div>
+        <div>
+          <Select
+            style={{ width: 120 }}
+            value={fontFamily}
+            onChange={handleFont}
+          >
+            {fonts.map((font: any) => {
+
+              return (
+                <Option value={font.fontFamily}>
+                  {font.fontFamily}
+                </Option>
+              )
+            })}
+          </Select>
         </div>
       </div>
     </Style>
