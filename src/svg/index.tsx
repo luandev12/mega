@@ -1,7 +1,14 @@
 import React from 'react';
 
 export const Delete = () => (
-  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="bin">
+  <svg
+    width="24px"
+    height="24px"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    id="bin"
+  >
     <path
       d="M9.99805 4C9.44574 4 8.99805 4.44772 8.99805 5H5.99805C5.44574 5 4.99805 5.44772 4.99805 6C4.99805 6.55228 5.44574 7 5.99805 7H17.998C18.5504 7 18.998 6.5 18.998 6C18.998 5.5 18.5504 5 17.998 5H14.998C14.998 4.44772 14.5504 4 13.998 4H9.99805Z"
       fill="#F5F5F5"
@@ -16,7 +23,14 @@ export const Delete = () => (
 );
 
 export const Duplicate = () => (
-  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="copy">
+  <svg
+    width="24px"
+    height="24px"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    id="copy"
+  >
     <path
       d="M7 4C5.34315 4 4 5.34315 4 7V17C4 17.5523 4.44772 18 5 18C5.55228 18 6 17.5523 6 17V7C6 6.44772 6.44772 6 7 6H17C17.5523 6 18 5.55228 18 5C18 4.44772 17.5523 4 17 4H7Z"
       fill="#F5F5F5"
@@ -31,7 +45,14 @@ export const Duplicate = () => (
 );
 
 export const BringForward = () => (
-  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="up">
+  <svg
+    width="24px"
+    height="24px"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    id="up"
+  >
     <path
       d="M7.04792 9.36396C6.6574 8.97344 6.6574 8.34028 7.04792 7.94977L11.9977 3L16.9474 7.94974C17.3379 8.34027 17.3379 8.97345 16.9474 9.36397C16.5569 9.75448 15.9237 9.75447 15.5332 9.36395L12.998 6.8288V18H20C20.5523 18 21 18.4477 21 19C21 19.5523 20.5523 20 20 20H4C3.44772 20 3 19.5523 3 19C3 18.4477 3.44772 18 4 18H10.998V6.82806L8.4621 9.36396C8.07158 9.75447 7.43843 9.75447 7.04792 9.36396Z"
       fill="#F5F5F5"
@@ -48,7 +69,14 @@ export const BringForward = () => (
 );
 
 export const SendBackwards = () => (
-  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="down">
+  <svg
+    width="24px"
+    height="24px"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    id="down"
+  >
     <path
       d="M7.04792 14.636C6.6574 15.0266 6.6574 15.6597 7.04792 16.0502L11.9977 21L16.9474 16.0503C17.3379 15.6597 17.3379 15.0266 16.9474 14.636C16.5569 14.2455 15.9237 14.2455 15.5332 14.636L12.998 17.1712V6H20C20.5523 6 21 5.55228 21 5C21 4.44772 20.5523 4 20 4H4C3.44772 4 3 4.44772 3 5C3 5.55228 3.44772 6 4 6H10.998V17.1719L8.4621 14.636C8.07158 14.2455 7.43843 14.2455 7.04792 14.636Z"
       fill="#F5F5F5"
@@ -62,7 +90,14 @@ export const SendBackwards = () => (
 );
 
 export const FlipVertical = () => (
-  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="flipVertically">
+  <svg
+    width="24px"
+    height="24px"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    id="flipVertically"
+  >
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
@@ -77,7 +112,14 @@ export const FlipVertical = () => (
 );
 
 export const FlipHorizontal = () => (
-  <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="flipHorizontally">
+  <svg
+    width="24px"
+    height="24px"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    id="flipHorizontally"
+  >
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
@@ -92,7 +134,7 @@ export const FlipHorizontal = () => (
 );
 
 export const Photos = () => (
-  <svg  width="16px" height="16px">
+  <svg width="16px" height="16px">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" id="photos-active">
       <path
         fill-rule="evenodd"
@@ -165,28 +207,85 @@ export const Upload = () => (
 );
 
 export const LeftAlign = () => (
-  <svg fill="currentColor" width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="left">
+  <svg
+    fill="currentColor"
+    width="24px"
+    height="24px"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    id="left"
+  >
     <path d="M5 5C4.44771 5 4 5.44769 4 6C4 6.55231 4.44771 7 5 7H19C19.5523 7 20 6.55231 20 6C20 5.44769 19.5523 5 19 5H5Z"></path>
     <path d="M5 9C4.44771 9 4 9.44769 4 10C4 10.5523 4.44771 11 5 11H13C13.5523 11 14 10.5523 14 10C14 9.44769 13.5523 9 13 9H5Z"></path>
     <path d="M4 14C4 13.4477 4.44771 13 5 13H19C19.5523 13 20 13.4477 20 14C20 14.5523 19.5523 15 19 15H5C4.44771 15 4 14.5523 4 14Z"></path>
     <path d="M5 17C4.44771 17 4 17.4477 4 18C4 18.5523 4.44771 19 5 19H13C13.5523 19 14 18.5523 14 18C14 17.4477 13.5523 17 13 17H5Z"></path>
   </svg>
-)
+);
 
 export const CenterAlign = () => (
-  <svg fill="currentColor" width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="center">
+  <svg
+    fill="currentColor"
+    width="24px"
+    height="24px"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    id="center"
+  >
     <path d="M5 5C4.44771 5 4 5.44769 4 6C4 6.55231 4.44771 7 5 7H19C19.5523 7 20 6.55231 20 6C20 5.44769 19.5523 5 19 5H5Z"></path>
     <path d="M8 9C7.44771 9 7 9.44769 7 10C7 10.5523 7.44771 11 8 11H16C16.5523 11 17 10.5523 17 10C17 9.44769 16.5523 9 16 9H8Z"></path>
     <path d="M4 14C4 13.4477 4.44771 13 5 13H19C19.5523 13 20 13.4477 20 14C20 14.5523 19.5523 15 19 15H5C4.44771 15 4 14.5523 4 14Z"></path>
     <path d="M8 17C7.44771 17 7 17.4477 7 18C7 18.5523 7.44771 19 8 19H16C16.5523 19 17 18.5523 17 18C17 17.4477 16.5523 17 16 17H8Z"></path>
   </svg>
-)
+);
 
 export const RightCenter = () => (
-  <svg fill="currentColor" width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="right">
+  <svg
+    fill="currentColor"
+    width="24px"
+    height="24px"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    id="right"
+  >
     <path d="M5 5C4.44771 5 4 5.44769 4 6C4 6.55231 4.44771 7 5 7H19C19.5523 7 20 6.55231 20 6C20 5.44769 19.5523 5 19 5H5Z"></path>
     <path d="M11 9C10.4477 9 10 9.44769 10 10C10 10.5523 10.4477 11 11 11H19C19.5523 11 20 10.5523 20 10C20 9.44769 19.5523 9 19 9H11Z"></path>
     <path d="M4 14C4 13.4477 4.44771 13 5 13H19C19.5523 13 20 13.4477 20 14C20 14.5523 19.5523 15 19 15H5C4.44771 15 4 14.5523 4 14Z"></path>
     <path d="M11 17C10.4477 17 10 17.4477 10 18C10 18.5523 10.4477 19 11 19H19C19.5523 19 20 18.5523 20 18C20 17.4477 19.5523 17 19 17H11Z"></path>
   </svg>
-)
+);
+
+export const Undo = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="undo">
+    <path
+      d="M8.63925 4.32449C8.83789 4.12784 8.83789 3.80689 8.63925 3.61024C8.44342 3.41638 8.12801 3.41638 7.93218 3.61024L4 7.5029L7.93218 11.3956C8.12801 11.5894 8.44342 11.5894 8.63925 11.3956C8.83789 11.1989 8.83789 10.878 8.63925 10.6813L5.93103 8.00031H14C16.7614 8.00031 19 10.2389 19 13.0003C19 15.7617 16.7614 18.0003 14 18.0003H5.5C5.22386 18.0003 5 18.2242 5 18.5003C5 18.7764 5.22386 19.0003 5.5 19.0003H14C17.3137 19.0003 20 16.314 20 13.0003C20 9.6866 17.3137 7.00031 14 7.00031H5.93626L8.63925 4.32449Z"
+      fill="white"
+    ></path>
+  </svg>
+);
+
+export const Redo = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" id="redo">
+    <path
+      d="M15.3608 4.32449C15.1621 4.12784 15.1621 3.80689 15.3608 3.61024C15.5566 3.41638 15.872 3.41638 16.0678 3.61024L20 7.5029L16.0678 11.3956C15.872 11.5894 15.5566 11.5894 15.3608 11.3956C15.1621 11.1989 15.1621 10.878 15.3608 10.6813L18.069 8.00031H10C7.23858 8.00031 5 10.2389 5 13.0003C5 15.7617 7.23858 18.0003 10 18.0003H18.5C18.7761 18.0003 19 18.2242 19 18.5003C19 18.7764 18.7761 19.0003 18.5 19.0003H10C6.68629 19.0003 4 16.314 4 13.0003C4 9.6866 6.68629 7.00031 10 7.00031H18.0637L15.3608 4.32449Z"
+      fill="white"
+    ></path>
+  </svg>
+);
+
+export const MoouseHand = () => (
+  <svg
+    className="svg"
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M2.026 12.382c-.518-.487-.57-1.308-.118-1.856.435-.527 1.191-.62 1.74-.216l1.347.996 1 .739V4c0-.552.448-1 1-1 .553 0 1 .448 1 1v5h1V2c0-.552.448-1 1-1 .553 0 1 .448 1 1v7h1V3c0-.552.448-1 1-1 .553 0 1 .448 1 1v6h1V6c0-.552.448-1 1-1 .553 0 1 .448 1 1v8c0 2.762-2.238 5-5 5h-1c-1.553 0-2.94-.708-3.858-1.82-.036-.028-.071-.06-.106-.092l-5.005-4.706zm4.4 5.507l-.08-.072-5.005-4.706c-.902-.848-.993-2.267-.204-3.221.772-.936 2.127-1.106 3.105-.384l.753.557V4c0-1.104.896-2 2-2 .365 0 .706.097 1 .268V2c0-1.105.896-2 2-2 .873 0 1.615.559 1.888 1.338.318-.214.7-.338 1.112-.338 1.105 0 2 .895 2 2v1.268c.295-.17.636-.268 1-.268 1.105 0 2 .896 2 2v8c0 3.314-2.686 6-6 6h-1c-1.83 0-3.47-.821-4.57-2.111z"
+      fill-rule="evenodd"
+      fill-opacity="1"
+      fill="#fff"
+      stroke="none"
+    ></path>
+  </svg>
+);
