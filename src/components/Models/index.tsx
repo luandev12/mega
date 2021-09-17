@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import { fabric } from 'fabric'
 import Style from './Style';
 import Data from '@/canvas/utils/InitialsLayer.json';
 import DynamicImagePro from '@/canvas/objects/DynamicImage';
@@ -45,6 +45,8 @@ const Index = ({ canvas }: Props) => {
     canvas.add(newDynamicImagePro);
     canvas.setActiveObject(newDynamicImagePro);
     canvas.renderAll();
+    
+    canvas.transactionHandler.save('add');
   };
 
   return (

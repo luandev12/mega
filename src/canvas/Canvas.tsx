@@ -1,5 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { fabric } from 'fabric';
+import Transaction from '@/canvas/handles/TransactionHandles'
+
 
 import Style from './Style';
 
@@ -13,7 +15,7 @@ export default function Canvas({ setCanvas, children }: Props) {
 
   useEffect(() => {
 
-    const canvas = new fabric.Canvas("canvas-editor", {
+    const canvas: any = new fabric.Canvas("canvas-editor", {
       renderOnAddRemove: true,
       allowTouchScrolling: true,
       preserveObjectStacking: true,
@@ -24,7 +26,8 @@ export default function Canvas({ setCanvas, children }: Props) {
 
     canvas.setWidth(canvasRef.current.clientWidth);
     canvas.setHeight(canvasRef.current.clientHeight);
-    
+    const transaction = new Transaction(canvas)
+    canvas.transactionHandler = transaction
     setCanvas(canvas);
 
     return () => {

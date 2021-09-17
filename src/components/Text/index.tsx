@@ -42,6 +42,8 @@ const Index = ({ canvas }: Props) => {
     canvas.add(newTextBoxPro);
     canvas.setActiveObject(newTextBoxPro);
     canvas.renderAll();
+
+    canvas.transactionHandler.save('add');
   };
 
   return (

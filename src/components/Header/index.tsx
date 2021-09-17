@@ -145,10 +145,17 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
       <div className="d-flex justify-content-between align-items-center mr-3">
         <div className="d-flex">
           <span className="tool-icon">
-            <span onClick={() => canvas?.undo()} className="your-hand">
+            <span
+              onClick={() => {
+                canvas?.transactionHandler.undo()
+              }} 
+              className={`your-hand ${canvas?.transactionHandler.undos.length === 0 ? 'disactive' : ''}`}
+            >
               <Undo />
             </span>
-            <span onClick={() => canvas.redo()} className="your-hand">
+            <span
+              onClick={() => canvas?.transactionHandler.redo()}
+              className={`your-hand ${canvas?.transactionHandler.redos.length === 0 ? 'disactive' : ''}`}>
               <Redo />
             </span>
             <span onClick={handlePan} className="mouse-hand">

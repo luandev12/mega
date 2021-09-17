@@ -18,7 +18,6 @@ import { loadFontFamilies } from '@/canvas/utils/textUtil';
 
 import { db } from '@/intergations/firebase';
 import { collection, getDocs } from 'firebase/firestore';
-
 import Style from './Style';
 
 window.husblizerFont = {};
@@ -37,6 +36,7 @@ function Index() {
   const [rightText, setRightText] = useState(0);
   const [displayText, setDisplayText] = useState('none');
   const colorRef = useRef(null);
+  const checkColorEnd = useRef(false)
   const [fonts, setFonts] = useState([])
 
   const handlePosMax = aCoords => {
@@ -85,7 +85,7 @@ function Index() {
     const heightToolBarText = 144;
     const widthToolBarText = 380;
     if (!canvas) return;
-
+   
     function resize() {
       canvas.setDimensions({
         width: window.innerWidth - 450,
@@ -130,7 +130,6 @@ function Index() {
       const { aCoords } = target;
       // const { tr, tl, br, bl } = aCoords
       const tr = handlePosMax(aCoords);
-
       setRight(canvas.width / 2 - tr.x * canvas.getZoom() - 80);
       setTop(
         canvas.height / 2 +
@@ -139,6 +138,7 @@ function Index() {
       );
       setDisplay('block');
 
+      canvas.transactionHandler.save('add');
       if (!checkTextBox(canvas)) return;
 
       setRightText(
@@ -195,7 +195,7 @@ function Index() {
             (height * canvas.getZoom() - heightToolBar) / 2,
         );
         setDisplay('block');
-
+        canvas.transactionHandler.save('add');
         if (!checkTextBox(canvas)) return;
 
         setRightText(
@@ -227,7 +227,7 @@ function Index() {
           (height * canvas.getZoom() - heightToolBar) / 2,
       );
       setDisplay('block');
-
+      canvas.transactionHandler.save('add');
       if (!checkTextBox(canvas)) return;
 
       setRightText(
@@ -313,6 +313,9 @@ function Index() {
       },
       canvas.renderAll.bind(canvas),
     );
+    console.log(canvas, 'dadkjsadhkj')
+    canvas.transactionHandler.initialize(objs);
+
   }, [canvas]);
 
   useEffect(() => {
@@ -325,7 +328,7 @@ function Index() {
     window.addEventListener('mousedown', handleClick);
 
     return () => window.removeEventListener('mousedown', handleClick);
-  }, [pickerVisiable]);
+  }, []);
 
   const handleColor = (e: any) => {
     const bgUrl =
@@ -339,12 +342,12 @@ function Index() {
         crossOrigin: 'anonymous',
         backgroundColor: e.hex,
       });
-      var filter = new fabric.Image.filters.BlendColor({
-        color: e.hex,
-        mode: 'tint',
-      });
-      myImg.filters.push(filter);
-      myImg.applyFilters();
+      // var filter = new fabric.Image.filters.BlendColor({
+      //   color: e.hex,
+      //   mode: 'tint',
+      // });
+      // myImg.filters.push(filter);
+      // myImg.applyFilters();
       canvas.setBackgroundImage(myImg, canvas.renderAll.bind(canvas));
 
       if (canvas.width <= canvas.height) {
@@ -388,9 +391,17 @@ function Index() {
       canvas.zoomToPoint(new fabric.Point(center.left, center.top), scaleX - 0.15);
       canvas.requestRenderAll();
       canvas.renderAll();
+      
+      checkColorEnd.current = true
     });
     setColor(e.hex);
   };
+
+  useEffect(() => {
+    if (checkColorEnd.current) {
+      canvas?.transactionHandler.save('add');
+    }
+  }, [checkColorEnd.current])
 
   return (
     <Style
@@ -417,7 +428,10 @@ function Index() {
           <div className="canvas__fill" ref={colorRef}>
             {!pickerVisiable ? (
               <Tooltip title="Background Color" mouseLeaveDelay={0}>
-                <div onClick={() => setVisible(true)}>
+                <div onClick={() => {
+                  setVisible(true)
+                  checkColorEnd.current = false
+                }}>
                   <svg
                     width="30px"
                     xmlns="http://www.w3.org/2000/svg"

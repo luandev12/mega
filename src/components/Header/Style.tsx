@@ -34,6 +34,9 @@ const Style = styled.div`
       cursor: pointer;
     }
   }
+  .your-hand.disactive {
+    opacity: .5;
+  }
 
   .mouse-hand {
     padding: 0 5px;
