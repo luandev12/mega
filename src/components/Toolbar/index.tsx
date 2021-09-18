@@ -69,6 +69,9 @@ const Index = ({ top, right, display, canvas, setDisplay }: Props) => {
             ['id', 'componentType', 'shape'],
           )
           break;
+        case 'textBoxPro':
+            object.cloneObject()
+            break
         default: break
       }
     } else {
@@ -98,6 +101,23 @@ const Index = ({ top, right, display, canvas, setDisplay }: Props) => {
             );
         
             canvas.renderAll();
+    
+            break
+
+          case 'textBoxPro':
+            object.clone(
+              (clone) => {
+                clone.set({
+                  left: clone.left + 10,
+                  top: clone.top + 10,
+                  id: uuidv4(),
+                  name: clone.name + " (cloned)"
+                });
+                cloneObjs.push(clone)
+                canvas.add(clone);
+              },
+              ['id', 'componentType', 'shape'],
+            );
     
             break
           default:
