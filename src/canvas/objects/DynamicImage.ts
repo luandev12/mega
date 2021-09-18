@@ -50,11 +50,20 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
     this.callSuper('initialize', [createdObj, rect], Object.assign(options, groupBoundedOption));
 
     this.on({
+      added: function() {
+        this.updateFromGroupScaling();
+      },
+      moving: function() {
+        this._updateMask()
+      },
       scaled: function() {
         this.updateFromGroupScaling();
       },
-      added: function() {
-        this.updateFromGroupScaling();
+      scaling: function() {
+        this._updateMask()
+      },
+      rotating: function() {
+        this._updateMask()
       },
     });
   },
@@ -116,33 +125,53 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
       top: top,
       left: left,
     });
+    this._updateMask();
     this.canvas?.renderAll();
   },
   setRotation: function(angle: number) {
     this.set('angle', angle);
+    this._updateMask();
     this.canvas?.renderAll();
   },
   fixImage: function() {
-    if (this.width >= this.height) {
-      this.item(0).scaleToHeight(this.height);
-    } else {
-      this.item(0).scaleToWidth(this.width);
-    }
-    this.canvas?.renderAll();
+    if (!this.fillArea) {
 
-    var width = this.item(0).width * this.item(0).scaleX;
-    var height = this.item(0).height * this.item(0).scaleY;
-    if (width > this.width) {
-      this.item(0).scaleToWidth(this.width);
-    } else if (height > this.height) {
-      this.item(0).scaleToHeight(this.height);
+      if (this.width >= this.height) {
+        this.item(0).scaleToHeight(this.height);
+      } else {
+        this.item(0).scaleToWidth(this.width);
+      }
+      this.canvas?.renderAll();
+  
+      var width = this.item(0).width * this.item(0).scaleX;
+      var height = this.item(0).height * this.item(0).scaleY;
+      if (width > this.width) {
+        this.item(0).scaleToWidth(this.width);
+      } else if (height > this.height) {
+        this.item(0).scaleToHeight(this.height);
+      }
+    } else {
+      const ratioWidth = this.width / (this.item(0).width * this.item(0).scaleX)
+      const ratioHeight = this.height / (this.item(0).height * this.item(0).scaleY)
+
+      if (ratioWidth < ratioHeight) {
+        this.item(0).scaleToHeight(this.height);
+      } else {
+        this.item(0).scaleToWidth(this.width);
+      }
     }
+    this._updateMask();
+    this.canvas.renderAll();
   },
   dynamicImage: function(src: string) {
     this.set('src', src);
   },
   setInitSrc: function(src: string) {
     this.initSrc = src;
+  },
+  setFillArea: function (fillArea: boolean) {
+    this.set("fillArea", fillArea);
+    this.fixImage();
   },
   _setImage: function(obj: FabricImage, source?: File | string) {
     this._okImage = false;
@@ -193,6 +222,21 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
       this._okImage = true;
       this.canvas?.renderAll();
     });
+  },
+  _updateMask: function (left, top, width, height, angle) {
+    const rectMask = new fabric.Rect({
+      width: width || this.getScaledWidth(),
+      height: height || this.getScaledHeight(),
+      originX: "center",
+      originY: "center",
+      absolutePositioned: true,
+      top: top || this.top,
+      left: left || this.left,
+      angle: angle || this.angle,
+    });
+    rectMask.setCoords();
+    this.item(0).set("clipPath", rectMask);
+    this.canvas.renderAll();
   },
   updateCalcPostion: function(name: string, value: number) {
     if (name === 'left') {

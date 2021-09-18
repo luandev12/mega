@@ -3,7 +3,15 @@ import { fabric } from "fabric";
 
 import Style from './Style'
 
-import { Delete, Duplicate, BringForward, SendBackwards, FlipVertical, FlipHorizontal } from '@/svg'
+import {
+  Delete,
+  Duplicate,
+  BringForward,
+  SendBackwards,
+  FlipVertical,
+  FlipHorizontal,
+  FillArea,
+} from '@/svg'
 import { v4 as uuidv4 } from 'uuid'
 
 interface Props {
@@ -40,7 +48,7 @@ const Index = ({ top, right, display, canvas, setDisplay }: Props) => {
       const object = objects[0]
       switch (object.type) {
         case 'dynamicImagePro':
-          objects.clone(
+          object.clone(
             (clone) => {
               canvas.discardActiveObject();
               if (clone.clipPath) {
@@ -132,6 +140,17 @@ const Index = ({ top, right, display, canvas, setDisplay }: Props) => {
     canvas.renderAll()
   }
 
+  const handleFillArea = () => {
+    const objectActives = canvas.getActiveObjects()
+
+    objectActives.forEach(obj => {
+      if (obj.type !== 'dynamicImagePro') return
+
+      obj.setFillArea(!obj.fillArea)
+
+    })
+  }
+
   return (
     <Style theme={{
       top,
@@ -155,6 +174,9 @@ const Index = ({ top, right, display, canvas, setDisplay }: Props) => {
       </div>
       <div onClick={handleDelete} className="wrap__icon">
         <Delete />
+      </div>
+      <div onClick={handleFillArea} className="wrap__icon">
+        <FillArea />
       </div>
     </Style>
   );

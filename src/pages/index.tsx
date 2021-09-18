@@ -81,7 +81,7 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    const heightToolBar = 182.53;
+    const heightToolBar = 204;
     const heightToolBarText = 144;
     const widthToolBarText = 380;
     if (!canvas) return;
@@ -119,7 +119,20 @@ function Index() {
     }
     window.addEventListener('resize', resize);
 
-    const eventMoving = () => {
+    const eventMoving = (opt) => {
+      const { target } = opt
+      if (target.type === 'activeSelection') {
+        const activeSelection = target as fabric.ActiveSelection;
+        activeSelection._objects.forEach((obj: any) => {
+          const left = target.left + obj.left + target.width / 2;
+          const top = target.top + obj.top + target.height / 2;
+          if (obj.type === 'dynamicImagePro') {
+            obj._updateMask(left, top)
+            return
+          }
+        })
+      }
+
       setDisplay('none');
       setDisplayText('none');
     };
@@ -175,7 +188,23 @@ function Index() {
       setDisplayText('block');
     };
 
-    const eventScaling = () => {
+    const eventScaling = (opt) => {
+      const { target } = opt
+      if (target.type === 'activeSelection') {
+        const activeSelection = target as fabric.ActiveSelection;
+        const { scaleX } = target
+        activeSelection._objects.forEach((obj: any) => {
+          
+          const left = target.left + obj.left * scaleX + target.width * scaleX / 2;
+          const top = target.top + obj.top * scaleX + target.height * scaleX / 2;
+          if (obj.type === 'dynamicImagePro') {
+            obj._updateMask(left, top, obj.width * scaleX, obj.height * scaleX)
+            
+            return
+          }
+  
+        })
+      }
       setDisplay('none');
       setDisplayText('none');
     };
@@ -196,6 +225,20 @@ function Index() {
         );
         setDisplay('block');
         canvas.transactionHandler.save('add');
+
+        if (target.type === 'activeSelection') {
+
+          canvas.discardActiveObject()
+          var sel = new fabric.ActiveSelection(target._objects, {
+            canvas,
+            borderColor: '#94caef',
+            dirty: true
+          });
+      
+          canvas.setActiveObject(sel);
+          canvas.renderAll()
+          
+        }
         if (!checkTextBox(canvas)) return;
 
         setRightText(
@@ -292,9 +335,9 @@ function Index() {
     });
 
     canvas?.on('mouse:move', opt => {
-      canvas.selection = false;
-
+      
       if (panning && opt && opt.e && canvas.defaultCursor === 'grab') {
+        canvas.selection = false;
         var e = opt.e;
         var vpt = canvas.viewportTransform;
         vpt[4] += e.clientX - lastPosX;
@@ -302,6 +345,8 @@ function Index() {
         canvas.requestRenderAll();
         lastPosX = e.clientX;
         lastPosY = e.clientY;
+      } else {
+        canvas.selection = true
       }
     });
 
@@ -313,7 +358,6 @@ function Index() {
       },
       canvas.renderAll.bind(canvas),
     );
-    console.log(canvas, 'dadkjsadhkj')
     canvas.transactionHandler.initialize(objs);
 
   }, [canvas]);

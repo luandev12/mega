@@ -82,11 +82,9 @@ class TransactionHandler {
 				});
 			}
 			const { objects } = canvasJSON || this.canvas.toJSON();
-      console.log(this.state, 'this.state')
 			this.state = objects.map(item => {
 				if (item.type === "backgroundPro") {
 					const background: any = {}
-          console.log(this.canvas.backgroundImage, 'this.canvas.backgroundImage')
 					const { width, height, backgroundColor, _originalElement }: any = this.canvas.backgroundImage
 					background.width = width
 					background.height = height
