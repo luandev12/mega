@@ -1,7 +1,8 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Style = styled.div`
   height: 100%;
+  font-family: 'asd';
   ul {
     height: 100%;
     overflow-y: scroll;
@@ -38,6 +39,6 @@ const Style = styled.div`
       }
     }
   }
-`
+`;
 
-export default Style
+export default Style;

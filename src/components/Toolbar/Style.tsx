@@ -11,6 +11,7 @@ const Style = styled.div`
   border-radius: 20px;
   height: auto;
   padding: 15px 0;
+  font-family: 'asd';
 
   .wrap__icon {
     cursor: pointer;

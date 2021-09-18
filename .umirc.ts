@@ -18,7 +18,7 @@ const config: IConfig = {
         antd: true,
         dva: false,
         dynamicImport: { webpackChunkName: true },
-        title: 'Mega',
+        title: 'Mega Nemo',
         dll: false,
         locale: {
           enable: true,
@@ -30,12 +30,12 @@ const config: IConfig = {
       },
     ],
   ],
-  chainWebpack: (config) => {
+  chainWebpack: config => {
     config.module // 配置 file-loader
-    .rule('ttf')
-    .test(/.ttf$/)
-    .use('file-loader')
-    .loader('file-loader');
+      .rule('ttf')
+      .test(/.ttf$/)
+      .use('file-loader')
+      .loader('file-loader');
   },
 };
 

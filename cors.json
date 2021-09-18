@@ -1,5 +1,10 @@
 [{
-    "origin": ["https://mega.nemoteam.me", "http://localhost:8000"],
+    "origin": [
+        "https://mega.nemoteam.me",
+        "https://slide.nemoteam.me/",
+        "http://localhost:8000",
+        "http://localhost:3000"
+    ],
     "method": ["GET"],
     "maxAgeSeconds": 3600
 }]

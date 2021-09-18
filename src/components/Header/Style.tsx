@@ -8,6 +8,7 @@ const Style = styled.div`
   height: 48px;
   line-height: 48px;
   border-bottom: 1px solid hsla(0, 0%, 100%, 0.05);
+  font-family: 'asd';
 
   .header-export {
     margin-right: 30px;
@@ -35,7 +36,7 @@ const Style = styled.div`
     }
   }
   .your-hand.disactive {
-    opacity: .5;
+    opacity: 0.5;
   }
 
   .mouse-hand {

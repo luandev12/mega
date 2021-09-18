@@ -4,7 +4,7 @@ const Style = styled.div`
   background-color: #2e2e2e;
   height: 100vh;
   color: #f5f5f5;
-
+  font-family: 'asd';
   .panel-logo {
     border-bottom: 1px solid hsla(0, 0%, 100%, 0.05);
     height: 48px;

@@ -1,5 +1,10 @@
 body {
-    font-family: sans-serif;
+    font-family: 'asd';
+}
+
+@font-face {
+    font-family: 'asd';
+    src: url('https://firebasestorage.googleapis.com/v0/b/nemo-mega.appspot.com/o/texts%2Fasd-1629189889396.ttf?alt=media&token=8b7cc6c4-5c24-4e01-9db9-f7a7ba6a04e0');
 }
 
 .normal {

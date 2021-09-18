@@ -12,6 +12,7 @@ const Style = styled.div`
   width: 380px;
   height: 144px;
   padding: 10px;
+  font-family: 'asd';
 
   .text__top {
     display: flex;

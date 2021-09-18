@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const Style = styled.div`
   padding: 20px;
+  font-family: 'asd';
 
   p {
     text-align: start;
