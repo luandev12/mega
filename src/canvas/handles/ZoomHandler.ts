@@ -5,10 +5,7 @@ class ZoomHandler {
 
   constructor(canvas) {
     this.canvas = canvas;
-    this.initialize();
   }
-
-  public initialize = (state = []) => {};
 
   public zoomHandler = (decrement: number = 0, obj) => {
     let width = 1000;
@@ -33,6 +30,8 @@ class ZoomHandler {
     const center = this.canvas.getCenter();
 
     this.canvas.zoomToPoint(new fabric.Point(center.left, center.top), scaleX - decrement);
+    this.canvas.requestRenderAll();
+    this.canvas.renderAll();
   };
 
   public wheelHandler = () => {

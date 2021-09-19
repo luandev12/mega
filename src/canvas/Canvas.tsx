@@ -4,6 +4,7 @@ import { fabric } from 'fabric';
 import Transaction from '@/canvas/handles/TransactionHandler';
 import ZoomHandler from '@/canvas/handles/ZoomHandler';
 import PanHandler from '@/canvas/handles/PanHandler';
+import BackgroundHandler from '@/canvas/handles/BackgroundHandler';
 
 import Style from './Style';
 
@@ -31,10 +32,12 @@ export default function Canvas({ setCanvas, children }: Props) {
     const transaction = new Transaction(canvas);
     const zoom = new ZoomHandler(canvas);
     const pan = new PanHandler(canvas);
+    const background = new BackgroundHandler(canvas);
 
     canvas.transactionHandler = transaction;
     canvas.zoomHandler = zoom;
     canvas.panHanler = pan;
+    canvas.backgroundHandler = background;
 
     setCanvas(canvas);
 

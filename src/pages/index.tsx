@@ -308,7 +308,7 @@ function Index() {
 
     canvas.transactionHandler.initialize(objs);
     canvas.zoomHandler.wheelHandler();
-    canvas.panHanler.PanHandler();
+    canvas.panHanler.panHandler();
   }, [canvas]);
 
   useEffect(() => {
@@ -326,67 +326,15 @@ function Index() {
   const handleColor = (e: any) => {
     const bgUrl =
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=';
+
     fabric.Image.fromURL(bgUrl, (myImg: any) => {
-      myImg.set({
-        originX: 'center',
-        originY: 'center',
-        width: widthBg,
-        height: heightBg,
-        crossOrigin: 'anonymous',
-        backgroundColor: e.hex,
-      });
-      // var filter = new fabric.Image.filters.BlendColor({
-      //   color: e.hex,
-      //   mode: 'tint',
-      // });
-      // myImg.filters.push(filter);
-      // myImg.applyFilters();
-      canvas.setBackgroundImage(myImg, canvas.renderAll.bind(canvas));
+      canvas.backgroundHandler.bgHandler(0.15, myImg, { width: widthBg, height: heightBg }, color);
 
-      if (canvas.width <= canvas.height) {
-        canvas.setViewportTransform([
-          canvas.width / widthBg - 0.15,
-          0,
-          0,
-          canvas.width / widthBg - 0.15,
-          canvas.getCenter().left,
-          canvas.getCenter().top + 25,
-        ]);
-        canvas.requestRenderAll();
-        canvas.renderAll();
-      } else {
-        canvas.setViewportTransform([
-          canvas.height / heightBg - 0.15,
-          0,
-          0,
-          canvas.height / heightBg - 0.15,
-          canvas.getCenter().left,
-          canvas.getCenter().top + 25,
-        ]);
-        canvas.requestRenderAll();
-        canvas.renderAll();
-      }
-
-      let scaleX = canvas.getWidth() / widthBg;
-      const scaleY = canvas.getHeight() / heightBg;
-      if (heightBg >= widthBg) {
-        scaleX = scaleY;
-        if (canvas.getWidth() < widthBg * scaleX) {
-          scaleX = scaleX * (canvas.getWidth() / (widthBg * scaleX));
-        }
-      } else {
-        if (canvas.getHeight() < heightBg * scaleX) {
-          scaleX = scaleX * (canvas.getHeight() / (heightBg * scaleX));
-        }
-      }
-      const center = canvas.getCenter();
-
-      canvas.zoomToPoint(new fabric.Point(center.left, center.top), scaleX - 0.15);
-      canvas.requestRenderAll();
-      canvas.renderAll();
+      canvas.zoomHandler.zoomHandler(0.15, { width: widthBg, height: heightBg });
 
       checkColorEnd.current = true;
     });
+
     setColor(e.hex);
   };
 

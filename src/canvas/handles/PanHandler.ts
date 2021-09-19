@@ -3,12 +3,9 @@ class PanHandler {
 
   constructor(canvas) {
     this.canvas = canvas;
-    this.initialize();
   }
 
-  public initialize = (state = []) => {};
-
-  public PanHandler = () => {
+  public panHandler = () => {
     let panning = false;
     let lastPosX;
     let lastPosY;

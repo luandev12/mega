@@ -66,66 +66,11 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
 
       const bgUrl =
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=';
+
       fabric.Image.fromURL(bgUrl, (myImg: any) => {
-        myImg.set({
-          originX: 'center',
-          originY: 'center',
-          width,
-          height,
-          crossOrigin: 'anonymous',
-          backgroundColor: color,
-        });
-        var filter = new fabric.Image.filters.BlendColor({
-          color: color,
-          mode: 'tint',
-        });
-        myImg.filters.push(filter);
-        myImg.applyFilters();
-        canvas?.setBackgroundImage(myImg, canvas?.renderAll.bind(canvas));
+        canvas.backgroundHandler.bgHandler(0.15, myImg, { width, height }, color);
 
-        if (canvas?.width <= canvas?.height) {
-          canvas?.setViewportTransform([
-            canvas?.width / width - 0.15,
-            0,
-            0,
-            canvas?.width / width - 0.15,
-            canvas?.getCenter().left,
-            canvas?.getCenter().top + 25,
-          ]);
-
-          canvas?.requestRenderAll();
-          canvas?.renderAll();
-        } else {
-          canvas?.setViewportTransform([
-            canvas?.height / height - 0.15,
-            0,
-            0,
-            canvas?.height / height - 0.15,
-            canvas?.getCenter().left,
-            canvas?.getCenter().top + 25,
-          ]);
-
-          canvas?.requestRenderAll();
-          canvas?.renderAll();
-        }
-
-        let scaleX = canvas?.getWidth() / width;
-        const scaleY = canvas?.getHeight() / height;
-        if (height >= width) {
-          scaleX = scaleY;
-          if (canvas?.getWidth() < width * scaleX) {
-            scaleX = scaleX * (canvas?.getWidth() / (width * scaleX));
-          }
-        } else {
-          if (canvas?.getHeight() < height * scaleX) {
-            scaleX = scaleX * (canvas?.getHeight() / (height * scaleX));
-          }
-        }
-        const center = canvas?.getCenter();
-
-        canvas?.zoomToPoint(new fabric.Point(center.left, center.top), scaleX - 0.15);
-        canvas?.requestRenderAll();
-        canvas?.renderAll();
+        canvas.zoomHandler.zoomHandler(0.15, { width, height });
       });
     },
   });
@@ -147,15 +92,20 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
           <span className="tool-icon">
             <span
               onClick={() => {
-                canvas?.transactionHandler.undo()
-              }} 
-              className={`your-hand ${canvas?.transactionHandler.undos.length === 0 ? 'disactive' : ''}`}
+                canvas?.transactionHandler.undo();
+              }}
+              className={`your-hand ${
+                canvas?.transactionHandler.undos.length === 0 ? 'disactive' : ''
+              }`}
             >
               <Undo />
             </span>
             <span
               onClick={() => canvas?.transactionHandler.redo()}
-              className={`your-hand ${canvas?.transactionHandler.redos.length === 0 ? 'disactive' : ''}`}>
+              className={`your-hand ${
+                canvas?.transactionHandler.redos.length === 0 ? 'disactive' : ''
+              }`}
+            >
               <Redo />
             </span>
             <span onClick={handlePan} className="mouse-hand">
