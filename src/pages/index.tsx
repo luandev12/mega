@@ -18,6 +18,9 @@ import { loadFontFamilies } from '@/canvas/utils/textUtil';
 
 import { db } from '@/intergations/firebase';
 import { collection, getDocs } from 'firebase/firestore';
+
+import { ColorPicker } from '@/svg/index';
+
 import Style from './Style';
 
 window.husblizerFont = {};
@@ -36,8 +39,8 @@ function Index() {
   const [rightText, setRightText] = useState(0);
   const [displayText, setDisplayText] = useState('none');
   const colorRef = useRef(null);
-  const checkColorEnd = useRef(false)
-  const [fonts, setFonts] = useState([])
+  const checkColorEnd = useRef(false);
+  const [fonts, setFonts] = useState([]);
 
   const handlePosMax = aCoords => {
     const { tr, tl, br, bl } = aCoords;
@@ -73,7 +76,7 @@ function Index() {
         const { name, url } = item;
         return { fontFamily: name, value: name, fontUrl: url, label: url };
       });
-      setFonts(convertData)
+      setFonts(convertData);
       loadFontFamilies(convertData);
     };
 
@@ -85,7 +88,7 @@ function Index() {
     const heightToolBarText = 144;
     const widthToolBarText = 380;
     if (!canvas) return;
-   
+
     function resize() {
       canvas.setDimensions({
         width: window.innerWidth - 450,
@@ -119,18 +122,18 @@ function Index() {
     }
     window.addEventListener('resize', resize);
 
-    const eventMoving = (opt) => {
-      const { target } = opt
+    const eventMoving = opt => {
+      const { target } = opt;
       if (target.type === 'activeSelection') {
         const activeSelection = target as fabric.ActiveSelection;
         activeSelection._objects.forEach((obj: any) => {
           const left = target.left + obj.left + target.width / 2;
           const top = target.top + obj.top + target.height / 2;
           if (obj.type === 'dynamicImagePro') {
-            obj._updateMask(left, top)
-            return
+            obj._updateMask(left, top);
+            return;
           }
-        })
+        });
       }
 
       setDisplay('none');
@@ -188,22 +191,20 @@ function Index() {
       setDisplayText('block');
     };
 
-    const eventScaling = (opt) => {
-      const { target } = opt
+    const eventScaling = opt => {
+      const { target } = opt;
       if (target.type === 'activeSelection') {
         const activeSelection = target as fabric.ActiveSelection;
-        const { scaleX } = target
+        const { scaleX } = target;
         activeSelection._objects.forEach((obj: any) => {
-          
-          const left = target.left + obj.left * scaleX + target.width * scaleX / 2;
-          const top = target.top + obj.top * scaleX + target.height * scaleX / 2;
+          const left = target.left + obj.left * scaleX + (target.width * scaleX) / 2;
+          const top = target.top + obj.top * scaleX + (target.height * scaleX) / 2;
           if (obj.type === 'dynamicImagePro') {
-            obj._updateMask(left, top, obj.width * scaleX, obj.height * scaleX)
-            
-            return
+            obj._updateMask(left, top, obj.width * scaleX, obj.height * scaleX);
+
+            return;
           }
-  
-        })
+        });
       }
       setDisplay('none');
       setDisplayText('none');
@@ -227,17 +228,15 @@ function Index() {
         canvas.transactionHandler.save('add');
 
         if (target.type === 'activeSelection') {
-
-          canvas.discardActiveObject()
+          canvas.discardActiveObject();
           var sel = new fabric.ActiveSelection(target._objects, {
             canvas,
             borderColor: '#94caef',
-            dirty: true
+            dirty: true,
           });
-      
+
           canvas.setActiveObject(sel);
-          canvas.renderAll()
-          
+          canvas.renderAll();
         }
         if (!checkTextBox(canvas)) return;
 
@@ -288,78 +287,28 @@ function Index() {
     };
 
     canvas.on('object:moving', eventMoving);
-
     canvas.on('object:moved', eventMoved);
-
     canvas.on('selection:created', evetnSelection);
-
     canvas.on('selection:updated', evetnSelection);
-
     canvas.on('object:scaling', eventScaling);
-
     canvas.on('object:scaled', eventScaled);
-
     canvas.on('object:rotating', eventRotating);
-
     canvas.on('object:rotated', eventRotated);
     canvas.on('selection:cleared', offSelection);
 
-    canvas?.on('mouse:wheel', opt => {
-      const center = canvas.getCenter();
-      var delta = opt.e.deltaY;
-      var zoom = canvas.getZoom();
-
-      zoom *= 0.999 ** delta;
-      if (zoom > 10) zoom = 10;
-      if (zoom < 0.1) zoom = 0.1;
-      canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
-      opt.e.preventDefault();
-      opt.e.stopPropagation();
-    });
-
-    let panning = false;
-    let lastPosX;
-    let lastPosY;
-
-    canvas?.on('mouse:up', e => {
-      panning = false;
-      canvas.selection = false;
-    });
-
-    canvas?.on('mouse:down', function(opt) {
-      var evt = opt.e;
-      panning = true;
-
-      lastPosX = evt.clientX;
-      lastPosY = evt.clientY;
-    });
-
-    canvas?.on('mouse:move', opt => {
-      
-      if (panning && opt && opt.e && canvas.defaultCursor === 'grab') {
-        canvas.selection = false;
-        var e = opt.e;
-        var vpt = canvas.viewportTransform;
-        vpt[4] += e.clientX - lastPosX;
-        vpt[5] += e.clientY - lastPosY;
-        canvas.requestRenderAll();
-        lastPosX = e.clientX;
-        lastPosY = e.clientY;
-      } else {
-        canvas.selection = true
-      }
-    });
-
     const objs = [];
     objs.unshift(backgroundPro);
+
     canvas.loadFromJSON(
       {
         objects: objs,
       },
       canvas.renderAll.bind(canvas),
     );
-    canvas.transactionHandler.initialize(objs);
 
+    canvas.transactionHandler.initialize(objs);
+    canvas.zoomHandler.wheelHandler();
+    canvas.panHanler.PanHandler();
   }, [canvas]);
 
   useEffect(() => {
@@ -435,8 +384,8 @@ function Index() {
       canvas.zoomToPoint(new fabric.Point(center.left, center.top), scaleX - 0.15);
       canvas.requestRenderAll();
       canvas.renderAll();
-      
-      checkColorEnd.current = true
+
+      checkColorEnd.current = true;
     });
     setColor(e.hex);
   };
@@ -445,7 +394,7 @@ function Index() {
     if (checkColorEnd.current) {
       canvas?.transactionHandler.save('add');
     }
-  }, [checkColorEnd.current])
+  }, [checkColorEnd.current]);
 
   return (
     <Style
@@ -455,7 +404,6 @@ function Index() {
     >
       <div className="items__container">
         <Panel canvas={canvas} />
-        {/* <Models canvas={canvas} /> */}
       </div>
       <div className="canvas__container">
         <Header
@@ -472,22 +420,13 @@ function Index() {
           <div className="canvas__fill" ref={colorRef}>
             {!pickerVisiable ? (
               <Tooltip title="Background Color" mouseLeaveDelay={0}>
-                <div onClick={() => {
-                  setVisible(true)
-                  checkColorEnd.current = false
-                }}>
-                  <svg
-                    width="30px"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 18 18"
-                    fill="currentColor"
-                    id="colorpicker"
-                  >
-                    <path
-                      d="M9 0C4.03 0 0 4.03 0 9C0 13.97 4.03 18 9 18C9.83 18 10.5 17.33 10.5 16.5C10.5 16.11 10.35 15.76 10.11 15.49C9.88 15.23 9.73 14.88 9.73 14.5C9.73 13.67 10.4 13 11.23 13H13C15.76 13 18 10.76 18 8C18 3.58 13.97 0 9 0ZM3.5 9C2.67 9 2 8.33 2 7.5C2 6.67 2.67 6 3.5 6C4.33 6 5 6.67 5 7.5C5 8.33 4.33 9 3.5 9ZM6.5 5C5.67 5 5 4.33 5 3.5C5 2.67 5.67 2 6.5 2C7.33 2 8 2.67 8 3.5C8 4.33 7.33 5 6.5 5ZM11.5 5C10.67 5 10 4.33 10 3.5C10 2.67 10.67 2 11.5 2C12.33 2 13 2.67 13 3.5C13 4.33 12.33 5 11.5 5ZM14.5 9C13.67 9 13 8.33 13 7.5C13 6.67 13.67 6 14.5 6C15.33 6 16 6.67 16 7.5C16 8.33 15.33 9 14.5 9Z"
-                      fill="#fff"
-                    />
-                  </svg>
+                <div
+                  onClick={() => {
+                    setVisible(true);
+                    checkColorEnd.current = false;
+                  }}
+                >
+                  <ColorPicker />
                 </div>
               </Tooltip>
             ) : (

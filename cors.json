@@ -3,7 +3,8 @@
         "https://mega.nemoteam.me",
         "https://slide.nemoteam.me/",
         "http://localhost:8000",
-        "http://localhost:3000"
+        "http://localhost:3000",
+        "https://nemo-mega.pages.dev/"
     ],
     "method": ["GET"],
     "maxAgeSeconds": 3600
