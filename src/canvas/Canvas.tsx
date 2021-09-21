@@ -6,6 +6,8 @@ import ZoomHandler from '@/canvas/handles/ZoomHandler';
 import PanHandler from '@/canvas/handles/PanHandler';
 import BackgroundHandler from '@/canvas/handles/BackgroundHandler';
 
+import initAligningGuidelines from '@/canvas/plugins/aligning_guidelines';
+
 import Style from './Style';
 
 interface Props {
@@ -38,6 +40,8 @@ export default function Canvas({ setCanvas, children }: Props) {
     canvas.zoomHandler = zoom;
     canvas.panHanler = pan;
     canvas.backgroundHandler = background;
+
+    initAligningGuidelines(canvas);
 
     setCanvas(canvas);
 
