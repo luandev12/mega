@@ -6,6 +6,7 @@
     "test": "umi test"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.4",
     "antd": "^3.19.5",
     "bootstrap": "^5.1.0",
     "classnames": "^2.3.1",

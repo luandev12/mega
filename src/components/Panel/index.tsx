@@ -6,6 +6,7 @@ import { Upload, Photos, Background, Illustration, Text } from '@/svg/index';
 import Models from '@/components/Models/index';
 import BackgroundImage from '@/components/Backgrounds/index';
 import Icons from '@/components/Icons/index';
+import UploadFile from '@/components/Upload';
 
 import TextModel from '../Text';
 
@@ -37,7 +38,7 @@ export default function index({ canvas }) {
       case 'Text':
         return <TextModel canvas={canvas} />;
       case 'Upload':
-        return 'Upload';
+        return <UploadFile canvas={canvas} />;
       default:
         return <Models canvas={canvas} />;
     }
@@ -70,11 +71,6 @@ export default function index({ canvas }) {
         </div>
         <div className="panel-galery">{renderGalery(state)}</div>
       </div>
-      {/* <div className="header__models">
-        <p>Models</p>
-        <p>View all</p>
-      </div>
-      <div className="list__models"></div> */}
     </Style>
   );
 }
