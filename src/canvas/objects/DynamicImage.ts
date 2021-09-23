@@ -54,16 +54,16 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
         this.updateFromGroupScaling();
       },
       moving: function() {
-        this._updateMask()
+        this._updateMask();
       },
       scaled: function() {
         this.updateFromGroupScaling();
       },
       scaling: function() {
-        this._updateMask()
+        this._updateMask();
       },
       rotating: function() {
-        this._updateMask()
+        this._updateMask();
       },
     });
   },
@@ -135,14 +135,13 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
   },
   fixImage: function() {
     if (!this.fillArea) {
-
       if (this.width >= this.height) {
         this.item(0).scaleToHeight(this.height);
       } else {
         this.item(0).scaleToWidth(this.width);
       }
       this.canvas?.renderAll();
-  
+
       var width = this.item(0).width * this.item(0).scaleX;
       var height = this.item(0).height * this.item(0).scaleY;
       if (width > this.width) {
@@ -151,8 +150,8 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
         this.item(0).scaleToHeight(this.height);
       }
     } else {
-      const ratioWidth = this.width / (this.item(0).width * this.item(0).scaleX)
-      const ratioHeight = this.height / (this.item(0).height * this.item(0).scaleY)
+      const ratioWidth = this.width / (this.item(0).width * this.item(0).scaleX);
+      const ratioHeight = this.height / (this.item(0).height * this.item(0).scaleY);
 
       if (ratioWidth < ratioHeight) {
         this.item(0).scaleToHeight(this.height);
@@ -169,8 +168,8 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
   setInitSrc: function(src: string) {
     this.initSrc = src;
   },
-  setFillArea: function (fillArea: boolean) {
-    this.set("fillArea", fillArea);
+  setFillArea: function(fillArea: boolean) {
+    this.set('fillArea', fillArea);
     this.fixImage();
   },
   _setImage: function(obj: FabricImage, source?: File | string) {
@@ -223,20 +222,20 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
       this.canvas?.renderAll();
     });
   },
-  _updateMask: function (left, top, width, height, angle) {
+  _updateMask: function(left, top, width, height, angle) {
     const rectMask = new fabric.Rect({
       width: width || this.getScaledWidth(),
       height: height || this.getScaledHeight(),
-      originX: "center",
-      originY: "center",
+      originX: 'center',
+      originY: 'center',
       absolutePositioned: true,
       top: top || this.top,
       left: left || this.left,
       angle: angle || this.angle,
     });
     rectMask.setCoords();
-    this.item(0).set("clipPath", rectMask);
-    this.canvas.renderAll();
+    this.item(0).set('clipPath', rectMask);
+    this.canvas?.renderAll();
   },
   updateCalcPostion: function(name: string, value: number) {
     if (name === 'left') {
@@ -376,6 +375,7 @@ const DynamicImagePro = fabric.util.createClass(fabric.Group, {
       visible: this.visible,
       evented: this.evented,
       typeResize: this.typeResize || 'default',
+      fillArea: this.fillArea,
     });
   },
 });
