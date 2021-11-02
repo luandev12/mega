@@ -4,7 +4,7 @@ import OpentypeIText from './OpentypeIText';
 import { defaults } from '../constants';
 import { v4 as uuidv4 } from 'uuid';
 import { findIndex } from 'lodash';
-import { percentToHex } from '../../ultis';
+import { percentToHex } from '../../ultis/index';
 
 const TextBoxPro = fabric.util.createClass(fabric.Group, {
   async: true,
@@ -586,7 +586,8 @@ const TextBoxPro = fabric.util.createClass(fabric.Group, {
     }
 
     if (name === 'fill') {
-      this.setColor(`${value}${percentToHex(this.opacityFill)}`);
+      // this.setColor(`${value}${percentToHex(this.opacityFill)}`);
+      this.setColor(value);
     }
 
     this.canvas.renderAll();
@@ -595,7 +596,7 @@ const TextBoxPro = fabric.util.createClass(fabric.Group, {
     this.setTextAlign(align);
     // this._updateFont();
   },
-  updateFont: function(font: string, fontUrl) {
+  updateFont: function(font: string, fontUrl: any) {
     this.setFontFamily(font);
     this.fontUrl = fontUrl;
   },
@@ -623,7 +624,7 @@ const TextBoxPro = fabric.util.createClass(fabric.Group, {
     this.canvas.renderAll.bind(this.canvas);
     this.canvas.renderAll();
   },
-  _updateName: function(name) {
+  _updateName: function(name: string) {
     this.name = name;
   },
   countStepForward: function() {
@@ -761,7 +762,7 @@ const TextBoxPro = fabric.util.createClass(fabric.Group, {
       textAlign: this.item(0).textAlign,
       caps: this.caps,
       multiline: this.multiline,
-      fill: this.fills[0]?.fill || this.item(0).fill,
+      fill: this.item(0).fill,
       fillId: '',
       fills: this.fills,
       stroke: this.item(0).opentypeStroke,
@@ -787,12 +788,8 @@ const TextBoxPro = fabric.util.createClass(fabric.Group, {
   },
 });
 
-TextBoxPro.fromObject = (options: any, callback: (obj: any) => any) => {
-  return callback(new TextBoxPro(options));
+TextBoxPro.fromObject = async (options: any, callback: (obj: any) => any) => {
+  return await callback(new TextBoxPro(options));
 };
-
-var windowFabric: any = window.fabric;
-
-windowFabric.TextBoxPro = TextBoxPro;
 
 export default TextBoxPro;

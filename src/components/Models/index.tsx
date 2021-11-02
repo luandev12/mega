@@ -48,10 +48,31 @@ const Index = ({ canvas }: Props) => {
     canvas.transactionHandler.save('add');
   };
 
+  const handleItemImage = async (v: string) => {
+    const modelsData = [];
+    const querySnapshot = await getDocs(collection(db, v.toLowerCase()));
+    querySnapshot.forEach(doc => {
+      const image = new Image();
+      image.src = doc.data().url;
+      image.onload = () => {
+        //
+      };
+      modelsData.push(doc.data());
+    });
+
+    setModels(modelsData);
+  };
+
   return (
     <Style>
-      <div className="d-flex justify-content-between"></div>
-      <div className="d-flex justify-content-between flex-wrap">
+      <div className="d-flex justify-content-between">
+        {['Photos', 'Icons', 'Background'].map((item: any) => (
+          <span onClick={() => handleItemImage(item)} className="item-image">
+            {item}
+          </span>
+        ))}
+      </div>
+      <div className="d-flex justify-content-between flex-wrap mt-3">
         {models.map(model => (
           <div onClick={() => handleModel(model)} key={model.id}>
             <img src={model.url} />
