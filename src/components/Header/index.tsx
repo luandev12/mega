@@ -44,15 +44,15 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
     canvasRender.height = height;
 
     Promise.all(objRender).then(data => {
-      canvasRender.loadFromJSON(
+      canvasRender?.loadFromJSON(
         {
           objects: data,
         },
-        canvasRender.renderAll.bind(canvasRender),
+        canvasRender?.renderAll.bind(canvasRender),
       );
 
-      canvasRender.renderAll.bind(canvasRender);
-      canvasRender.renderAll();
+      canvasRender?.renderAll.bind(canvasRender);
+      canvasRender?.renderAll();
     });
   };
 
