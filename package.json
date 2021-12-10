@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.4",
-    "antd": "^3.19.5",
+    "antd": "^4.17.3",
     "bootstrap": "^5.1.0",
     "classnames": "^2.3.1",
     "fabric": "^4.6.0",

@@ -29,6 +29,7 @@ function Index() {
   const [canvas, setCanvas]: any = useState();
   const [pickerVisiable, setVisible] = useState(false);
   const [color, setColor] = useState('#fff');
+  const [name, setName] = useState('Name');
   const [top, setTop] = useState(0);
   const [right, setRight] = useState(0);
   const [display, setDisplay] = useState('none');
@@ -362,6 +363,8 @@ function Index() {
           setWidthBg={setWidthBg}
           setHeightBg={setHeightBg}
           setWidth={setWidth}
+          name={name}
+          setName={setName}
         />
         <div className="">
           <Canvas setCanvas={setCanvas} />

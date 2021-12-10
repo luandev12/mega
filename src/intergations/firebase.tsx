@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getStorage } from 'firebase/storage';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAa9YACFwWSWt4tJVeWwBXx-0i0LreL70Q',
@@ -22,3 +22,12 @@ export const storage = getStorage(app);
 export const db = getFirestore();
 // https://firebase.google.com/docs/auth/web/start
 export const auth = getAuth();
+
+export const logOut = () => {
+  signOut(auth).then(() => {
+    // Sign-out successful.
+    window.location.reload()
+  }).catch((error) => {
+    // An error happened.
+  });
+}

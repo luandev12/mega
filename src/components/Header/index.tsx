@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fabric } from 'fabric';
 import { useFormik } from 'formik';
 
 import { getBlobFromUrl } from '@/ultis/index';
 
 import { Undo, Redo, MoouseHand } from '@/svg/index';
+
+import { logOut, auth, db } from '../../intergations/firebase'
+import { doc, setDoc } from "firebase/firestore"; 
+import { v4 } from 'uuid'
+
+import Auth from '../Auth'
 
 import Style from './Style';
 
@@ -16,9 +22,13 @@ interface Props {
   setWidthBg: any;
   setHeightBg: any;
   setWidth: any;
+  name: any;
+  setName: any;
 }
 
-export default function index({ canvas, color, height, width, setWidthBg, setHeightBg }: Props) {
+export default function index({ canvas, color, height, width, setWidthBg, setHeightBg, name, setName }: Props) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const exportPng = async () => {
     const objRender = canvas?.getObjects().map(async obj => {
       const item = { ...obj.toJSON() };
@@ -37,13 +47,13 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
       item.typeRender = true;
       return item;
     });
-
     const canvasRender = new fabric.Canvas(null, {});
-
+    
     canvasRender.width = width;
     canvasRender.height = height;
-
+    
     Promise.all(objRender).then(data => {
+      console.log(data)
       canvasRender?.loadFromJSON(
         {
           objects: data,
@@ -57,7 +67,7 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
   };
 
   const formik = useFormik({
-    initialValues: { width, height },
+    initialValues: { width, height, name },
     onSubmit: async () => {
       canvas?.setDimensions({
         width: window.innerWidth - 450,
@@ -84,6 +94,22 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
       canvas.renderAll();
     }
   };
+
+  const handleSave = async () => {
+    try {
+      const objs = canvas.getObjects().filter((item) => item.id && item.id !== 'workarea');
+      const uuid = v4()
+      await setDoc(doc(db, "documents", uuid), {
+        canvas: JSON.stringify(objs),
+        width,
+        height,
+        color,
+        name
+      })
+    } catch (error) {
+      console.log(error, 'error')
+    }
+  }
 
   return (
     <Style>
@@ -115,6 +141,19 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
         </div>
         <form className="" onSubmit={formik.handleSubmit}>
           <div className="d-flex align-items-center">
+            <input
+              type="text"
+              className="form-control"
+              style={{ width: '200px', height: '30px', border: 'none', textAlign: 'center', marginRight: '10px' }}
+              id="name"
+              name="name"
+              value={name}
+              onChange={e => {
+                const v = e.target.value
+                formik.setFieldValue('name', v);
+                setName(v);
+              }}
+            />
             <input
               type="text"
               className="form-control"
@@ -153,13 +192,29 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
               type="submit"
               style={{ color: '#fff', border: 'none', background: 'transparent' }}
               className=""
+              onClick={handleSave}
             >
               Save
             </button>
           </div>
         </form>
-        <div className="header-export" onClick={exportPng}>
-          Export
+        <div style={{ display: 'flex' }}>
+          <div className="header-export" onClick={exportPng}>
+            Export
+          </div>
+          {!auth.currentUser ? (
+            <div className="header-export" onClick={() => setIsModalVisible(true)}>
+              Login
+            </div>
+          ) : (
+            <div className="header-export" onClick={() => logOut()}>
+              Logout
+            </div>
+          )}
+          <Auth
+            visible={isModalVisible}
+            onCancel={() => setIsModalVisible(false)}
+          />
         </div>
       </div>
     </Style>

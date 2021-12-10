@@ -5,6 +5,7 @@ import { Upload, Photos, Text } from '@/svg/index';
 
 import Models from '@/components/Models/index';
 import UploadFile from '@/components/Upload';
+import Document from '@/components/Document'
 
 import TextModel from '../Text';
 
@@ -14,6 +15,7 @@ const tabLists = [
   { name: 'Photos', icon: <Photos /> },
   { name: 'Text', icon: <Text /> },
   { name: 'Upload', icon: <Upload /> },
+  { name: 'Document', icon: <Text /> },
 ];
 
 export default function index({ canvas }) {
@@ -31,6 +33,8 @@ export default function index({ canvas }) {
         return <TextModel canvas={canvas} />;
       case 'Upload':
         return <UploadFile canvas={canvas} />;
+      case 'Document':
+        return <Document canvas={canvas} />
       default:
         return <Models canvas={canvas} />;
     }
