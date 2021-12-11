@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Input } from 'antd';
 
 import Style from './Style';
 
@@ -13,6 +14,40 @@ const RenderField = (item: any, formik: any) => {
   formik.values = values;
 
   switch (item.tag) {
+    case 'text':
+      return (
+        <div className="row">
+          <div className="col-3">{item.placeholder}</div>
+          <div className="col-9">
+            <Input
+              placeholder={item.placeholder}
+              onChange={(event: any) => {
+                const { value } = event.target;
+
+                formik.setFieldValue(item.name, value);
+                item?.onChange && item?.onChange({ name: item.name, value });
+              }}
+            />
+          </div>
+        </div>
+      );
+    case 'password':
+      return (
+        <div className="row">
+          <div className="col-3">{item.placeholder}</div>
+          <div className="col-9">
+            <Input.Password
+              placeholder={item.placeholder}
+              onChange={(event: any) => {
+                const { value } = event.target;
+
+                formik.setFieldValue(item.name, value);
+                item?.onChange && item?.onChange({ name: item.name, value });
+              }}
+            />
+          </div>
+        </div>
+      );
     case 'input':
       const { maxLength, label, required, placeholder, length } = item;
 

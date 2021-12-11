@@ -1,21 +1,15 @@
-import React, { useState } from "react";
-import { Modal, Tabs } from 'antd'
+import React from 'react';
+import { Modal, Tabs } from 'antd';
 
-import Login from './Login'
-import Register from './Register'
+import Login from './Login';
+import Register from './Register';
 
-const { TabPane } = Tabs
+const { TabPane } = Tabs;
 
 const Index = ({ visible, onCancel }) => {
-
   return (
     <div>
-      <Modal
-        title="Basic Modal"
-        visible={visible}
-        onCancel={onCancel}
-        footer={false}
-      >
+      <Modal title="Basic Modal" visible={visible} onCancel={onCancel} footer={false}>
         <Tabs defaultActiveKey="1">
           <TabPane tab="Login" key="1">
             <Login />
@@ -26,7 +20,7 @@ const Index = ({ visible, onCancel }) => {
         </Tabs>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default Index
+export default Index;

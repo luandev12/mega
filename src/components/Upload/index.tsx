@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 } from 'uuid';
 
 import RenderForm from '@/Fragments/Form/index';
 
 import DynamicImagePro from '@/canvas/objects/DynamicImage';
+import Data from '@/canvas/utils/InitialsLayer.json';
+
+import { logOut, auth, db } from '@/intergations/firebase';
 
 import { uploadFile } from '@/actions/index';
-import Data from '@/canvas/utils/InitialsLayer.json';
-import { v4 } from 'uuid';
 
 import Style from './Style';
 
@@ -34,6 +36,8 @@ export default function Index({ canvas }: Props) {
       dispatch(uploadFile(e.url));
     },
   };
+
+  console.log(auth, 'auth');
 
   const handleModel = async (url: any) => {
     const initDynamic = Data.Layers[1];

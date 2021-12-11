@@ -1,29 +1,27 @@
-import React from "react"
-import { Button, Form, Input } from "antd";
+import React from 'react';
+import { Button, Form, Input } from 'antd';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '@/intergations/firebase';
 
-import { auth } from '../../../intergations/firebase'
-
-const Index = () =>  {
-
+const Index = () => {
   const [form] = Form.useForm();
 
   const onFinish = (values: any) => {
-    console.log(values, 'values')
-    const { email, password } = values
+    console.log(values, 'values');
+    const { email, password } = values;
 
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      form.resetFields()
-      window.location.reload()
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      .then(() => {
+        form.resetFields();
+        window.location.reload();
+      })
+      .catch(error => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
 
-      console.log(errorCode, errorMessage)
-    });
+        console.log(errorCode, errorMessage);
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -64,7 +62,7 @@ const Index = () =>  {
         </Form.Item>
       </Form>
     </>
-  )
-}
+  );
+};
 
-export default Index
+export default Index;

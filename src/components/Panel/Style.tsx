@@ -5,6 +5,7 @@ const Style = styled.div`
   height: 100vh;
   color: #f5f5f5;
   font-family: 'asd';
+
   .panel-logo {
     border-bottom: 1px solid hsla(0, 0%, 100%, 0.05);
     height: 48px;
@@ -21,6 +22,7 @@ const Style = styled.div`
     width: 25%;
     height: 100vh;
     padding-top: 30px;
+    border-right: 1px solid hsla(0, 0%, 100%, 0.05);
 
     ul {
       margin: 0;

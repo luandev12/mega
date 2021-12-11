@@ -72,7 +72,7 @@ const Index = ({ canvas }: Props) => {
           </span>
         ))}
       </div>
-      <div className="d-flex justify-content-between flex-wrap mt-3">
+      <div className="model-wrap d-flex justify-content-between flex-wrap mt-3">
         {models.map(model => (
           <div onClick={() => handleModel(model)} key={model.id}>
             <img src={model.url} />

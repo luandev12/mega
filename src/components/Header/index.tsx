@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { fabric } from 'fabric';
+import { doc, setDoc } from 'firebase/firestore';
 import { useFormik } from 'formik';
+import { v4 } from 'uuid';
 
 import { getBlobFromUrl } from '@/ultis/index';
-
 import { Undo, Redo, MoouseHand } from '@/svg/index';
+import { logOut, auth, db } from '@/intergations/firebase';
 
-import { logOut, auth, db } from '../../intergations/firebase'
-import { doc, setDoc } from "firebase/firestore"; 
-import { v4 } from 'uuid'
-
-import Auth from '../Auth'
+import Auth from '@/components/Auth';
 
 import Style from './Style';
 
@@ -26,7 +24,16 @@ interface Props {
   setName: any;
 }
 
-export default function index({ canvas, color, height, width, setWidthBg, setHeightBg, name, setName }: Props) {
+export default function index({
+  canvas,
+  color,
+  height,
+  width,
+  setWidthBg,
+  setHeightBg,
+  name,
+  setName,
+}: Props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const exportPng = async () => {
@@ -48,12 +55,12 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
       return item;
     });
     const canvasRender = new fabric.Canvas(null, {});
-    
+
     canvasRender.width = width;
     canvasRender.height = height;
-    
+
     Promise.all(objRender).then(data => {
-      console.log(data)
+      console.log(data);
       canvasRender?.loadFromJSON(
         {
           objects: data,
@@ -97,19 +104,19 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
 
   const handleSave = async () => {
     try {
-      const objs = canvas.getObjects().filter((item) => item.id && item.id !== 'workarea');
-      const uuid = v4()
-      await setDoc(doc(db, "documents", uuid), {
+      const objs = canvas.getObjects().filter(item => item.id && item.id !== 'workarea');
+      const uuid = v4();
+      await setDoc(doc(db, 'documents', uuid), {
         canvas: JSON.stringify(objs),
         width,
         height,
         color,
-        name
-      })
+        name,
+      });
     } catch (error) {
-      console.log(error, 'error')
+      console.log(error, 'error');
     }
-  }
+  };
 
   return (
     <Style>
@@ -144,12 +151,18 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
             <input
               type="text"
               className="form-control"
-              style={{ width: '200px', height: '30px', border: 'none', textAlign: 'center', marginRight: '10px' }}
+              style={{
+                width: '200px',
+                height: '30px',
+                border: 'none',
+                textAlign: 'center',
+                marginRight: '10px',
+              }}
               id="name"
               name="name"
               value={name}
               onChange={e => {
-                const v = e.target.value
+                const v = e.target.value;
                 formik.setFieldValue('name', v);
                 setName(v);
               }}
@@ -207,14 +220,14 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
               Login
             </div>
           ) : (
-            <div className="header-export" onClick={() => logOut()}>
-              Logout
+            <div className="d-flex">
+              <div className="mx-3">{auth?.currentUser.email.split('@')[0]}</div>
+              <div className="header-export" onClick={() => logOut()}>
+                Logout
+              </div>
             </div>
           )}
-          <Auth
-            visible={isModalVisible}
-            onCancel={() => setIsModalVisible(false)}
-          />
+          <Auth visible={isModalVisible} onCancel={() => setIsModalVisible(false)} />
         </div>
       </div>
     </Style>

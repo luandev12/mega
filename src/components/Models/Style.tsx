@@ -3,6 +3,14 @@ import styled from 'styled-components';
 const Style = styled.div`
   padding: 20px;
   font-family: 'asd';
+
+  overflow: scroll;
+  height: 100vh;
+
+  .model-wrap {
+    margin-bottom: 100px;
+  }
+
   p {
     text-align: start;
     font-size: 18px;

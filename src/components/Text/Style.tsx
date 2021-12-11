@@ -6,11 +6,12 @@ const Style = styled.div`
   ul {
     height: 100%;
     overflow-y: scroll;
-    padding: 0;
-    padding-right: 10px;
+    padding: 0 10px;
+
     ::-webkit-scrollbar {
       width: 2px;
     }
+
     li {
       list-style: none;
       text-align: start;
