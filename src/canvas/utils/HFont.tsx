@@ -24,7 +24,6 @@ class HFont {
       .replace(/"/g, '')
       .replace(/'/g, '')
       .toLowerCase();
-    // console.log(window.husblizerFont, key)
     if (window.husblizerFont[key]) {
       return true;
     }

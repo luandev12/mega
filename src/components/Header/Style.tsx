@@ -48,6 +48,12 @@ const Style = styled.div`
       cursor: pointer;
     }
   }
+
+  .nopermission {
+    opacity: 0.7;
+    pointer-events: none;
+    cursor: not-allowed; 
+  }
 `;
 
 export default Style;

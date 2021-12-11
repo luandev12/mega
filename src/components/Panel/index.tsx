@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
+import { useHistory } from 'react-router';
 
 import { Upload, Photos, Text, Background, Illustration } from '@/svg/index';
 
@@ -22,6 +23,7 @@ const tabLists = [
 
 export default function index({ canvas }) {
   const [state, setState] = useState('Photos');
+  const history = useHistory()
 
   const handleTab = (v: string) => {
     setState(v);
@@ -46,7 +48,7 @@ export default function index({ canvas }) {
 
   return (
     <Style>
-      <div className="panel-logo">Nemo</div>
+      <div style={{ cursor: 'pointer' }} onClick={() => history.push("/")} className="panel-logo">Nemo</div>
       <div className="panel-main">
         <div className="panel-tab">
           <ul className="">

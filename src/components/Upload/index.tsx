@@ -37,8 +37,6 @@ export default function Index({ canvas }: Props) {
     },
   };
 
-  console.log(auth, 'auth');
-
   const handleModel = async (url: any) => {
     const initDynamic = Data.Layers[1];
 

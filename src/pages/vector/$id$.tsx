@@ -4,6 +4,7 @@ import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
 import { Tooltip } from 'antd';
 import 'fabric-history';
 import { ChromePicker } from 'react-color';
+import { useDispatch } from 'react-redux'
 
 import Canvas from '@/canvas/Canvas';
 import { backgroundPro } from '@/canvas/constants/defaults';
@@ -18,9 +19,11 @@ import { loadFontFamilies } from '@/canvas/utils/textUtil';
 
 import withRedux from '@/libraries/withRedux';
 
-import { db } from '@/intergations/firebase';
+import { db, auth } from '@/intergations/firebase';
 
 import { ColorPicker } from '@/svg/index';
+
+import { userDocument } from '@/actions/index'
 
 import Style from '../Style';
 
@@ -28,6 +31,7 @@ window.husblizerFont = {};
 
 function Index(props) {
   const id = props?.match?.params?.id;
+  const dispatch = useDispatch()
 
   const [canvas, setCanvas]: any = useState();
   const [pickerVisiable, setVisible] = useState(false);
@@ -45,7 +49,7 @@ function Index(props) {
   const colorRef = useRef(null);
   const checkColorEnd = useRef(false);
   const [fonts, setFonts] = useState([]);
-  const [document, setDocument] = useState({});
+  const [document, setDocument]: any = useState({});
 
   const handlePosMax = aCoords => {
     const { tr, tl, br, bl } = aCoords;
@@ -70,14 +74,6 @@ function Index(props) {
   };
 
   useEffect(() => {
-    const fetchDocument = async () => {
-      const querySnapshot = await getDoc(doc(db, `documents`, id));
-
-      if (querySnapshot.exists) {
-        setDocument(querySnapshot.data());
-      }
-    };
-
     const fetchsData = async () => {
       const fontsData = [];
       const querySnapshot = await getDocs(collection(db, 'tests'));
@@ -93,9 +89,23 @@ function Index(props) {
       loadFontFamilies(convertData);
     };
 
-    fetchDocument();
     fetchsData();
-  }, []);
+  }, [])
+
+  useEffect(() => {
+    const fetchDocument = async () => {
+      const querySnapshot = await getDoc(doc(db, `documents`, id));
+
+      if (querySnapshot.exists) {
+        const data = querySnapshot.data()
+        dispatch(userDocument(data.userId))
+        setDocument(data);
+      }
+    };
+
+    
+    fetchDocument()
+  }, [id]);
 
   useEffect(() => {
     const heightToolBar = 204;
@@ -323,6 +333,22 @@ function Index(props) {
     canvas.zoomHandler.wheelHandler();
     canvas.panHanler.panHandler();
   }, [canvas]);
+
+  useEffect(() => {
+    
+    if (!document.canvas) return
+    const { canvas: canvasDocument, width, height, color } = document
+    const objs = JSON.parse(canvasDocument)
+    objs.unshift(backgroundPro);
+    objs[0].width = width || 1000
+    objs[0].height = height || 1000
+    objs[0].fill = color
+    setTimeout(() => {
+      canvas.loadFromJSON({
+        objects: objs,
+      }, canvas.renderAll.bind(canvas));
+    }, 2000)
+  }, [document])
 
   useEffect(() => {
     const handleClick = e => {

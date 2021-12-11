@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { fabric } from 'fabric';
-import { doc, setDoc } from 'firebase/firestore';
 import { useFormik } from 'formik';
-import { v4 } from 'uuid';
+import { useSelector, useDispatch } from 'react-redux'
 
 import { getBlobFromUrl } from '@/ultis/index';
-import { Undo, Redo, MoouseHand } from '@/svg/index';
-import { logOut, auth, db } from '@/intergations/firebase';
 
-import Auth from '@/components/Auth';
+import { Undo, Redo, MoouseHand } from '@/svg/index';
+
+import { logOut, auth, db } from '../../intergations/firebase'
+import { doc, setDoc, collection, query, where, getDocs } from "firebase/firestore"; 
+import { v4 } from 'uuid'
+
+import Auth from '../Auth'
 
 import Style from './Style';
+import { message } from 'antd';
+import { useHistory } from 'react-router';
 
 interface Props {
   canvas: any;
@@ -24,17 +29,10 @@ interface Props {
   setName: any;
 }
 
-export default function index({
-  canvas,
-  color,
-  height,
-  width,
-  setWidthBg,
-  setHeightBg,
-  name,
-  setName,
-}: Props) {
+export default function index({ canvas, color, height, width, setWidthBg, setHeightBg, name, setName }: Props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const history = useHistory()
+  const userID = useSelector((state: any) => state.user)
 
   const exportPng = async () => {
     const objRender = canvas?.getObjects().map(async obj => {
@@ -55,12 +53,12 @@ export default function index({
       return item;
     });
     const canvasRender = new fabric.Canvas(null, {});
-
+    
     canvasRender.width = width;
     canvasRender.height = height;
-
+    
     Promise.all(objRender).then(data => {
-      console.log(data);
+      console.log(data)
       canvasRender?.loadFromJSON(
         {
           objects: data,
@@ -102,22 +100,56 @@ export default function index({
     }
   };
 
+  const checkPermission = () => {
+    if (window.location.pathname === "/") return false
+
+    return !auth?.currentUser?.uid || userID !== auth.currentUser.uid 
+  }
+
   const handleSave = async () => {
+    if (checkPermission()) {
+      message.error('You haven\'t permission')
+
+      return
+    }
     try {
-      const objs = canvas.getObjects().filter(item => item.id && item.id !== 'workarea');
-      const uuid = v4();
-      await setDoc(doc(db, 'documents', uuid), {
+      const objs = canvas.getObjects().filter((item) => item.id && item.id !== 'workarea');
+      let uuid
+      if (window.location.pathname === "/") {
+        uuid = v4()
+      } else {
+        uuid = window.location.pathname.split("/")[2]
+      }
+      await setDoc(doc(db, "documents", uuid), {
         canvas: JSON.stringify(objs),
         width,
         height,
         color,
         name,
         userId: auth?.currentUser?.uid,
-      });
+      })
+
+      // const docsData = [];
+
+      // const q = query(
+      //   collection(db, 'documents'),
+      //   where('userId', '==', auth?.currentUser?.uid),
+      // );
+
+      // const docsSnap = await getDocs(q);
+
+      // docsSnap.forEach(doc => {
+      //   docsData.push({ id: doc.id, ...doc.data() });
+      // });
+
+      // dispatch(getDocuments(docsData))
+
+      message.success('Save success')
+      history.push(`/vector/${uuid}`)
     } catch (error) {
-      console.log(error, 'error');
+      console.log(error, 'error')
     }
-  };
+  }
 
   return (
     <Style>
@@ -152,18 +184,12 @@ export default function index({
             <input
               type="text"
               className="form-control"
-              style={{
-                width: '200px',
-                height: '30px',
-                border: 'none',
-                textAlign: 'center',
-                marginRight: '10px',
-              }}
+              style={{ width: '200px', height: '30px', border: 'none', textAlign: 'center', marginRight: '10px' }}
               id="name"
               name="name"
               value={name}
               onChange={e => {
-                const v = e.target.value;
+                const v = e.target.value
                 formik.setFieldValue('name', v);
                 setName(v);
               }}
@@ -205,7 +231,7 @@ export default function index({
             <button
               type="submit"
               style={{ color: '#fff', border: 'none', background: 'transparent' }}
-              className=""
+              className={`${checkPermission() ? "nopermission": ''}`}
               onClick={handleSave}
             >
               Save
@@ -221,14 +247,14 @@ export default function index({
               Login
             </div>
           ) : (
-            <div className="d-flex">
-              <div className="mx-3">{auth?.currentUser.email.split('@')[0]}</div>
-              <div className="header-export" onClick={() => logOut()}>
-                Logout
-              </div>
+            <div className="header-export" onClick={() => logOut()}>
+              Logout
             </div>
           )}
-          <Auth visible={isModalVisible} onCancel={() => setIsModalVisible(false)} />
+          <Auth
+            visible={isModalVisible}
+            onCancel={() => setIsModalVisible(false)}
+          />
         </div>
       </div>
     </Style>
