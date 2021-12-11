@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
-import 'fabric-history';
+import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
 import { Tooltip } from 'antd';
-import { collection, getDocs } from 'firebase/firestore';
+import 'fabric-history';
 import { ChromePicker } from 'react-color';
 
-import ToolBar from '@/components/Toolbar';
+import Canvas from '@/canvas/Canvas';
+import { backgroundPro } from '@/canvas/constants/defaults';
+
 import Header from '@/components/Header';
+import ToolBar from '@/components/Toolbar';
 import Panel from '@/components/Panel';
 import ToolbarText from '@/components/ToolbarText';
 
-import Canvas from '@/canvas/Canvas';
 import BackgroundPro from '@/canvas/objects/BachgroundPro';
-import { backgroundPro } from '@/canvas/constants/defaults';
 import { loadFontFamilies } from '@/canvas/utils/textUtil';
 
 import withRedux from '@/libraries/withRedux';
@@ -21,11 +22,13 @@ import { db } from '@/intergations/firebase';
 
 import { ColorPicker } from '@/svg/index';
 
-import Style from './Style';
+import Style from '../Style';
 
 window.husblizerFont = {};
 
-function Index() {
+function Index(props) {
+  const id = props?.match?.params?.id;
+
   const [canvas, setCanvas]: any = useState();
   const [pickerVisiable, setVisible] = useState(false);
   const [color, setColor] = useState('#fff');
@@ -42,6 +45,7 @@ function Index() {
   const colorRef = useRef(null);
   const checkColorEnd = useRef(false);
   const [fonts, setFonts] = useState([]);
+  const [document, setDocument] = useState({});
 
   const handlePosMax = aCoords => {
     const { tr, tl, br, bl } = aCoords;
@@ -66,6 +70,14 @@ function Index() {
   };
 
   useEffect(() => {
+    const fetchDocument = async () => {
+      const querySnapshot = await getDoc(doc(db, `documents`, id));
+
+      if (querySnapshot.exists) {
+        setDocument(querySnapshot.data());
+      }
+    };
+
     const fetchsData = async () => {
       const fontsData = [];
       const querySnapshot = await getDocs(collection(db, 'tests'));
@@ -81,6 +93,7 @@ function Index() {
       loadFontFamilies(convertData);
     };
 
+    fetchDocument();
     fetchsData();
   }, []);
 

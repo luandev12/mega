@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
 
-import { Upload, Photos, Text, Background } from '@/svg/index';
+import { Upload, Photos, Text, Background, Illustration } from '@/svg/index';
 
 import Models from '@/components/Models/index';
 import UploadFile from '@/components/Upload';
 import Document from '@/components/Document';
+import Library from '@/components/Library';
 
 import TextModel from '../Text';
 
 import Style from './Style';
 
 const tabLists = [
-  { name: 'Document', icon: <Background /> },
+  { name: 'Document', icon: <Illustration /> },
   { name: 'Photos', icon: <Photos /> },
   { name: 'Text', icon: <Text /> },
+  { name: 'Library', icon: <Background /> },
   { name: 'Upload', icon: <Upload /> },
 ];
 
@@ -35,6 +37,8 @@ export default function index({ canvas }) {
         return <TextModel canvas={canvas} />;
       case 'Upload':
         return <UploadFile canvas={canvas} />;
+      case 'Library':
+        return <Library canvas={canvas} />;
       default:
         return <Models canvas={canvas} />;
     }

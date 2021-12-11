@@ -112,6 +112,7 @@ export default function index({
         height,
         color,
         name,
+        userId: auth?.currentUser?.uid,
       });
     } catch (error) {
       console.log(error, 'error');
