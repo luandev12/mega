@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { collection, getDocs, query, where, doc } from 'firebase/firestore';
 import { useHistory } from 'react-router-dom'
 import { db, auth } from '@/intergations/firebase';
+import { fabric } from 'fabric'
 
 import Style from './Style';
+import { backgroundPro } from '@/canvas/constants/defaults';
 
 const Index = ({ canvas }) => {
   const [documents, setDocuments] = useState([]);
@@ -30,6 +32,51 @@ const Index = ({ canvas }) => {
     fetchsDocument();
   }, []);
 
+  useEffect(() => {
+
+    const canvases: any = {}
+    documents.forEach((doc: any, index: any) => {
+      const { canvas: canvasDocument, width, height, color } = doc
+      let ratio = width / 150
+      let ratioHeight = height / 150
+      const objs = JSON.parse(canvasDocument)
+      objs.unshift(backgroundPro);
+      objs[0].width = width || 1000
+      objs[0].height = height || 1000
+      objs[0].fill = color
+      objs[0].full = true
+      canvases[index] = new fabric.Canvas(`canvas__${index}`, {
+        renderOnAddRemove: true,
+        allowTouchScrolling: true,
+        preserveObjectStacking: true,
+        centeredKey: 'shiftKey',
+      });
+
+      canvases[index].setWidth(150);
+      canvases[index].setHeight(150);
+      canvases[index].setDimensions({
+        width: 150,
+        height: 150
+      })
+      const newDatas = objs.map(item => {
+        if (item.type !== 'backgroundPro') {
+          item.width = item.width / ratio;
+          item.height = item.height / ratio;
+          item.top = item.top / ratio + 75;
+          item.left = item.left / ratioHeight + 75;
+          item.minSize = item.minSize / ratio;
+          item.maxSize = item.maxSize / ratio;
+        }
+        item.typeRender = true;
+        item.evented = false;
+        item.selectable = false;
+        return item
+      })
+      canvases[index].loadFromJSON({ objects: newDatas }, canvases[index].renderAll.bind(canvases[index]));
+    })
+  
+  }, [documents])
+
   const loadDocument = (id: string) => {
     history.push(`/vector/${id}`)
   }
@@ -37,10 +84,12 @@ const Index = ({ canvas }) => {
   return (
     <Style>
       <div className="row">
-        {documents.map((doc: any) => (
-          <div style={{ cursor: 'pointer'}} onClick={() => loadDocument(doc.id)} className="col-6">
-            <div className="doc-item">documents</div>
+        {documents.map((doc: any, index) => (
+          <div style={{ cursor: 'pointer', position: 'relative' }} onClick={() => loadDocument(doc.id)} className="col-6">
             <div className="">{doc.name}</div>
+            <div className="canvas__wrap">
+              <canvas className="canvas__realtime" id={`canvas__${index}`}></canvas>
+            </div>
           </div>
         ))}
       </div>

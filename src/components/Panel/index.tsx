@@ -48,7 +48,7 @@ export default function index({ canvas }) {
 
   return (
     <Style>
-      <div style={{ cursor: 'pointer' }} onClick={() => history.push("/")} className="panel-logo">Nemo</div>
+      <div style={{ cursor: 'pointer' }} onClick={() => window.location.href = "/"} className="panel-logo">Nemo</div>
       <div className="panel-main">
         <div className="panel-tab">
           <ul className="">

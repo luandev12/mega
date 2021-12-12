@@ -48,8 +48,9 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
         const src: any = await getBlobFromUrl(item.src);
         item.src = src;
       }
-
+      item.typeExport = true;
       item.typeRender = true;
+
       return item;
     });
     const canvasRender = new fabric.Canvas(null, {});
@@ -101,7 +102,7 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
   };
 
   const checkPermission = () => {
-    if (window.location.pathname === "/") return false
+    if (window.location.pathname === "/" && auth?.currentUser?.uid) return false
 
     return !auth?.currentUser?.uid || userID !== auth.currentUser.uid 
   }
