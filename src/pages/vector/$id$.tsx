@@ -337,7 +337,6 @@ function Index(props) {
   useEffect(() => {
     
     if (!document.canvas) return
-    // canvas.clear()
     const { canvas: canvasDocument, width, height, color } = document
     const objs = JSON.parse(canvasDocument)
     objs.unshift(backgroundPro);

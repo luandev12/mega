@@ -52,12 +52,6 @@ const Index = ({ canvas }) => {
         centeredKey: 'shiftKey',
       });
 
-      canvases[index].setWidth(150);
-      canvases[index].setHeight(150);
-      canvases[index].setDimensions({
-        width: 150,
-        height: 150
-      })
       const newDatas = objs.map(item => {
         if (item.type !== 'backgroundPro') {
           item.width = item.width / ratio;
@@ -72,13 +66,28 @@ const Index = ({ canvas }) => {
         item.selectable = false;
         return item
       })
-      canvases[index].loadFromJSON({ objects: newDatas }, canvases[index].renderAll.bind(canvases[index]));
+      
+      canvases[index].setWidth(150);
+      canvases[index].setHeight(150);
+      canvases[index].loadFromJSON({ objects: newDatas });
     })
   
   }, [documents])
 
   const loadDocument = (id: string) => {
-    history.push(`/vector/${id}`)
+    const objs = []
+    objs.unshift(backgroundPro);
+    objs[0].full = false
+    objs[0].typeRender = false
+    canvas.loadFromJSON(
+      {
+        objects: objs,
+      }
+    );
+    canvas.renderAll()
+    setTimeout(() => {
+      history.push(`/vector/${id}`)
+    })
   }
 
   return (

@@ -59,7 +59,6 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
     canvasRender.height = height;
     
     Promise.all(objRender).then(data => {
-      console.log(data)
       canvasRender?.loadFromJSON(
         {
           objects: data,
@@ -129,21 +128,6 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
         name,
         userId: auth?.currentUser?.uid,
       })
-
-      // const docsData = [];
-
-      // const q = query(
-      //   collection(db, 'documents'),
-      //   where('userId', '==', auth?.currentUser?.uid),
-      // );
-
-      // const docsSnap = await getDocs(q);
-
-      // docsSnap.forEach(doc => {
-      //   docsData.push({ id: doc.id, ...doc.data() });
-      // });
-
-      // dispatch(getDocuments(docsData))
 
       message.success('Save success')
       history.push(`/vector/${uuid}`)
