@@ -16,6 +16,7 @@ import Auth from '../Auth'
 import Style from './Style';
 import { message } from 'antd';
 import { useHistory } from 'react-router';
+import Checkbox from 'antd/lib/checkbox/Checkbox';
 
 interface Props {
   canvas: any;
@@ -27,9 +28,11 @@ interface Props {
   setWidth: any;
   name: any;
   setName: any;
+  publicDoc: any;
+  setPublic: any;
 }
 
-export default function index({ canvas, color, height, width, setWidthBg, setHeightBg, name, setName }: Props) {
+export default function index({ canvas, color, height, width, setWidthBg, setHeightBg, name, setName, publicDoc, setPublic }: Props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const history = useHistory()
   const userID = useSelector((state: any) => state.user)
@@ -127,6 +130,7 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
         color,
         name,
         userId: auth?.currentUser?.uid,
+        public: publicDoc,
       })
 
       message.success('Save success')
@@ -162,6 +166,9 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
             <span onClick={handlePan} className="mouse-hand">
               <MoouseHand />
             </span>
+            <Checkbox checked={publicDoc} style={{ display: 'flex', cursor: 'pointer' }} onChange={(e) => setPublic(e.target.checked)}>
+              <span style={{ marginLeft: '10px' }}>Public</span>
+            </Checkbox>
           </span>
         </div>
         <form className="" onSubmit={formik.handleSubmit}>

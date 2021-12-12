@@ -3,6 +3,8 @@ import { collection, getDocs, query, where, doc } from 'firebase/firestore';
 import { useHistory } from 'react-router-dom'
 import { db, auth } from '@/intergations/firebase';
 import { fabric } from 'fabric'
+import { setLoading } from '@/actions'
+import { useDispatch } from 'react-redux'
 
 import Style from './Style';
 import { backgroundPro } from '@/canvas/constants/defaults';
@@ -10,6 +12,7 @@ import { backgroundPro } from '@/canvas/constants/defaults';
 const Index = ({ canvas }) => {
   const [documents, setDocuments] = useState([]);
   const history = useHistory()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchsDocument = async () => {
@@ -20,9 +23,19 @@ const Index = ({ canvas }) => {
         where('userId', '==', auth?.currentUser?.uid),
       );
 
+      const p = query(
+        collection(db, 'documents'),
+        where('userId', '!=', auth?.currentUser?.uid),
+        where('public', '==', true)
+      )
+
       const docsSnap = await getDocs(q);
+      const docsPublic = await getDocs(p)
 
       docsSnap.forEach(doc => {
+        docsData.push({ id: doc.id, ...doc.data() });
+      });
+      docsPublic.forEach(doc => {
         docsData.push({ id: doc.id, ...doc.data() });
       });
 
@@ -75,6 +88,7 @@ const Index = ({ canvas }) => {
   }, [documents])
 
   const loadDocument = (id: string) => {
+    dispatch(setLoading(true))
     const objs = []
     objs.unshift(backgroundPro);
     objs[0].full = false
@@ -83,8 +97,8 @@ const Index = ({ canvas }) => {
       {
         objects: objs,
       }
-    );
-    canvas.renderAll()
+      );
+      canvas.renderAll()
     setTimeout(() => {
       history.push(`/vector/${id}`)
     })

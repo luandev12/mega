@@ -42,6 +42,7 @@ function Index() {
   const colorRef = useRef(null);
   const checkColorEnd = useRef(false);
   const [fonts, setFonts] = useState([]);
+  const [publicDoc, setPublic] = useState(false);
 
   const handlePosMax = aCoords => {
     const { tr, tl, br, bl } = aCoords;
@@ -364,6 +365,8 @@ function Index() {
           setWidth={setWidth}
           name={name}
           setName={setName}
+          publicDoc={publicDoc}
+          setPublic={setPublic}
         />
         <div className="">
           <Canvas setCanvas={setCanvas} />

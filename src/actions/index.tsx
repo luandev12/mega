@@ -11,3 +11,10 @@ export const userDocument = (data: any) => {
     payload: data
   }
 }
+
+export const setLoading = (data: boolean) => {
+  return {
+    type: 'LOADING',
+    payload: data
+  }
+}

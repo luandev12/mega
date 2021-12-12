@@ -31,6 +31,23 @@ const Style = styled.div`
     right: 50px;
     cursor: pointer;
   }
+
+  .waiting__upload {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .waiting__upload.end__watting {
+    display: none;
+  }
 `;
 
 export default Style;
