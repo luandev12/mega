@@ -102,7 +102,7 @@ function Index(props) {
         dispatch(userDocument(data.userId))
         setDocument(data);
         const { width, height, name, public: publicDoc } = data
-        setWidth(width)
+        setWidthBg(width)
         setHeightBg(height)
         setName(name)
         setPublic(publicDoc)
@@ -392,7 +392,6 @@ function Index(props) {
   }, [checkColorEnd.current]);
 
   return (
-    <>
       <Style
         theme={{
           width,
@@ -453,7 +452,6 @@ function Index(props) {
           </div>
         </div>
       </Style>
-    </>
   );
 }
 
