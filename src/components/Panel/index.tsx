@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import classnames from 'classnames';
 import { useHistory } from 'react-router';
 
+import { auth } from '@/intergations/firebase';
+
 import { Upload, Photos, Text, Background, Illustration } from '@/svg/index';
 
 import Models from '@/components/Models/index';
@@ -14,16 +16,16 @@ import TextModel from '../Text';
 import Style from './Style';
 
 const tabLists = [
-  { name: 'Document', icon: <Illustration /> },
   { name: 'Photos', icon: <Photos /> },
   { name: 'Text', icon: <Text /> },
+  { name: 'My Document', icon: <Illustration /> },
   { name: 'Library', icon: <Background /> },
   { name: 'Upload', icon: <Upload /> },
 ];
 
 export default function index({ canvas }) {
   const [state, setState] = useState('Photos');
-  const history = useHistory()
+  const history = useHistory();
 
   const handleTab = (v: string) => {
     setState(v);
@@ -31,10 +33,12 @@ export default function index({ canvas }) {
 
   const renderGalery = (v: string) => {
     switch (v) {
-      case 'Document':
-        return <Document canvas={canvas} />;
       case 'Photos':
         return <Models canvas={canvas} />;
+      case 'My Document':
+        return (
+          <div> {auth.currentUser ? <Document canvas={canvas} /> : <div>Please Login</div>}</div>
+        );
       case 'Text':
         return <TextModel canvas={canvas} />;
       case 'Upload':
@@ -48,7 +52,9 @@ export default function index({ canvas }) {
 
   return (
     <Style>
-      <div style={{ cursor: 'pointer' }} onClick={() => history.push("/")} className="panel-logo">Nemo</div>
+      <div style={{ cursor: 'pointer' }} onClick={() => history.push('/')} className="panel-logo">
+        Nemo
+      </div>
       <div className="panel-main">
         <div className="panel-tab">
           <ul className="">

@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { fabric } from 'fabric';
 import { useFormik } from 'formik';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import { Modal, message } from 'antd';
 
 import { getBlobFromUrl } from '@/ultis/index';
 
 import { Undo, Redo, MoouseHand } from '@/svg/index';
 
-import { logOut, auth, db } from '../../intergations/firebase'
-import { doc, setDoc, collection, query, where, getDocs } from "firebase/firestore"; 
-import { v4 } from 'uuid'
+import { logOut, auth, db } from '../../intergations/firebase';
+import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { v4 } from 'uuid';
 
-import Auth from '../Auth'
+import Auth from '../Auth';
 
 import Style from './Style';
-import { message } from 'antd';
 import { useHistory } from 'react-router';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 
@@ -30,12 +30,28 @@ interface Props {
   setName: any;
   publicDoc: any;
   setPublic: any;
+  document?: any;
 }
 
-export default function index({ canvas, color, height, width, setWidthBg, setHeightBg, name, setName, publicDoc, setPublic }: Props) {
+export default function index({
+  canvas,
+  color,
+  height,
+  width,
+  setWidthBg,
+  setHeightBg,
+  name,
+  setName,
+  publicDoc,
+  setPublic,
+  document,
+}: Props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const history = useHistory()
-  const userID = useSelector((state: any) => state.user)
+  const history = useHistory();
+  const userID = useSelector((state: any) => state.user);
+
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const exportPng = async () => {
     const objRender = canvas?.getObjects().map(async obj => {
@@ -57,10 +73,10 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
       return item;
     });
     const canvasRender = new fabric.Canvas(null, {});
-    
+
     canvasRender.width = width;
     canvasRender.height = height;
-    
+
     Promise.all(objRender).then(data => {
       canvasRender?.loadFromJSON(
         {
@@ -104,26 +120,26 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
   };
 
   const checkPermission = () => {
-    if (window.location.pathname === "/" && auth?.currentUser?.uid) return false
+    if (window.location.pathname === '/' && auth?.currentUser?.uid) return false;
 
-    return !auth?.currentUser?.uid || userID !== auth.currentUser.uid 
-  }
+    return !auth?.currentUser?.uid || userID !== auth.currentUser.uid;
+  };
 
   const handleSave = async () => {
     if (checkPermission()) {
-      message.error('You haven\'t permission')
+      message.error("You haven't permission");
 
-      return
+      return;
     }
     try {
-      const objs = canvas.getObjects().filter((item) => item.id && item.id !== 'workarea');
-      let uuid
-      if (window.location.pathname === "/") {
-        uuid = v4()
+      const objs = canvas.getObjects().filter(item => item.id && item.id !== 'workarea');
+      let uuid;
+      if (window.location.pathname === '/') {
+        uuid = v4();
       } else {
-        uuid = window.location.pathname.split("/")[2]
+        uuid = window.location.pathname.split('/')[2];
       }
-      await setDoc(doc(db, "documents", uuid), {
+      await setDoc(doc(db, 'documents', uuid), {
         canvas: JSON.stringify(objs),
         width,
         height,
@@ -131,17 +147,46 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
         name,
         userId: auth?.currentUser?.uid,
         public: publicDoc,
-      })
+      });
 
-      message.success('Save success')
-      history.push(`/vector/${uuid}`)
+      message.success('Save success');
+      history.push(`/vector/${uuid}`);
     } catch (error) {
-      console.log(error, 'error')
+      console.log(error, 'error');
     }
-  }
+  };
+
+  const showModal = () => {
+    setVisible(true);
+  };
+
+  const handleOk = () => {
+    navigator.clipboard.writeText(window.location.href);
+    message.success('Share is success');
+    setVisible(false);
+    setConfirmLoading(false);
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  const shareLink = () => {
+    showModal();
+  };
 
   return (
     <Style>
+      <Modal
+        title="Share a document"
+        visible={visible}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <p>{window.location.href}</p>
+      </Modal>
+
       <div className="d-flex justify-content-between align-items-center mr-3">
         <div className="d-flex">
           <span className="tool-icon">
@@ -166,7 +211,11 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
             <span onClick={handlePan} className="mouse-hand">
               <MoouseHand />
             </span>
-            <Checkbox checked={publicDoc} style={{ display: 'flex', cursor: 'pointer' }} onChange={(e) => setPublic(e.target.checked)}>
+            <Checkbox
+              checked={publicDoc}
+              style={{ display: 'flex', cursor: 'pointer' }}
+              onChange={e => setPublic(e.target.checked)}
+            >
               <span style={{ marginLeft: '10px' }}>Public</span>
             </Checkbox>
           </span>
@@ -176,12 +225,18 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
             <input
               type="text"
               className="form-control"
-              style={{ width: '200px', height: '30px', border: 'none', textAlign: 'center', marginRight: '10px' }}
+              style={{
+                width: '200px',
+                height: '30px',
+                border: 'none',
+                textAlign: 'center',
+                marginRight: '10px',
+              }}
               id="name"
               name="name"
               value={name}
               onChange={e => {
-                const v = e.target.value
+                const v = e.target.value;
                 formik.setFieldValue('name', v);
                 setName(v);
               }}
@@ -223,7 +278,7 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
             <button
               type="submit"
               style={{ color: '#fff', border: 'none', background: 'transparent' }}
-              className={`${checkPermission() ? "nopermission": ''}`}
+              className={`${checkPermission() ? 'nopermission' : ''}`}
               onClick={handleSave}
             >
               Save
@@ -231,6 +286,9 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
           </div>
         </form>
         <div style={{ display: 'flex' }}>
+          <div className="header-export" onClick={shareLink}>
+            Share
+          </div>
           <div className="header-export" onClick={exportPng}>
             Export
           </div>
@@ -243,10 +301,7 @@ export default function index({ canvas, color, height, width, setWidthBg, setHei
               Logout
             </div>
           )}
-          <Auth
-            visible={isModalVisible}
-            onCancel={() => setIsModalVisible(false)}
-          />
+          <Auth visible={isModalVisible} onCancel={() => setIsModalVisible(false)} />
         </div>
       </div>
     </Style>

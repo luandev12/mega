@@ -4,7 +4,7 @@ import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
 import { Spin, Tooltip } from 'antd';
 import 'fabric-history';
 import { ChromePicker } from 'react-color';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 
 import Canvas from '@/canvas/Canvas';
 import { backgroundPro } from '@/canvas/constants/defaults';
@@ -19,11 +19,11 @@ import { loadFontFamilies } from '@/canvas/utils/textUtil';
 
 import withRedux from '@/libraries/withRedux';
 
-import { db } from '@/intergations/firebase';
+import { db, auth } from '@/intergations/firebase';
 
 import { ColorPicker } from '@/svg/index';
 
-import { userDocument, setLoading } from '@/actions/index'
+import { userDocument, setLoading } from '@/actions/index';
 
 import Style from '../Style';
 
@@ -31,8 +31,8 @@ window.husblizerFont = {};
 
 function Index(props) {
   const id = props?.match?.params?.id;
-  const dispatch = useDispatch()
-  const loading = useSelector((state: any) => state.loading)
+  const dispatch = useDispatch();
+  const loading = useSelector((state: any) => state.loading);
   const [canvas, setCanvas]: any = useState();
   const [pickerVisiable, setVisible] = useState(false);
   const [color, setColor] = useState('#fff');
@@ -91,27 +91,32 @@ function Index(props) {
     };
 
     fetchsData();
-  }, [])
+  }, []);
 
   useEffect(() => {
     const fetchDocument = async () => {
       const querySnapshot = await getDoc(doc(db, `documents`, id));
 
       if (querySnapshot.exists) {
-        const data = querySnapshot.data()
-        dispatch(userDocument(data.userId))
+        const data = querySnapshot.data();
+        const user = await auth.currentUser;
+
+        dispatch(userDocument(data.userId));
         setDocument(data);
-        const { width, height, name, public: publicDoc } = data
-        setWidthBg(width)
-        setHeightBg(height)
-        setName(name)
-        setPublic(publicDoc)
-        dispatch(setLoading(true))
+        const { width, height, name, public: publicDoc } = data;
+        setWidthBg(width);
+        setHeightBg(height);
+        setName(name);
+        setPublic(publicDoc);
+        dispatch(setLoading(true));
+
+        if (user?.uid !== data?.userId && !data.public) {
+          window.location.href = '/';
+        }
       }
     };
 
-    
-    fetchDocument()
+    fetchDocument();
   }, [id]);
 
   useEffect(() => {
@@ -342,21 +347,23 @@ function Index(props) {
   }, [canvas]);
 
   useEffect(() => {
-    
-    if (!document.canvas) return
-    const { canvas: canvasDocument, width, height, color } = document
-    const objs = JSON.parse(canvasDocument)
+    if (!document.canvas) return;
+    const { canvas: canvasDocument, width, height, color } = document;
+    const objs = JSON.parse(canvasDocument);
     objs.unshift(backgroundPro);
-    objs[0].width = width || 1000
-    objs[0].height = height || 1000
-    objs[0].fill = color
+    objs[0].width = width || 1000;
+    objs[0].height = height || 1000;
+    objs[0].fill = color;
     setTimeout(() => {
-      canvas.loadFromJSON({
-        objects: objs,
-      }, canvas.renderAll.bind(canvas));
-      dispatch(setLoading(false))
-    }, 2000)
-  }, [document])
+      canvas.loadFromJSON(
+        {
+          objects: objs,
+        },
+        canvas.renderAll.bind(canvas),
+      );
+      dispatch(setLoading(false));
+    }, 2000);
+  }, [document]);
 
   useEffect(() => {
     const handleClick = e => {
@@ -392,66 +399,67 @@ function Index(props) {
   }, [checkColorEnd.current]);
 
   return (
-      <Style
-        theme={{
-          width,
-        }}
-      >
-        <div className={`waiting__upload ${!loading ? "end__watting" : ""}`}>
-            <Spin size="large" />
-        </div>
-        <div className="items__container">
-          <Panel canvas={canvas} />
-        </div>
-        <div className="canvas__container">
-          <Header
-            color={color}
-            canvas={canvas}
-            width={widthBg}
-            height={heightBg}
-            setWidthBg={setWidthBg}
-            setHeightBg={setHeightBg}
-            setWidth={setWidth}
-            name={name}
-            setName={setName}
-            publicDoc={publicDoc}
-            setPublic={setPublic}
-          />
-          <div className="">
-            <Canvas setCanvas={setCanvas} />
-            <div className="canvas__fill" ref={colorRef}>
-              {!pickerVisiable ? (
-                <Tooltip title="Background Color" mouseLeaveDelay={0}>
-                  <div
-                    onClick={() => {
-                      setVisible(true);
-                      checkColorEnd.current = false;
-                    }}
-                  >
-                    <ColorPicker />
-                  </div>
-                </Tooltip>
-              ) : (
-                <ChromePicker color={color} onChange={handleColor} />
-              )}
-            </div>
-            <ToolBar
-              setDisplay={setDisplay}
-              canvas={canvas}
-              top={top}
-              right={right}
-              display={display}
-            />
-            <ToolbarText
-              top={topText}
-              right={rightText}
-              display={displayText}
-              canvas={canvas}
-              fonts={fonts}
-            />
+    <Style
+      theme={{
+        width,
+      }}
+    >
+      <div className={`waiting__upload ${!loading ? 'end__watting' : ''}`}>
+        <Spin size="large" />
+      </div>
+      <div className="items__container">
+        <Panel canvas={canvas} />
+      </div>
+      <div className="canvas__container">
+        <Header
+          color={color}
+          canvas={canvas}
+          width={widthBg}
+          height={heightBg}
+          setWidthBg={setWidthBg}
+          setHeightBg={setHeightBg}
+          setWidth={setWidth}
+          name={name}
+          setName={setName}
+          publicDoc={publicDoc}
+          setPublic={setPublic}
+          document={document}
+        />
+        <div className="">
+          <Canvas setCanvas={setCanvas} />
+          <div className="canvas__fill" ref={colorRef}>
+            {!pickerVisiable ? (
+              <Tooltip title="Background Color" mouseLeaveDelay={0}>
+                <div
+                  onClick={() => {
+                    setVisible(true);
+                    checkColorEnd.current = false;
+                  }}
+                >
+                  <ColorPicker />
+                </div>
+              </Tooltip>
+            ) : (
+              <ChromePicker color={color} onChange={handleColor} />
+            )}
           </div>
+          <ToolBar
+            setDisplay={setDisplay}
+            canvas={canvas}
+            top={top}
+            right={right}
+            display={display}
+          />
+          <ToolbarText
+            top={topText}
+            right={rightText}
+            display={displayText}
+            canvas={canvas}
+            fonts={fonts}
+          />
         </div>
-      </Style>
+      </div>
+    </Style>
   );
 }
 
