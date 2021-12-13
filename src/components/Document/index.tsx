@@ -23,21 +23,21 @@ const Index = ({ canvas }) => {
         where('userId', '==', auth?.currentUser?.uid),
       );
 
-      const p = query(
-        collection(db, 'documents'),
-        where('userId', '!=', auth?.currentUser?.uid),
-        where('public', '==', true)
-      )
+      // const p = query(
+      //   collection(db, 'documents'),
+      //   where('userId', '!=', auth?.currentUser?.uid),
+      //   where('public', '==', true)
+      // )
 
       const docsSnap = await getDocs(q);
-      const docsPublic = await getDocs(p)
+      // const docsPublic = await getDocs(p)
 
       docsSnap.forEach(doc => {
         docsData.push({ id: doc.id, ...doc.data() });
       });
-      docsPublic.forEach(doc => {
-        docsData.push({ id: doc.id, ...doc.data() });
-      });
+      // docsPublic.forEach(doc => {
+      //   docsData.push({ id: doc.id, ...doc.data() });
+      // });
 
       setDocuments(docsData)
     };

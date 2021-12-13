@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { fabric } from 'fabric';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal, message } from 'antd';
+import { Modal, message, Button } from 'antd';
 
 import { getBlobFromUrl } from '@/ultis/index';
 
 import { Undo, Redo, MoouseHand } from '@/svg/index';
 
 import { logOut, auth, db } from '../../intergations/firebase';
-import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, setDoc, collection, query, where, getDocs, deleteDoc } from 'firebase/firestore';
 import { v4 } from 'uuid';
 
 import Auth from '../Auth';
@@ -175,6 +175,19 @@ export default function index({
     showModal();
   };
 
+  const handleDelete = async () => {
+    if (checkPermission()) {
+      message.error("You haven't permission");
+
+      return;
+    }
+    const id = window.location.pathname.split("/")[2]
+    await deleteDoc(doc(db, "documents", id));
+    message.success("Delete Success")
+
+    history.push("/")
+  }
+
   return (
     <Style>
       <Modal
@@ -218,6 +231,7 @@ export default function index({
             >
               <span style={{ marginLeft: '10px' }}>Public</span>
             </Checkbox>
+            {window.location.pathname !== "/" && <span className={`${checkPermission() ? 'nopermission' : ''}`} style={{ marginLeft: '10px', cursor: 'pointer' }} onClick={handleDelete}>Delete</span>}
           </span>
         </div>
         <form className="" onSubmit={formik.handleSubmit}>
