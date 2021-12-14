@@ -135,21 +135,32 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
               this.canvas.renderAll();
             }
 
+            function saveSvg(svgData, name) {
+              var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
+              var svgUrl = URL.createObjectURL(svgBlob);
+              var downloadLink = document.createElement("a");
+              downloadLink.href = svgUrl;
+              downloadLink.download = name;
+              document.body.appendChild(downloadLink);
+              downloadLink.click();
+              document.body.removeChild(downloadLink);
+            }
+
             //render image
             if (rectOptions.typeExport) {
               fabric.Object.NUM_FRACTION_DIGITS = 10;
-              const link = document.createElement('a');
-              const dataURL = this.canvas.toDataURL({ format: 'png' });
-              link.download = 'image.png';
-              link.href = dataURL;
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
+              let dataURL = this.canvas.toSVG();
+              let pe = /&/g
+              let re = /clipPath/g
+              dataURL = dataURL.replace(pe, '&amp;')
+              dataURL = dataURL.replace(re, 'clipPathdsds')
+              dataURL = dataURL.replace('width="1"', 'width="1000"')
+              dataURL = dataURL.replace('height="1"', 'height="1000"')
+              saveSvg(dataURL, 'image')
             }
           },
           { crossOrigin: 'anonymous' },
         );
-        // })
       }
 
       this.canvas.renderAll();

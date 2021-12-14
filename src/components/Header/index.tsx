@@ -63,10 +63,10 @@ export default function index({
         item.width = width;
       }
 
-      if (item.src) {
-        const src: any = await getBlobFromUrl(item.src);
-        item.src = src;
-      }
+      // if (item.src) {
+      //   const src: any = await getBlobFromUrl(item.src);
+      //   item.src = src;
+      // }
       item.typeExport = true;
       item.typeRender = true;
 
