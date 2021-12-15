@@ -9,6 +9,7 @@ import ToolBar from '@/components/Toolbar';
 import Header from '@/components/Header';
 import Panel from '@/components/Panel';
 import ToolbarText from '@/components/ToolbarText';
+import ToolbarShape from '@/components/ToolbarShape'; 
 
 import Canvas from '@/canvas/Canvas';
 import BackgroundPro from '@/canvas/objects/BachgroundPro';
@@ -41,6 +42,7 @@ function Index() {
   const [displayText, setDisplayText] = useState('none');
   const colorRef = useRef(null);
   const checkColorEnd = useRef(false);
+  const [displayShape, setDisplayShape] = useState('none');
   const [fonts, setFonts] = useState([]);
   const [publicDoc, setPublic] = useState(false);
 
@@ -66,6 +68,12 @@ function Index() {
     return obj.type === 'textBoxPro';
   };
 
+  const checkShape = (canvas: any) => {
+    const obj = canvas.getActiveObject();
+
+    return obj.type === 'rectPro' || obj.type === 'circlePro';
+  };
+
   useEffect(() => {
     const fetchsData = async () => {
       const fontsData = [];
@@ -89,6 +97,8 @@ function Index() {
     const heightToolBar = 204;
     const heightToolBarText = 144;
     const widthToolBarText = 380;
+    const heightToolBarShape = 50;
+    const widthToolBarShape = 100;
     if (!canvas) return;
 
     function resize() {
@@ -139,6 +149,7 @@ function Index() {
 
       setDisplay('none');
       setDisplayText('none');
+      setDisplayShape('none')
     };
 
     const eventMoved = (evt: any) => {
@@ -156,7 +167,23 @@ function Index() {
       setDisplay('block');
 
       canvas.transactionHandler.save('add');
-      if (!checkTextBox(canvas)) return;
+      if (!checkTextBox(canvas)) {
+        setDisplayText('none');
+        if (!checkShape(canvas)) {
+          setDisplayShape('none');
+          return
+        }
+
+        setRightText(
+          canvas.width / 2 -
+            tr.x * canvas.getZoom() -
+            (widthToolBarShape - width * canvas.getZoom()) / 2,
+        );
+        setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
+        setDisplayShape('block');
+
+        return
+      };
 
       setRightText(
         canvas.width / 2 -
@@ -181,7 +208,23 @@ function Index() {
       );
       setDisplay('block');
 
-      if (!checkTextBox(canvas)) return;
+      if (!checkTextBox(canvas)) {
+        setDisplayText('none');
+        if (!checkShape(canvas)) {
+          setDisplayShape('none');
+          return
+        }
+
+        setRightText(
+          canvas.width / 2 -
+            tr.x * canvas.getZoom() -
+            (widthToolBarShape - width * canvas.getZoom()) / 2,
+        );
+        setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
+        setDisplayShape('block');
+
+        return
+      }
 
       setRightText(
         canvas.width / 2 -
@@ -209,6 +252,7 @@ function Index() {
       }
       setDisplay('none');
       setDisplayText('none');
+      setDisplayShape('none')
     };
 
     const eventScaled = (evt: any) => {
@@ -239,7 +283,23 @@ function Index() {
           canvas.setActiveObject(sel);
           canvas.renderAll();
         }
-        if (!checkTextBox(canvas)) return;
+        if (!checkTextBox(canvas)) {
+          setDisplayText('none');
+          if (!checkShape(canvas)) {
+            setDisplayShape('none');
+            return
+          }
+
+          setRightText(
+            canvas.width / 2 -
+              tr.x * canvas.getZoom() -
+              (widthToolBarShape - width * canvas.getZoom()) / 2,
+          );
+          setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
+          setDisplayShape('block');
+
+          return
+        }
 
         setRightText(
           canvas.width / 2 -
@@ -254,6 +314,7 @@ function Index() {
     const eventRotating = () => {
       setDisplay('none');
       setDisplayText('none');
+      setDisplayShape('none')
     };
 
     const eventRotated = (evt: any) => {
@@ -271,7 +332,23 @@ function Index() {
       );
       setDisplay('block');
       canvas.transactionHandler.save('add');
-      if (!checkTextBox(canvas)) return;
+      if (!checkTextBox(canvas)) {
+        setDisplayText('none');
+        if (!checkShape(canvas)) {
+          setDisplayShape('none');
+          return
+        }
+
+        setRightText(
+          canvas.width / 2 -
+            tr.x * canvas.getZoom() -
+            (widthToolBarShape - width * canvas.getZoom()) / 2,
+        );
+        setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
+        setDisplayShape('block');
+
+        return
+      }
 
       setRightText(
         canvas.width / 2 -
@@ -285,6 +362,7 @@ function Index() {
     const offSelection = () => {
       setDisplay('none');
       setDisplayText('none');
+      setDisplayShape('none')
     };
 
     canvas.on('object:moving', eventMoving);
@@ -399,6 +477,12 @@ function Index() {
             display={displayText}
             canvas={canvas}
             fonts={fonts}
+          />
+          <ToolbarShape
+            top={topText}
+            right={rightText}
+            display={displayShape}
+            canvas={canvas}
           />
         </div>
       </div>

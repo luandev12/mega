@@ -73,6 +73,7 @@ const Index = ({ canvas }) => {
           item.left = item.left / ratioHeight + 75;
           item.minSize = item.minSize / ratio;
           item.maxSize = item.maxSize / ratio;
+          item.radius = item.radius / ratio
         }
         item.typeRender = true;
         item.evented = false;

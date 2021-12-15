@@ -154,8 +154,8 @@ const BackgroundPro = fabric.util.createClass(fabric.Rect, {
               let re = /clipPath/g
               dataURL = dataURL.replace(pe, '&amp;')
               dataURL = dataURL.replace(re, 'clipPathdsds')
-              dataURL = dataURL.replace('width="1"', 'width="1000"')
-              dataURL = dataURL.replace('height="1"', 'height="1000"')
+              dataURL = dataURL.replace('width="1"', `width="${rectOptions.width}"`)
+              dataURL = dataURL.replace('height="1"', `height="${rectOptions.height}"`)
               saveSvg(dataURL, 'image')
             }
           },
