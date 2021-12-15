@@ -10,6 +10,7 @@ import Models from '@/components/Models/index';
 import UploadFile from '@/components/Upload';
 import Document from '@/components/Document';
 import Library from '@/components/Library';
+import Shape from '@/components/Shape'
 
 import TextModel from '../Text';
 
@@ -21,6 +22,7 @@ const tabLists = [
   { name: 'My Document', icon: <Illustration /> },
   { name: 'Library', icon: <Background /> },
   { name: 'Upload', icon: <Upload /> },
+  { name: 'Shape', icon: <Photos /> },
 ];
 
 export default function index({ canvas }) {
@@ -45,6 +47,8 @@ export default function index({ canvas }) {
         return <UploadFile canvas={canvas} />;
       case 'Library':
         return <Library canvas={canvas} />;
+      case 'Shape':
+        return <Shape canvas={canvas} />;
       default:
         return <Models canvas={canvas} />;
     }

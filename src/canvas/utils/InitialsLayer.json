@@ -66,6 +66,21 @@
             "latMarker": 37.772537,
             "markerImage": "https://cdn.husble.com/husblizer/template/15976591765943ojuy-23911b39-b4b0-46c4-a048-cf0753db3a29.png",
             "style": "streets-v11"
+        },
+        {
+            "type": "circlePro",
+            "radius": 100,
+            "originX": "center", 
+            "originY": "center",
+            "fill": "#000"
+        },
+        {
+            "type": "rectPro",
+            "width": 250,
+            "height": 250,
+            "originX": "center", 
+            "originY": "center",
+            "fill": "#000"
         }
     ]
 }

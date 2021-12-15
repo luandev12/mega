@@ -53,7 +53,7 @@ const TextBoxPro = fabric.util.createClass(fabric.Group, {
       opentypeStroke: options.stroke || '#000000',
     };
     txtFilter = new OpentypeIText('Type here', defaultss);
-    this.set('originalText', 'Type here');
+    this.set('originalText', options.originalText || 'Type here');
     this.set('_textWithoutPrefixSuffix', 'Type here');
     var r = new fabric.Rect({
       strokeDashArray: options.strokeDashArray,
@@ -105,7 +105,7 @@ const TextBoxPro = fabric.util.createClass(fabric.Group, {
         // this.setHeight(this.height);
         this.updateFromGroupScaling();
         setTimeout(() => {
-          this.setPrefixSuffix('Type here', options.prefix || '', options.suffix || '');
+          this.setPrefixSuffix(options.originalText || 'Type here', options.prefix || '', options.suffix || '');
         }, 1000);
       },
     });
