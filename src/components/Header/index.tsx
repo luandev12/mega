@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { fabric } from 'fabric';
 import { useFormik } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Modal, message, Button } from 'antd';
-
-import { getBlobFromUrl } from '@/ultis/index';
+import { DeleteOutlined } from '@ant-design/icons';
+import { doc, setDoc, deleteDoc } from 'firebase/firestore';
+import { v4 } from 'uuid';
+import { useHistory } from 'react-router';
+import Checkbox from 'antd/lib/checkbox/Checkbox';
 
 import { Undo, Redo, MoouseHand } from '@/svg/index';
 
-import { logOut, auth, db } from '../../intergations/firebase';
-import { doc, setDoc, collection, query, where, getDocs, deleteDoc } from 'firebase/firestore';
-import { v4 } from 'uuid';
+import { logOut, auth, db } from '@/intergations/firebase';
 
 import Auth from '../Auth';
 
 import Style from './Style';
-import { useHistory } from 'react-router';
-import Checkbox from 'antd/lib/checkbox/Checkbox';
 
 interface Props {
   canvas: any;
@@ -44,7 +43,6 @@ export default function index({
   setName,
   publicDoc,
   setPublic,
-  document,
 }: Props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const history = useHistory();
@@ -181,12 +179,12 @@ export default function index({
 
       return;
     }
-    const id = window.location.pathname.split("/")[2]
-    await deleteDoc(doc(db, "documents", id));
-    message.success("Delete Success")
+    const id = window.location.pathname.split('/')[2];
+    await deleteDoc(doc(db, 'documents', id));
+    message.success('Delete Success');
 
-    history.push("/")
-  }
+    history.push('/');
+  };
 
   return (
     <Style>
@@ -226,12 +224,26 @@ export default function index({
             </span>
             <Checkbox
               checked={publicDoc}
-              style={{ display: 'flex', cursor: 'pointer' }}
+              style={{ display: 'flex', cursor: 'pointer', marginLeft: '15px' }}
               onChange={e => setPublic(e.target.checked)}
             >
-              <span style={{ marginLeft: '10px' }}>Public</span>
+              <span style={{ marginLeft: '5px' }}>Public</span>
             </Checkbox>
-            {window.location.pathname !== "/" && <span className={`${checkPermission() ? 'nopermission' : ''}`} style={{ marginLeft: '10px', cursor: 'pointer' }} onClick={handleDelete}>Delete</span>}
+            {window.location.pathname !== '/' && (
+              <span
+                onClick={handleDelete}
+                className="d-flex align-items-center"
+                style={{ marginLeft: '20px', cursor: 'pointer' }}
+              >
+                <DeleteOutlined />
+                <span
+                  className={`${checkPermission() ? 'nopermission' : ''}`}
+                  style={{ marginLeft: '10px' }}
+                >
+                  Delete
+                </span>
+              </span>
+            )}
           </span>
         </div>
         <form className="" onSubmit={formik.handleSubmit}>

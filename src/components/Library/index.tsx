@@ -18,7 +18,7 @@ const Index = ({ canvas }) => {
     const fetchsDocument = async () => {
       const docsData = [];
 
-      const p = query(collection(db, 'documents'), where('userId', '!=', auth?.currentUser?.uid), where('public', '==', true));
+      const p = query(collection(db, 'documents'), where('public', '==', true));
 
       const docsPublic = await getDocs(p);
 

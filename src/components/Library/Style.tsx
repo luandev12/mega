@@ -3,6 +3,7 @@ import styled from 'styled-components';
 const Style = styled.div`
   overflow: scroll;
   height: 100vh;
+  padding: 0 10px;
 
   .doc-item {
     border: 1px solid #f5f5f5;

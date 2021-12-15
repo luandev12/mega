@@ -10,7 +10,7 @@ import Models from '@/components/Models/index';
 import UploadFile from '@/components/Upload';
 import Document from '@/components/Document';
 import Library from '@/components/Library';
-import Shape from '@/components/Shape'
+import Shape from '@/components/Shape';
 
 import TextModel from '../Text';
 
@@ -19,10 +19,10 @@ import Style from './Style';
 const tabLists = [
   { name: 'Photos', icon: <Photos /> },
   { name: 'Text', icon: <Text /> },
-  { name: 'My Document', icon: <Illustration /> },
+  { name: 'Shape', icon: <Photos /> },
+  { name: 'Document', icon: <Illustration /> },
   { name: 'Library', icon: <Background /> },
   { name: 'Upload', icon: <Upload /> },
-  { name: 'Shape', icon: <Photos /> },
 ];
 
 export default function index({ canvas }) {
@@ -37,14 +37,18 @@ export default function index({ canvas }) {
     switch (v) {
       case 'Photos':
         return <Models canvas={canvas} />;
-      case 'My Document':
+      case 'Document':
         return (
           <div> {auth.currentUser ? <Document canvas={canvas} /> : <div>Please Login</div>}</div>
         );
       case 'Text':
         return <TextModel canvas={canvas} />;
       case 'Upload':
-        return <UploadFile canvas={canvas} />;
+        return (
+          <div>
+            {auth.currentUser ? <UploadFile canvas={canvas} /> : <div>Please Login To Upload</div>}
+          </div>
+        );
       case 'Library':
         return <Library canvas={canvas} />;
       case 'Shape':
