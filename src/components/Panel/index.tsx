@@ -4,13 +4,14 @@ import { useHistory } from 'react-router';
 
 import { auth } from '@/intergations/firebase';
 
-import { Upload, Photos, Text, Background, Illustration } from '@/svg/index';
+import { Upload, Photos, Text, Background, Illustration, FiverrIcon } from '@/svg/index';
 
 import Models from '@/components/Models/index';
 import UploadFile from '@/components/Upload';
 import Document from '@/components/Document';
 import Library from '@/components/Library';
 import Shape from '@/components/Shape';
+import Fiverr from '@/components/Fiverr';
 
 import TextModel from '../Text';
 
@@ -23,10 +24,11 @@ const tabLists = [
   { name: 'Document', icon: <Illustration /> },
   { name: 'Library', icon: <Background /> },
   { name: 'Upload', icon: <Upload /> },
+  { name: 'Fiverr', icon: <FiverrIcon /> },
 ];
 
-export default function index({ canvas }) {
-  const [state, setState] = useState('Photos');
+export default function index({ canvas, display }: any) {
+  const [state, setState] = useState('Fiverr');
   const history = useHistory();
 
   const handleTab = (v: string) => {
@@ -53,6 +55,8 @@ export default function index({ canvas }) {
         return <Library canvas={canvas} />;
       case 'Shape':
         return <Shape canvas={canvas} />;
+      case 'Fiverr':
+        return <Fiverr canvas={canvas} display={display} />;
       default:
         return <Models canvas={canvas} />;
     }
@@ -79,7 +83,7 @@ export default function index({ canvas }) {
                     item.name === state && 'tab-item-name-active',
                   )}
                 >
-                  {item.name}
+                  {item.name !== 'Fiverr' && item.name}
                 </div>
               </li>
             ))}

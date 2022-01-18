@@ -319,3 +319,12 @@ export const ColorPicker = () => (
     />
   </svg>
 );
+
+export const FiverrIcon = () => (
+  <img
+    src="https://cdn.worldvectorlogo.com/logos/fiverr-1.svg"
+    style={{ width: '30px', height: '17px', background: '#2e2e2e' }}
+    alt=""
+    className=""
+  />
+);

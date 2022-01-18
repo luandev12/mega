@@ -9,7 +9,7 @@ import ToolBar from '@/components/Toolbar';
 import Header from '@/components/Header';
 import Panel from '@/components/Panel';
 import ToolbarText from '@/components/ToolbarText';
-import ToolbarShape from '@/components/ToolbarShape'; 
+import ToolbarShape from '@/components/ToolbarShape';
 
 import Canvas from '@/canvas/Canvas';
 import BackgroundPro from '@/canvas/objects/BachgroundPro';
@@ -149,7 +149,7 @@ function Index() {
 
       setDisplay('none');
       setDisplayText('none');
-      setDisplayShape('none')
+      setDisplayShape('none');
     };
 
     const eventMoved = (evt: any) => {
@@ -171,7 +171,7 @@ function Index() {
         setDisplayText('none');
         if (!checkShape(canvas)) {
           setDisplayShape('none');
-          return
+          return;
         }
 
         setRightText(
@@ -182,8 +182,8 @@ function Index() {
         setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
         setDisplayShape('block');
 
-        return
-      };
+        return;
+      }
 
       setRightText(
         canvas.width / 2 -
@@ -212,7 +212,7 @@ function Index() {
         setDisplayText('none');
         if (!checkShape(canvas)) {
           setDisplayShape('none');
-          return
+          return;
         }
 
         setRightText(
@@ -223,7 +223,7 @@ function Index() {
         setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
         setDisplayShape('block');
 
-        return
+        return;
       }
 
       setRightText(
@@ -252,7 +252,7 @@ function Index() {
       }
       setDisplay('none');
       setDisplayText('none');
-      setDisplayShape('none')
+      setDisplayShape('none');
     };
 
     const eventScaled = (evt: any) => {
@@ -287,7 +287,7 @@ function Index() {
           setDisplayText('none');
           if (!checkShape(canvas)) {
             setDisplayShape('none');
-            return
+            return;
           }
 
           setRightText(
@@ -298,7 +298,7 @@ function Index() {
           setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
           setDisplayShape('block');
 
-          return
+          return;
         }
 
         setRightText(
@@ -314,7 +314,7 @@ function Index() {
     const eventRotating = () => {
       setDisplay('none');
       setDisplayText('none');
-      setDisplayShape('none')
+      setDisplayShape('none');
     };
 
     const eventRotated = (evt: any) => {
@@ -336,7 +336,7 @@ function Index() {
         setDisplayText('none');
         if (!checkShape(canvas)) {
           setDisplayShape('none');
-          return
+          return;
         }
 
         setRightText(
@@ -347,7 +347,7 @@ function Index() {
         setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
         setDisplayShape('block');
 
-        return
+        return;
       }
 
       setRightText(
@@ -362,7 +362,7 @@ function Index() {
     const offSelection = () => {
       setDisplay('none');
       setDisplayText('none');
-      setDisplayShape('none')
+      setDisplayShape('none');
     };
 
     canvas.on('object:moving', eventMoving);
@@ -478,12 +478,7 @@ function Index() {
             canvas={canvas}
             fonts={fonts}
           />
-          <ToolbarShape
-            top={topText}
-            right={rightText}
-            display={displayShape}
-            canvas={canvas}
-          />
+          <ToolbarShape top={topText} right={rightText} display={displayShape} canvas={canvas} />
         </div>
       </div>
     </Style>

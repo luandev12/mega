@@ -183,7 +183,7 @@ function Index(props) {
 
       setDisplay('none');
       setDisplayText('none');
-      setDisplayShape('none')
+      setDisplayShape('none');
     };
 
     const eventMoved = (evt: any) => {
@@ -205,7 +205,7 @@ function Index(props) {
         setDisplayText('none');
         if (!checkShape(canvas)) {
           setDisplayShape('none');
-          return
+          return;
         }
 
         setRightText(
@@ -216,8 +216,8 @@ function Index(props) {
         setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
         setDisplayShape('block');
 
-        return
-      };
+        return;
+      }
 
       setRightText(
         canvas.width / 2 -
@@ -246,7 +246,7 @@ function Index(props) {
         setDisplayText('none');
         if (!checkShape(canvas)) {
           setDisplayShape('none');
-          return
+          return;
         }
 
         setRightText(
@@ -257,7 +257,7 @@ function Index(props) {
         setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
         setDisplayShape('block');
 
-        return
+        return;
       }
 
       setRightText(
@@ -286,7 +286,7 @@ function Index(props) {
       }
       setDisplay('none');
       setDisplayText('none');
-      setDisplayShape('none')
+      setDisplayShape('none');
     };
 
     const eventScaled = (evt: any) => {
@@ -321,7 +321,7 @@ function Index(props) {
           setDisplayText('none');
           if (!checkShape(canvas)) {
             setDisplayShape('none');
-            return
+            return;
           }
 
           setRightText(
@@ -332,7 +332,7 @@ function Index(props) {
           setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
           setDisplayShape('block');
 
-          return
+          return;
         }
 
         setRightText(
@@ -348,7 +348,7 @@ function Index(props) {
     const eventRotating = () => {
       setDisplay('none');
       setDisplayText('none');
-      setDisplayShape('none')
+      setDisplayShape('none');
     };
 
     const eventRotated = (evt: any) => {
@@ -370,7 +370,7 @@ function Index(props) {
         setDisplayText('none');
         if (!checkShape(canvas)) {
           setDisplayShape('none');
-          return
+          return;
         }
 
         setRightText(
@@ -381,7 +381,7 @@ function Index(props) {
         setTopText(canvas.height / 2 + tr.y * canvas.getZoom() - heightToolBarShape - 50);
         setDisplayShape('block');
 
-        return
+        return;
       }
 
       setRightText(
@@ -396,7 +396,7 @@ function Index(props) {
     const offSelection = () => {
       setDisplay('none');
       setDisplayText('none');
-      setDisplayShape('none')
+      setDisplayShape('none');
     };
 
     canvas.on('object:moving', eventMoving);
@@ -486,7 +486,7 @@ function Index(props) {
         <Spin size="large" />
       </div>
       <div className="items__container">
-        <Panel canvas={canvas} />
+        <Panel canvas={canvas} display={display} />
       </div>
       <div className="canvas__container">
         <Header
@@ -535,12 +535,7 @@ function Index(props) {
             canvas={canvas}
             fonts={fonts}
           />
-          <ToolbarShape
-            top={topText}
-            right={rightText}
-            display={displayShape}
-            canvas={canvas}
-          />
+          <ToolbarShape top={topText} right={rightText} display={displayShape} canvas={canvas} />
         </div>
       </div>
     </Style>
