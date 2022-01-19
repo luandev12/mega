@@ -11,14 +11,12 @@ import UploadFile from '@/components/Upload';
 import Document from '@/components/Document';
 import Library from '@/components/Library';
 import Shape from '@/components/Shape';
-import Fiverr from '@/components/Fiverr';
 
 import TextModel from '../Text';
 
 import Style from './Style';
 
 const tabLists = [
-  { name: 'Fiverr', icon: <FiverrIcon /> },
   { name: 'Photos', icon: <Photos /> },
   { name: 'Text', icon: <Text /> },
   { name: 'Shape', icon: <Photos /> },
@@ -28,7 +26,7 @@ const tabLists = [
 ];
 
 export default function index({ canvas, display }: any) {
-  const [state, setState] = useState('Fiverr');
+  const [state, setState] = useState('Photos');
   const history = useHistory();
 
   const handleTab = (v: string) => {
@@ -55,8 +53,6 @@ export default function index({ canvas, display }: any) {
         return <Library canvas={canvas} />;
       case 'Shape':
         return <Shape canvas={canvas} />;
-      case 'Fiverr':
-        return <Fiverr canvas={canvas} display={display} />;
       default:
         return <Models canvas={canvas} />;
     }
@@ -74,7 +70,7 @@ export default function index({ canvas, display }: any) {
               <li className="tab-item" onClick={() => handleTab(item.name)}>
                 <div className="tab-item-icon">
                   <span className={classnames(item.name === state && 'tab-item-icon-active')}>
-                    {item.name !== 'Fiverr' && item.icon}
+                    {item.icon}
                   </span>
                 </div>
                 <div
