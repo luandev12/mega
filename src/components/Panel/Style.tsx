@@ -58,6 +58,7 @@ const Style = styled.div`
 
   .tab-item-name-active {
     color: white !important;
+    font-weight: bold !important;
   }
 
   .tab-item-icon-active {

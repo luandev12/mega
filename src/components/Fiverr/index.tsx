@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { RemoveBgResult, RemoveBgError, removeBackgroundFromImageUrl } from 'remove.bg';
 
@@ -10,13 +10,12 @@ interface Props {
 }
 
 export default function Index({ canvas, display }: Props) {
-  const [removeBg, setRemoveBg] = useState('');
   const dispatch = useDispatch();
 
   const handleRemveBg = async () => {
     const objects = canvas.getActiveObject();
 
-    const type = objects.src.split('.')[5].split('?')[0] || 'png';
+    const type = objects.src.split('.')[5]?.split('?')[0] || 'png';
 
     removeBackgroundFromImageUrl({
       url: objects.src,

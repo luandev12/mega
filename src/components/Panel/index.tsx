@@ -18,13 +18,13 @@ import TextModel from '../Text';
 import Style from './Style';
 
 const tabLists = [
+  { name: 'Fiverr', icon: <FiverrIcon /> },
   { name: 'Photos', icon: <Photos /> },
   { name: 'Text', icon: <Text /> },
   { name: 'Shape', icon: <Photos /> },
   { name: 'Document', icon: <Illustration /> },
   { name: 'Library', icon: <Background /> },
   { name: 'Upload', icon: <Upload /> },
-  { name: 'Fiverr', icon: <FiverrIcon /> },
 ];
 
 export default function index({ canvas, display }: any) {
@@ -74,7 +74,7 @@ export default function index({ canvas, display }: any) {
               <li className="tab-item" onClick={() => handleTab(item.name)}>
                 <div className="tab-item-icon">
                   <span className={classnames(item.name === state && 'tab-item-icon-active')}>
-                    {item.icon}
+                    {item.name !== 'Fiverr' && item.icon}
                   </span>
                 </div>
                 <div
@@ -83,7 +83,7 @@ export default function index({ canvas, display }: any) {
                     item.name === state && 'tab-item-name-active',
                   )}
                 >
-                  {item.name !== 'Fiverr' && item.name}
+                  {item.name}
                 </div>
               </li>
             ))}
